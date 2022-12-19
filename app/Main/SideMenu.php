@@ -21,9 +21,11 @@ class SideMenu
                     'params' => [
                         'layout' => 'side-menu'
                     ],
+
                     'title' => 'Dashboard'
 
                 ],
+
                 'Shop' => [
                     'icon' => 'shopping-bag',
                     'route_name' => 'products',
@@ -31,6 +33,15 @@ class SideMenu
                         'layout' => 'side-menu'
                     ],
                     'title' => 'Shop'
+                ],
+
+                'Tree' => [
+                    'icon' => 'user',
+                    'route_name' => 'partnertree',
+                    'params' => [
+                        'layout' => 'side-menu'
+                    ],
+                    'title' => 'Partner Tree'
                 ],
                 'devider',
                

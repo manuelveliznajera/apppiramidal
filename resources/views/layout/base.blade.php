@@ -13,7 +13,7 @@
    
    
     <link rel="stylesheet" href="{{ asset('sweetalerts2/sweetalerts2.css') }}">
-
+    <script src="{{ asset('assets/balkan/orgchart.js') }}"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles

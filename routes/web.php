@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\DarkModeController;
 use App\Http\Controllers\ColorSchemeController;
+use App\Http\Controllers\PartnersController;
 use App\Http\Livewire\LoginComponent;
 use App\Http\Livewire\NextregisterComponent;
 use App\Http\Livewire\PayComponent;
@@ -36,6 +37,7 @@ Route::get('register',Register::class)->name('login.register');
 Route::get('register/{id}',Register::class)->name('login.register.afiliate');
 
 Route::get('/dash',[PageController::class,'dashboardOverview1'] )->name('dash');
+Route::get('/partner-tree',[PartnersController::class,'index'] )->name('partnertree');
 Route::get('/products',Products::class )->middleware('auth')->name('products');
 Route::get('/addpackage',NextregisterComponent::class )->middleware('auth')->name('addpackage');
 Route::get('/', [PageController::class,'dashboardOverview1'])->middleware('auth')->name('dashboard');
