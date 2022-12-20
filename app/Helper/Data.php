@@ -17,35 +17,41 @@ class Data
              'nivel' => 'Father',
              'email' => 'carter@email.com',
              'phone' => 236567787
-           
-     
+          
             ],
-           [
+            [
          
-             'id'   => 2,
+              'id'   => 2,
+              'pid'  => 1,
+              'name' => 'Nelly Sack',
+              'nivel' => 'Child',
+              'email' => 'carter@email.com',
+              'phone' => 236567787
+             
+      
+             ],
+           [
+             'id'   => 3,
              'pid'  => 1,
              'name' => 'Carl Michel',
              'nivel' => 'Child',
              'email' => 'carter@email.com',
              'phone' => 236567787
-           
-     
-            ],
-           [
-         
-             'id'   => 3,
-             'pid'  => 2,
-             'name' => 'Carl Michel',
-             'nivel' => 'Grandchild',
-             'email' => 'carter@email.com',
-             'phone' => 236567787
-           
-     
             ],
            [
          
              'id'   => 4,
              'pid'  => 2,
+             'name' => 'Bob Tylor',
+             'nivel' => 'Grandchild',
+             'email' => 'carter@email.com',
+             'phone' => 236567787
+           
+            ],
+           [
+         
+             'id'   => 5,
+             'pid'  => 2,
              'name' => 'Carl Michel',
              'nivel' => 'Grandchild',
              'email' => 'carter@email.com',
@@ -53,21 +59,11 @@ class Data
            
      
             ],
-            [
-         
-             'id'   => 5,
-             'pid'  => 1,
-             'name' => 'Nelly Sack',
-             'nivel' => 'Child',
-             'email' => 'carter@email.com',
-             'phone' => 236567787
-            
-     
-            ],
+           
             [
          
             'id'   => 6,
-            'pid'  => 5,
+            'pid'  => 3,
             'name' => 'Carl Michel',
             'nivel' => 'Grandchild',
             'email' => 'carter@email.com',
@@ -78,7 +74,7 @@ class Data
               [
             
             'id'   => 7,
-            'pid'  => 5,
+            'pid'  => 3,
             'name' => 'Carl Michel',
             'nivel' => 'Grandchild',
              'email' => 'carter@email.com',

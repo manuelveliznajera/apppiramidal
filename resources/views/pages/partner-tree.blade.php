@@ -3,8 +3,9 @@
 @section('subcontent')
 
 <div >
+ 
 
-    <div data-tree="{{$user}}" id="tree"></div>
+    <div data-tree="{{$user}}" id="tree" class="partner_tree"></div>
   
 </div>
 

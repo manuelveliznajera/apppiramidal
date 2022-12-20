@@ -149,3 +149,27 @@
 @import "./components/_source-preview.css";
 @import "./components/_full-calendar.css";
 @import "./components/_pristine.css";
+
+[data-n-id='1'] rect {
+   fill: #e71a1a;
+}
+[data-n-id='2'] rect {
+   fill: #2d07c3;
+}
+[data-n-id='3'] rect {
+   fill: #2d07c3;
+}
+
+[data-n-id='4'] rect {
+   fill: #07c326;
+}
+[data-n-id='5'] rect {
+   fill: #07c326;
+}
+[data-n-id='6'] rect {
+   fill: #07c326;
+}
+[data-n-id='7'] rect {
+   fill: #07c326;
+}
+
