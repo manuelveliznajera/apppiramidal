@@ -27,6 +27,9 @@ d.addEventListener('DOMContentLoaded',()=>{
 
     let parsed = filterData()
 
+    OrgChart.templates.anaOrange = Object.assign({}, OrgChart.templates.ana);
+    OrgChart.templates.anaOrange.editFormHeaderColor = '#FFCA28';
+
       let chart = new OrgChart($container, {
         template: "ana",
         enableSearch: true,
