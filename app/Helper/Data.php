@@ -16,7 +16,8 @@ class Data
              'name' => 'Jhon Carter',
              'nivel' => 'Father',
              'email' => 'carter@email.com',
-             'phone' => 236567787
+             'phone' => 236567787,
+             'img'   => "img/partner/1.jpg"
           
             ],
             [
@@ -26,7 +27,8 @@ class Data
               'name' => 'Nelly Sack',
               'nivel' => 'Child',
               'email' => 'carter@email.com',
-              'phone' => 236567787
+              'phone' => 236567787,
+              'img'   => "img/partner/2.jpg"
              
       
              ],
@@ -36,16 +38,18 @@ class Data
              'name' => 'Carl Michel',
              'nivel' => 'Child',
              'email' => 'carter@email.com',
-             'phone' => 236567787
+             'phone' => 236567787,
+             'img'   => "img/partner/3.jpg"
             ],
            [
          
              'id'   => 4,
              'pid'  => 2,
-             'name' => 'Bob Tylor',
+             'name' => 'Amelia Tylor',
              'nivel' => 'Grandchild',
              'email' => 'carter@email.com',
-             'phone' => 236567787
+             'phone' => 236567787,
+             'img'   => "img/logonew.png"
            
             ],
            [
@@ -55,7 +59,8 @@ class Data
              'name' => 'Lian Brown',
              'nivel' => 'Grandchild',
              'email' => 'carter@email.com',
-             'phone' => 236567787
+             'phone' => 236567787,
+             'img'   => "img/partner/5.jpg"
            
      
             ],
@@ -64,10 +69,11 @@ class Data
          
             'id'   => 6,
             'pid'  => 3,
-            'name' => 'Max Smith',
+            'name' => 'Emma Smith',
             'nivel' => 'Grandchild',
             'email' => 'carter@email.com',
-            'phone' => 236567787
+            'phone' => 236567787,
+            'img'   => "img/partner/6.jpg"
               
         
                ],
@@ -78,10 +84,12 @@ class Data
             'name' => 'Paul Walker',
             'nivel' => 'Grandchild',
              'email' => 'carter@email.com',
-             'phone' => 236567787
+             'phone' => 236567787,
+             'img'   => "img/logonew.png"
               
-        
                ],
+              
+            
          ];
     }
 }

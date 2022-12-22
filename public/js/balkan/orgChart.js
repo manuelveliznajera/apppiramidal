@@ -27,16 +27,20 @@ d.addEventListener('DOMContentLoaded',()=>{
 
     let parsed = filterData()
 
-    OrgChart.templates.anaOrange = Object.assign({}, OrgChart.templates.ana);
-    OrgChart.templates.anaOrange.editFormHeaderColor = '#FFCA28';
+       OrgChart.templates.myTemplate = Object.assign({}, OrgChart.templates.diva);
+       OrgChart.templates.myTemplate.size = [200,170];
+    // OrgChart.templates.myTemplate.node = '<circle  r="90"  ></circle>';
 
       let chart = new OrgChart($container, {
-        template: "ana",
-        enableSearch: true,
         mouseScrool: OrgChart.action.none,
+        nodo:'dark',
+        template: "myTemplate",
+        enableDragDrop: true,
+        enableSearch: true,
         nodeBinding: {
             field_0: "name",
             field_1: "nivel",
+            img_0: "img"
 
         },
         nodes: parsed,

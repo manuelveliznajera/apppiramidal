@@ -150,6 +150,11 @@
 @import "./components/_full-calendar.css";
 @import "./components/_pristine.css";
 
+.partner_tree{
+   width: 100%;
+   height: 100%;
+}
+
 [data-n-id='1'] rect {
    fill: #e71a1a;
 }
