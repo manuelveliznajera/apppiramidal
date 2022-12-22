@@ -88,7 +88,30 @@ class Data
              'img'   => "img/logonew.png"
               
                ],
+               
+              [
+            
+            'id'   => 8,
+            'pid'  => 4,
+            'name' => 'Paul Walker',
+            'nivel' => 'Grandchild',
+             'email' => 'carter@email.com',
+             'phone' => 236567787,
+             'img'   => "img/partner/8.jpg"
               
+               ],
+
+              [
+            
+            'id'   => 9,
+            'pid'  => 4,
+            'name' => 'Paul Walker',
+            'nivel' => 'Grandchild',
+             'email' => 'carter@email.com',
+             'phone' => 236567787,
+             'img'   => "img/partner/7.jpg"
+              
+               ],
             
          ];
     }
