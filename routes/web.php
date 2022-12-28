@@ -40,7 +40,7 @@ Route::get('/products',Products::class )->middleware('auth')->name('products');
 Route::get('/addpackage',NextregisterComponent::class )->middleware('auth')->name('addpackage');
 Route::get('/', [PageController::class,'dashboardOverview1'])->middleware('auth')->name('dashboard');
 Route::get('shop',[PageController::class,'productGrid'])->name('shop');
-Route::get('payment', PayComponent::class)->name('payment');
+Route::get('payment', PayComponent::class)->middleware('auth')->name('payment');
 
 
 

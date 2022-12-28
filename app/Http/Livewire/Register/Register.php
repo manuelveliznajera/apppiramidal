@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Register;
 
+use App\Models\User;
 use Livewire\Component;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -38,20 +39,23 @@ class Register extends Component
 
 
     protected $rules=[
-        'SSN'=>'required|string',
+        'SSN' => 'required|unique:affiliates',
+        'Email' => 'required|unique:affiliates',
+        'userName'=>'required|unique:users',
+      
         'Name'=>'required|string',
         'LastName'=>'required|string',
         'AlternativePhone'=>'nullable|string',
         'Workphone'=>'required|string',
         'DateBirth'=>'required|string',
-        'Email'=>'required|email',
+        
         'Address'=>'required|string',
         'Country'=>'required|string',
         'State'=>'required|string',
         'City'=>'required|string',
         'ZipCode'=>'required|string',
         'Phone'=>'required|string',
-        'userName'=>'required|string',
+       
         'Password'=>'required|string'
     ];
 
@@ -67,11 +71,24 @@ class Register extends Component
     
         
         return view('livewire.register.register')
-                ->extends('layout.login')
+                ->extends('layout.top-menu')
                 ->section('content');
     }
-
+    // protected $rules = [
+    //     'SSN' => 'required|unique:affiliates',
+    //     'email' => 'required|unique:affiliates',
+    //     'userName'=>'required|unique:users'
+    // ];
     public function create(){
+
+        // $exist = User::where('userName', $this->invitedby)->first();
+        // // dd($exist);
+        // if ($exist!=null) {
+        //     dd('usuario si existe');
+        // }else{
+        //     $this->dispatchBrowserEvent('noty', ['msg' => 'Usuario en uso!']);
+        //     return;
+        // }
        $datos= $this->validate();
        //dd($datos['SSN']);
        $mytime = Carbon::now();
@@ -82,10 +99,11 @@ class Register extends Component
        $website='https://www.besanaglobal.com/'.$datos['userName'];
        $pass=Hash::make($datos['Password']);
        $this->data=json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL SpAffiliated ('NEW',0,'{$datos['SSN']}','{$datos['Name']}','{$datos['LastName']}',{$datos['Workphone']},{$datos['Phone']},'{$datos['DateBirth']}','{$datos['Email']}',null,'{$datos['Address']}','{$datos['Country']}','{$datos['State']}','{$datos['City']}',{$datos['ZipCode']},'333.333','12.345545','-12.34566','$datecreated',null,null,1,'{$datos['userName']}','{$pass}',1,'{$website}')")),true);
-  
-    $this->reset('SSN', 'Name',  'LastName', 'AlternativePhone','Workphone',  'DateBirth', 'Email','Address', 'Country','State','City','ZipCode','Phone','userName');
-    $this->dispatchBrowserEvent('noty', ['msg' => 'Register succesfull!']);
-    return redirect()->route('login');
+    
+
+            $this->reset('SSN', 'Name',  'LastName', 'AlternativePhone','Workphone',  'DateBirth', 'Email','Address', 'Country','State','City','ZipCode','Phone','userName');
+            $this->dispatchBrowserEvent('noty', ['msg' => 'Register succesfull!']);
+            return redirect()->route('login');
 
     }
 
