@@ -1,11 +1,6 @@
 <div>
     
-        @php
-        $stripe_key = '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';
-
-        // $stripe_key = 'pk_test_51M8A3cCrrdI1PPjauULjuoOsNSLJ2h3fb7obXy3iPJF0vfLg9QClxsf4zDlorOUGNwTnIU3qvB4Micv5WXU4FBQu00fr7kxlS6';
-        // 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
-        @endphp
+       
     <div class="flex flex-row bg-white p-2">    
                      
                         <div class="basis-1/4 p-3">
@@ -181,12 +176,14 @@
             iconColor: '#fa755a'
         }
     };
+    const keystripe = '{{ env('STRIPE_KEY') }}';
 
-     const stripe = Stripe('pk_live_51IR4JwCBDL6tBtH58WTvQCq67qtIBzVkEYSX1vsLTu9lAMvypxvehd2KwOPg1AwGWirp642GPkZi2l8MJblCkXtn00RxKRuNLW', { locale: 'es' }); // Create a Stripe client.
+  
+     const stripe = Stripe(keystripe, { locale: 'es' }); // Create a Stripe client.
     // const stripe = Stripe('pk_test_51IR4JwCBDL6tBtH5NVoIgkKfCLS7VsJJZtrmlxAxldvhDvTq5DwJ0irP4Rboo0EKkjL8A1XUMyJtpO2STD7vyP9G00YnNeS843', { locale: 'es' }); // Create a Stripe client.
 
     
-    console.log('{{$stripe_key}}');
+    
     const elements = stripe.elements(); // Create an instance of Elements.
     const cardElement = elements.create('card', { style: style }); // Create an instance of the card Element.
     document.getElementById('')

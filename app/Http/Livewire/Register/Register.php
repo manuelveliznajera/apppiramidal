@@ -81,16 +81,8 @@ class Register extends Component
     // ];
     public function create(){
 
-        // $exist = User::where('userName', $this->invitedby)->first();
-        // // dd($exist);
-        // if ($exist!=null) {
-        //     dd('usuario si existe');
-        // }else{
-        //     $this->dispatchBrowserEvent('noty', ['msg' => 'Usuario en uso!']);
-        //     return;
-        // }
        $datos= $this->validate();
-       //dd($datos['SSN']);
+     
        $mytime = Carbon::now();
        $null='nulll';
        $createdAt = Carbon::parse($datos['DateBirth']);
@@ -103,6 +95,7 @@ class Register extends Component
 
             $this->reset('SSN', 'Name',  'LastName', 'AlternativePhone','Workphone',  'DateBirth', 'Email','Address', 'Country','State','City','ZipCode','Phone','userName');
             $this->dispatchBrowserEvent('noty', ['msg' => 'Register succesfull!']);
+
             return redirect()->route('login');
 
     }

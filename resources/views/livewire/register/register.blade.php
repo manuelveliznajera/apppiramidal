@@ -9,7 +9,16 @@
                 <form method="POST" wire:submit.prevent="create" >
                     @csrf
                             <a href="" class="-intro-x flex items-center ">
-                                <img src="{{asset('img/logowhite.png')}}" class="-intro-x object-cover h-48 w-96 " alt="besanaglobal">
+                                <img src="
+                                @if ($lenguaje=='spanish')
+                                {{asset('img/logoprueba.png')}}
+                                @else
+                                {{asset('img/LogoWhite.png')}}
+
+                                    
+                                @endif
+                                
+                                " class="-intro-x object-cover h-48 w-96 " alt="besanaglobal">
                             {{-- <span class="text-5xl text-white">BESANA GLOBAL</span> --}}
                             </a>    
                             <div class="-intro-x flex">            
@@ -201,14 +210,14 @@
                             <div class="flex w-full gap-2">
                                 <div class="mt-2  w-2/4">
                                     <label class="font-extrabold text-lg" for="Workphone"> Phone:</label>
-                                    <input id="Workphone" class="intro-x  login__input form-control block mt-1 w-3/4 text-white" type="number" wire:model="Phone"
+                                    <input id="Workphone" class="intro-x  login__input form-control block mt-1 w-3/4 " type="number" wire:model="Phone"
                                             :value="old('Workphone')" required autofocus />
                                     {{-- <x-input-error :messages="$errors->get('Workphone')" class="mt-2" /> --}}
                                 </div>
                                 <!-- PHONE -->
                                 <div class="w-2/4 mt-2">
                                     <label class="font-extrabold text-lg" for="Phone"> WorkPhone:</label>
-                                    <input id="Phone" class="intro-x  text-white login__input form-control block mt-1 w-3/4" type="number" wire:model="Workphone"
+                                    <input id="Phone" class="intro-x   login__input form-control block mt-1 w-3/4" type="number" wire:model="Workphone"
                                             :value="old('Phone')"  autofocus />
                                     {{-- <x-input-error :messages="$errors->get('Phone')" class="mt-2" /> --}}
                                 </div>
@@ -216,7 +225,7 @@
                             {{-- Email  --}}
                             <div class="w-full mt-2">
                                 <label class="font-extrabold text-lg" for="Email"> Email:</label>
-                                    <input id="Email" class="intro-x  text-white login__input form-control block mt-1 w-3/4" type="Email" wire:model="Email"
+                                    <input id="Email" class="intro-x   login__input form-control block mt-1 w-3/4" type="Email" wire:model="Email"
                                         :value="old('Email')" required autofocus placeholder="Enter your email..." />
                                         @error('Email') <div class="intro-x bg-red-600 p-2 rounded-lg ">
                                             <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
@@ -225,7 +234,7 @@
                             {{-- confirm email --}}
                             <div class="w-full mt-2 mb-3">
                                 <label class="font-extrabold text-lg" for="confirmEmail"> Confirm Email:</label>
-                                <input id="confirmEmail" class="intro-x  text-white login__input form-control block mt-1 w-3/4" type="email" name="confirmEmail"
+                                <input id="confirmEmail" class="intro-x   login__input form-control block mt-1 w-3/4" type="email" name="confirmEmail"
                                         :value="old('confirmEmail')" required autofocus placeholder="Confirm email..."/>
                                 {{-- <x-input-error :messages="$errors->get('confirmEmail')" class="mt-2" /> --}}
                             </div>  

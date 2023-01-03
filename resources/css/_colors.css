@@ -1,6 +1,6 @@
 /* Default colors */
 :root {
-    --color-primary: 22 54 131;
+    --color-primary: 74 97 15;
     --color-secondary: theme("colors.rgb.green.200");
     --color-success: theme("colors.rgb.emerald.600");
     --color-info: theme("colors.rgb.cyan.500");
