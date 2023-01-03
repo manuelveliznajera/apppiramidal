@@ -1,8 +1,6 @@
 <div>
     
-        @php
-        $stripe_key = 'pk_test_51M8A3cCrrdI1PPjauULjuoOsNSLJ2h3fb7obXy3iPJF0vfLg9QClxsf4zDlorOUGNwTnIU3qvB4Micv5WXU4FBQu00fr7kxlS6';
-        @endphp
+       
     <div class="flex flex-row bg-white p-2">    
                      
                         <div class="basis-1/4 p-3">
@@ -14,17 +12,17 @@
                                     </div>
                                     
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text" id="basic-addon1">Name</span>
-                                        <input readonly type="text" class="form-control" placeholder="{{$b->Name}}" aria-label="notification" aria-describedby="basic-addon1">
+                                        <span  class="input-group-text" id="basic-addon1">Name</span>
+                                        <input id="name" value="{{$b->Name}}" type="text" class="form-control" placeholder="{{$b->Name}}" aria-label="notification" aria-describedby="basic-addon1">
                                     </div>
                                   
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" id="basic-addon1">Last name</span>
-                                        <input readonly type="text" class="form-control" placeholder="{{$b->LastName}}" aria-label="notification" aria-describedby="basic-addon1">
+                                        <input readonly value="{{$b->LastName}}" type="text" class="form-control" placeholder="{{$b->LastName}}" aria-label="notification" aria-describedby="basic-addon1">
                                     </div>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" id="basic-addon1">Email</span>
-                                        <input readonly type="text" class="form-control" placeholder="{{$b->Email}}" aria-label="notification" aria-describedby="basic-addon1">
+                                        <input id="email" value="{{$b->Email}}" readonly type="text" class="form-control" placeholder="{{$b->Email}}" aria-label="notification" aria-describedby="basic-addon1">
                                     </div>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" id="basic-addon1">Phone</span>
@@ -35,12 +33,12 @@
                                         <input readonly type="text" class="form-control" placeholder="{{$b->ZipCode}}" aria-label="notification" aria-describedby="basic-addon1">
                                     </div>
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text pr-2" id="basic-addon1">Address</span>
-                                        <input readonly type="text" class="form-control" placeholder="{{$b->Address}}" aria-label="notification" aria-describedby="basic-addon1">
+                                        <span class="input-group-text pr-2" >Address</span>
+                                        <input id="address" value="{{$b->Address}}" readonly type="text" class="form-control" placeholder="{{$b->Address}}" aria-label="notification" aria-describedby="basic-addon1">
                                     </div>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text pr-2" id="basic-addon1">Country</span>
-                                        <input readonly type="text" class="form-control" placeholder="Country" aria-label="notification" aria-describedby="basic-addon1">
+                                        <input id="country" value="{{$b->Country}}" readonly type="text" class="form-control" placeholder="" aria-label="notification" aria-describedby="basic-addon1">
                                     </div>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text pr-2" id="basic-addon1">State</span>
@@ -178,13 +176,33 @@
             iconColor: '#fa755a'
         }
     };
+    const keystripe = '{{ env('STRIPE_KEY') }}';
 
-    const stripe = Stripe('{{ $stripe_key }}', { locale: 'es' }); // Create a Stripe client.
+  
+     const stripe = Stripe(keystripe, { locale: 'es' }); // Create a Stripe client.
+    // const stripe = Stripe('pk_test_51IR4JwCBDL6tBtH5NVoIgkKfCLS7VsJJZtrmlxAxldvhDvTq5DwJ0irP4Rboo0EKkjL8A1XUMyJtpO2STD7vyP9G00YnNeS843', { locale: 'es' }); // Create a Stripe client.
+
+    
+    
     const elements = stripe.elements(); // Create an instance of Elements.
     const cardElement = elements.create('card', { style: style }); // Create an instance of the card Element.
     document.getElementById('')
     const cardButton = document.getElementById('card-button');
+    document.addEventListener("DOMContentLoaded", () => {
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const address = document.getElementById('address').value;
+
+    console.log(name);
+    console.log(email);
+    console.log(address);
+    });
+    
+
+
+
     const clientSecret = cardButton.dataset.secret;
+    console.log(clientSecret)
 
     cardElement.mount('#card-element'); // Add an instance of the card Element into the `card-element` <div>.
 
@@ -208,8 +226,9 @@
     stripe.handleCardPayment(clientSecret, cardElement, {
             payment_method_data: {
                 billing_details: { 
-                    name: nameCard,
-                    address:'USA' 
+                    name:nameCard,
+                    email:email,
+                    address:address 
                 }
             }
         })
