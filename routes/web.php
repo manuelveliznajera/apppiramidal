@@ -11,6 +11,7 @@ use App\Http\Livewire\NextregisterComponent;
 use App\Http\Livewire\PayComponent;
 use App\Http\Livewire\Products;
 use App\Http\Livewire\Register\Register;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,9 @@ use App\Http\Livewire\Register\Register;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Auth::routes(['verify' => true]);
+
+
 
 Route::get('dark-mode-switcher', [DarkModeController::class, 'switch'])->name('dark-mode-switcher');
 Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class, 'switch'])->name('color-scheme-switcher');
@@ -33,9 +37,9 @@ Route::controller(AuthController::class)->middleware('loggedin')->group(function
     // Route::post('login', 'login')->name('login.check');
 });
 
-Route::get('register',Register::class)->name('login.register');
+Route::get('register', Register::class)->name('login.register');
 Route::get('register/{id}',Register::class)->name('login.register.afiliate');
-
+Route::get('/register/verify/{code}', [Register::class, 'verify']);
 Route::get('/dash',[PageController::class,'dashboardOverview1'] )->name('dash');
 Route::get('/partner-tree',[PartnersController::class,'index'] )->name('partnertree');
 Route::get('/products',Products::class )->middleware('auth')->name('products');
