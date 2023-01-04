@@ -26,6 +26,8 @@
                     
                     <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">Sign In</h2>
                     <div class="intro-x  text-slate-400 xl:hidden text-center">A few more clicks to sign in to your account. Manage all your e-commerce accounts in one place</div>
+                    @include('common.notification')
+                    
                     <div class="intro-x mt-2">
                         <form  method="POST" 
                         wire:submit.prevent="login"
@@ -61,7 +63,10 @@
             <!-- END: Login Form -->
         </div>
     </div>
+   
 </div>
+
+
 <script >
       
         

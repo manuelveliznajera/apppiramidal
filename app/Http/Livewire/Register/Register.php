@@ -128,9 +128,10 @@ class Register extends Component
     
 
             $this->reset('SSN', 'Name',  'LastName', 'AlternativePhone','Workphone',  'DateBirth', 'Email','Address', 'Country','State','City','ZipCode','Phone','userName');
-            $this->dispatchBrowserEvent('noty', ['msg' => 'Register succesfull!']);
 
-            return redirect()->route('login');
+            $this->dispatchBrowserEvent('noty', ['msg' => 'We have send a menssage to your for confirm your register']);
+          
+            // return redirect()->route('login');
 
     }
 
@@ -139,13 +140,13 @@ class Register extends Component
         $user = User::where('confirmation_code', $code)->first();
 
         if (! $user)
-        return redirect('/login');
+        return redirect('/logi');
 
         $user->confirmed = true;
         $user->confirmation_code = null;
         $user->save();
 
-        return redirect('/login')->with('notification', 'Has confirmado correctamente tu correo!');
+        return redirect('/login')->with('notification', 'You have confirmed your email correctly!');
     }
 
     // public function Editar(Affiliate $affiliate){

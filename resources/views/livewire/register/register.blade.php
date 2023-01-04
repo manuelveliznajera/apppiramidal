@@ -351,9 +351,22 @@
             })
         
             window.addEventListener('noty', event => {
-                Swal.fire('', event.detail.msg)
+                // Swal.fire('', event.detail.msg)
                 // if (event.detail.action == 'close-modal') fireModal(0)
+                    Swal.fire(
+                    'Good job!',
+                    event.detail.msg,
+                    'success'
+                    ).then(result => {
+                        if(result.isConfirmed){
+                            window.location = '/login'
+                        }
+                    }
+                        
+                    )
+             
             })
+           
             window.onload = () => {
             const myInput = document.getElementById('confirmEmail');
             myInput.onpaste = e => e.preventDefault();
