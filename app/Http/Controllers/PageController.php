@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Affiliate;
 
 class PageController extends Controller
 {
@@ -493,6 +494,8 @@ class PageController extends Controller
      */
     public function updateProfile()
     {
+    //    $data=json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL SpAffiliated ('NEW',0,'{$datos['SSN']}')")),true);
+        
         return view('pages/update-profile');
     }
 

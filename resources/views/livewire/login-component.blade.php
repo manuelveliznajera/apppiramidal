@@ -4,16 +4,11 @@
             <!-- BEGIN: Login Info -->
             <div class="hidden xl:flex flex-col min-h-screen">
                 <a href="" class="-intro-x flex items-center pt-5">
-                    <img alt="Besanaglobal.com" class="w-6" src="{{ asset('img/logowhite.png') }}">
-                    <span class="text-white text-lg ml-3">
-                        AppBesana
-                    </span>
-                    <span class="-intro-x text-white  ml-3">
-                        asdfasdf asdfasdfasd asdfasdfsa
-                    </span>
+                    <img alt="Besanaglobal.com" class="object-cover h-48 w-96 " src="{{ asset('img/LogoWhite.png') }}">
+                  
                 </a>
                 <div class="my-auto">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="-intro-x w-1/2 -mt-16" src="{{ asset('build/assets/images/illustration.svg') }}">
+                    <img alt="Icewall Tailwind HTML Admin Template" class="-intro-x w-1/2 -mt-16" src="{{ asset('img/illustration.svg') }}">
                     <div class="-intro-x text-white font-medium text-4xl leading-tight mt-10">A few more clicks to <br> sign in to your account.</div>
                     <div class="-intro-x mt-5 text-lg text-white text-opacity-70 dark:text-slate-400">Manage all your e-commerce accounts in one place</div>
                 </div>
