@@ -41,6 +41,8 @@ Route::get('/addpackage',NextregisterComponent::class )->middleware('auth')->nam
 Route::get('/', [PageController::class,'dashboardOverview1'])->middleware('auth')->name('dashboard');
 Route::get('shop',[PageController::class,'productGrid'])->name('shop');
 Route::get('payment', PayComponent::class)->middleware('auth')->name('payment');
+Route::get('profile', [PageController::class,'updateProfile'])->middleware('auth')->name('profile');
+
 
 
 

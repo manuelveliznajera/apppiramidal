@@ -91,8 +91,6 @@ class Register extends Component
        $website='https://www.besanaglobal.com/'.$datos['userName'];
        $pass=Hash::make($datos['Password']);
        $this->data=json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL SpAffiliated ('NEW',0,'{$datos['SSN']}','{$datos['Name']}','{$datos['LastName']}',{$datos['Workphone']},{$datos['Phone']},'{$datos['DateBirth']}','{$datos['Email']}',null,'{$datos['Address']}','{$datos['Country']}','{$datos['State']}','{$datos['City']}',{$datos['ZipCode']},'333.333','12.345545','-12.34566','$datecreated',null,null,1,'{$datos['userName']}','{$pass}',1,'{$website}')")),true);
-    
-
             $this->reset('SSN', 'Name',  'LastName', 'AlternativePhone','Workphone',  'DateBirth', 'Email','Address', 'Country','State','City','ZipCode','Phone','userName');
             $this->dispatchBrowserEvent('noty', ['msg' => 'Register succesfull!']);
 
