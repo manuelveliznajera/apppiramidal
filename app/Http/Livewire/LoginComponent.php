@@ -28,15 +28,20 @@ class LoginComponent extends Component
                 Auth::login($user);
                if (Auth()->user()) {
                     $id=Auth()->user()->idAffiliated;
-                    $status=Affiliate::where('idAffiliated',$id)->get(['firstBuy']);
+                    $status=Affiliate::where('idAffiliated',$id)->get();
 
-                   //dd($status[0]['firstBuy']);
-                   if ($status[0]['firstBuy']) {
-                        return redirect()->route('products');
+                   //dd($status[0]);
+                   if ($status[0]['ConfirmedEmail']) {
+
+                        if (!$status[0]['firstBuy']) {
+                            return redirect()->route('addpackage');
+                        }else{
+                            return redirect()->route('products');
+                        }
+
 
                    }else{
-                        return redirect()->route('addpackage');
-
+                    $this->dispatchBrowserEvent('noty', ['msg' => 'Confirme su usuario por email!.']);
                    }
                }else{
                 return redirect()->route('login');

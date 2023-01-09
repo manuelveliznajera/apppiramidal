@@ -10,7 +10,7 @@
                   <span class="-intro-x text-white text-lg ml-3 ">
                     Selected State: {{$state}}  
                   </span>
-                    <img alt="Besanaglobal.com" class="w-6" src="{{ asset('img/logowhite.png') }}">
+                    <img alt="Besanaglobal.com" class="w-6" src="{{ asset('img/LogoWhite.png') }}">
                     <span class="text-white text-lg ml-3">
                         AppBesana
                     </span>
@@ -18,23 +18,7 @@
                         Logout
                    </button>
                 </a>
-                {{-- <fieldset class="-intro-x ">
-                  <span class="-intro-x text-white text-lg ml-3 ">
-                   
-                          Selected State: {{$state}}
-                   
-                  </span>
-                  <select wire:model.lazy="state" class="-intro-x p-2 bg-primary m-2 text-white rounded-lg w-64 text-center">
-                    <option value="0"> --Selected-- </option>   
-                    <option value="Nevada"> Nevada </option>
-                      <option value="California"> California </option> 
-                      <option value="Utah"> Utah </option> 
-                      <option value="Other"> Other.. </option>                     
-
-    
-                  </select>              
-              
-              </fieldset> --}}
+                
 
                 <span class="-intro-x text-white font-bold">Taxes: {{$taxes}}</span>
                 <span class="-intro-x text-white font-bold">Envio: {{$shipping}}</span>
@@ -78,7 +62,7 @@
            
                 <div class="my-auto">
 
-                    <img alt="Icewall Tailwind HTML Admin Template" class="-intro-x w-1/2 -mt-16" src="{{ asset('build/assets/images/illustration.svg') }}">
+                    <img alt="Besana" class="-intro-x w-1/2 -mt-16" src="{{ asset('img/illustration.svg') }}">
                     <div class="-intro-x text-white font-medium text-xl leading-tight mt-10">to continue with your registration you need to select a package <br> </div>
                     <div class="-intro-x mt-5 text-lg text-white text-opacity-70 dark:text-slate-400">welcome Bessana</div>
                 </div>

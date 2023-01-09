@@ -25,7 +25,7 @@
                                 <fieldset class="-intro-x my-auto">
                                     <span class="-intro-x text-white text-lg ml-3 ">
                                         @if ($lenguaje=='spanish')
-                                            Seleccione un Lenguaje:
+                                            Seleccione un Lenguaje: 
                                         @else
                                             Selected Lenguage:
                                         @endif
@@ -322,7 +322,7 @@
                                     Already Registered?
                                 </a>
                                 
-                                <button class="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top">
+                                <button class="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top" wire:click="create()">
                                     Register
                                 </button>
                                 
@@ -351,9 +351,22 @@
             })
         
             window.addEventListener('noty', event => {
-                Swal.fire('', event.detail.msg)
-                if (event.detail.action == 'close-modal') fireModal(0)
+                // Swal.fire('', event.detail.msg)
+                // if (event.detail.action == 'close-modal') fireModal(0)
+                    Swal.fire(
+                    'Good job!',
+                    event.detail.msg,
+                    'success'
+                    ).then(result => {
+                        if(result.isConfirmed){
+                            window.location = '/login'
+                        }
+                    }
+                        
+                    )
+             
             })
+           
             window.onload = () => {
             const myInput = document.getElementById('confirmEmail');
             myInput.onpaste = e => e.preventDefault();

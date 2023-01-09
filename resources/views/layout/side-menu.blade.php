@@ -26,6 +26,7 @@
                             <a href="{{ isset($menu['route_name']) ? route($menu['route_name'], $menu['params']) : 'javascript:;' }}" class="{{ $first_level_active_index == $menuKey ? 'side-menu side-menu--active' : 'side-menu' }}">
                                 <div class="side-menu__icon">
                                     <i data-lucide="{{ $menu['icon'] }}"></i>
+                                
                                 </div>
                                 <div class="side-menu__title">
                                     {{ $menu['title'] }}
