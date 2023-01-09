@@ -2,6 +2,7 @@ name: Besana CD
 
   # ======================================================
   # Deploy the main branch to production
+  # This job sync repository
   # ======================================================
 on:
   push:
