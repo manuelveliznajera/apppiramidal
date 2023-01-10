@@ -25,7 +25,8 @@ class Register extends Component
     public $Workphone='000000000';
     public $DateBirth;
     public $Email='';
-    public $ConfirmedEmail='';
+    
+    public $confirmEmail='';
     public $Address='';
     public $Country='';
     public $State='';
@@ -40,29 +41,11 @@ class Register extends Component
     public array $data;
     public $message='';
     public $confirmation_code;
+    public $password_confirmation;
 
 
 
-    protected $rules=[
-        'SSN' => 'required',
-        'Email' => 'required',
-        'userName'=>'required|unique:users',
-      
-        'Name'=>'required|string',
-        'LastName'=>'required|string',
-        'AlternativePhone'=>'nullable|string',
-        'Workphone'=>'required|string',
-        'DateBirth'=>'required|string',
-        
-        'Address'=>'required|string',
-        'Country'=>'required|string',
-        'State'=>'required|string',
-        'City'=>'required|string',
-        'ZipCode'=>'required|string',
-        'Phone'=>'required|string',
-       
-        'Password'=>'required|string'
-    ];
+   
 
     public function mount(String $id='besana'){
         $this->invitedby = $id;
@@ -79,12 +62,32 @@ class Register extends Component
                 ->extends('layout.top-menu')
                 ->section('content');
     }
-    // protected $rules = [
-    //     'SSN' => 'required|unique:affiliates',
-    //     'email' => 'required|unique:affiliates',
-    //     'userName'=>'required|unique:users'
-    // ];
+    protected $rules=[
+        'SSN' => 'required|unique:affiliates',
+        'Email' => 'required|unique:affiliates',
+        'confirmEmail' => 'required|same:Email',
+
+        
+        'userName'=>'required|unique:users',
+      
+        'Name'=>'required|string',
+        'LastName'=>'required|string',
+        'AlternativePhone'=>'nullable|string',
+        'Workphone'=>'required|string',
+        'DateBirth'=>'required|string',
+        
+        'Address'=>'required|string',
+        'Country'=>'required|string',
+        'State'=>'required|string',
+        'City'=>'required|string',
+        'ZipCode'=>'required|string',
+        'Phone'=>'required|string',
+       
+        'Password'=>'required',
+        'password_confirmation' => 'required|same:Password'
+    ];
     public function create(){
+        
        $confirmation_code =Str::random(25);
        $datos = $this->validate();
        $datos['confirmation_code'] = $confirmation_code;
@@ -95,36 +98,44 @@ class Register extends Component
        $datecreated=$mytime->format('Y-m-d h:i');
        $website='https://www.besanaglobal.com/'.$datos['userName'];
        $pass=Hash::make($datos['Password']);
+            try {
+            $this->data = json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL SpAffiliated ('NEW',0,'{$datos['SSN']}','{$datos['Name']}','{$datos['LastName']}',{$datos['Workphone']},{$datos['Phone']},'{$datos['DateBirth']}','{$datos['Email']}',null,'{$datos['Address']}','{$datos['Country']}','{$datos['State']}','{$datos['City']}',{$datos['ZipCode']},'333.333','12.345545','-12.34566','$datecreated',null,null,1,'{$datos['userName']}','{$pass}',1,'{$website}','{$confirmation_code}')")),true);
 
-       $this->data=json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL SpAffiliated ('NEW',0,'{$datos['SSN']}','{$datos['Name']}','{$datos['LastName']}',{$datos['Workphone']},{$datos['Phone']},'{$datos['DateBirth']}','{$datos['Email']}',null,'{$datos['Address']}','{$datos['Country']}','{$datos['State']}','{$datos['City']}',{$datos['ZipCode']},'333.333','12.345545','-12.34566','$datecreated',null,null,1,'{$datos['userName']}','{$pass}',1,'{$website}')")),true);
-
-       Mail::send('livewire.register.confirmation_code', $datos, function($message) use ($datos) {
-        $message->to($datos['Email'], $datos['Name'],$datos['confirmation_code'])->subject('Por favor confirma tu correo');
-    });
-
-    //    $this->data=json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL SpAffiliated ('NEW',0,'{$datos['SSN']}','{$datos['Name']}','{$datos['LastName']}',{$datos['Workphone']},{$datos['Phone']},'{$datos['DateBirth']}','{$datos['Email']}',null,'{$datos['Address']}','{$datos['Country']}','{$datos['State']}','{$datos['City']}',{$datos['ZipCode']},'333.333','12.345545','-12.34566','$datecreated',null,null,1,'{$datos['userName']}','{$pass}',1,'{$website}')")),true);
-    
-
-            $this->reset('SSN', 'Name',  'LastName', 'AlternativePhone','Workphone',  'DateBirth', 'Email','Address', 'Country','State','City','ZipCode','Phone','userName');
-
-            $this->dispatchBrowserEvent('noty', ['msg' => 'We have send a menssage to your for confirm your register']);
-          
-            // return redirect()->route('login');
+                Mail::send('livewire.register.confirmation_code', $datos, function($message) use ($datos) {
+                    $message->to($datos['Email'], $datos['Name'],$datos['confirmation_code'])->subject('Por favor confirma tu correo');
+                });
+                // $this->reset('SSN', 'Name', 'LastName', 'AlternativePhone','Workphone',  'DateBirth', 'Email','Address', 'Country','State','City','ZipCode','Phone','userName');
+                return redirect()->to('/login')->with(["notification" => 'We have send a menssage to your for confirm your register']);
+                
+                // return redirect()->route('login')->with([ 'mensaje' => 'e have send a menssage to your for confirm your register' ]);
+                //$this->dispatchBrowserEvent('noty', ['msg' => 'We have send a menssage to your for confirm your register']);
+                // return view('layout.login')->with("mensaje", "We have send a menssage to your for confirm your register ");
+            } catch (\Throwable $th) {
+                $this->dispatchBrowserEvent('noty', ['msg' => 'error de transaccion en base de datos: '.$th]);
+                return;
+            }
 
     }
 
     public function verify($code) 
     {
-        // $user = Affiliate::where('confirmation_code', $code)->first();
-        $user = true;
-        if (! $user)
+        $user = Affiliate::where('confirmation_code', $code)->first();
+       
+      
+        if (! $user){
+
             return redirect('/login');
+        }else{
+            $user->ConfirmedEmail = true;
+            $user->confirmation_code = null;
+            $user->save();
+            return redirect('/login')->with('notification', 'You have confirmed your email correctly!');
+        }
 
         // $user->confirmed = true;
         // $user->confirmation_code = null;
         // $user->save();
 
-        return redirect('/login')->with('notification', 'You have confirmed your email correctly!');
     }
 
     // public function Editar(Affiliate $affiliate){

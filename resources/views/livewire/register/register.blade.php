@@ -179,6 +179,9 @@
                                         <div class="col-2">
                                             <input id="Password" class="-intro-x  form-control py-3" type="password" wire:model="Password"
                                             required />
+                                            @error('Password') <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                                                <span class="-intro-x bg-red-500 p-2 rounded-lg text-white ml-4">{{ $message }}</span>
+                                            </div>  @enderror
                                         </div>
                                         
                                             {{-- <x-input-error :messages="$errors->get('Password')" class="mt-2" /> --}}
@@ -186,7 +189,7 @@
                                     <!-- Confirm Password -->
                                     <div class="-intro-x w-full ">
                                         <div class="col-1">
-                                            <label for="confirmPassword" class="-intro-x text-white"> 
+                                            <label for="password_confirmation" class="-intro-x text-white"> 
                                                 @if ($lenguaje=='spanish')
                                                         Confirmar Contraseña
                                                     @else
@@ -195,8 +198,11 @@
                                             </label>
                                         </div>
                                         <div class="col-2">
-                                            <input id="confirmPassword" class="-intro-x  form-control py-3" type="password"
-                                                wire:model="confirmPassword"  required />
+                                            <input id="password_confirmation" class="-intro-x  form-control py-3" type="password"
+                                                wire:model="password_confirmation"  required />
+                                                @error('password_confirmation') <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                                                    <span class="-intro-x bg-red-500 p-2 rounded-lg text-white ml-4">{{ $message }}</span>
+                                                </div>  @enderror
                                         </div>
                                             
                                             {{-- <x-input-error :messages="$errors->get('confirmPassword')" class="mt-2" /> --}}                               
@@ -234,9 +240,11 @@
                             {{-- confirm email --}}
                             <div class="w-full mt-2 mb-3">
                                 <label class="font-extrabold text-lg" for="confirmEmail"> Confirm Email:</label>
-                                <input id="confirmEmail" class="intro-x   login__input form-control block mt-1 w-3/4" type="email" name="confirmEmail"
+                                <input id="confirmEmail" class="intro-x   login__input form-control block mt-1 w-3/4" type="email" wire:model="confirmEmail"
                                         :value="old('confirmEmail')" required autofocus placeholder="Confirm email..."/>
-                                {{-- <x-input-error :messages="$errors->get('confirmEmail')" class="mt-2" /> --}}
+                                        @error('confirmEmail') <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                                            <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
+                                        </div>  @enderror
                             </div>  
                             {{-- addres  --}}
                             <span class="-intro-x  text-white p-2 font-bold uppercase text-lg bg-primary rounded-lg">Address Data:</span>  

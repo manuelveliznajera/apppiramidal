@@ -81,7 +81,8 @@ class Register extends Component
     // ];
     public function create(){
 
-       $datos= $this->validate();
+      $this->validate();
+        dd($datos);
      
        $mytime = Carbon::now();
        $null='nulll';

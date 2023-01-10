@@ -25,11 +25,13 @@
     <!-- END: CSS Assets-->
 </head>
 <!-- END: Head -->
-
+<body>
 @yield('body')
+    
+
 
 @livewireScripts
 
 <script src="{{ asset('sweetalerts2/sweetalerts2.min.js') }}"></script>
-
+</body>
 </html>

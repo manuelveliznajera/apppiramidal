@@ -11,6 +11,7 @@ class Affiliate extends Model
 
     protected $table ='affiliates';
     protected $primaryKey = 'idAffiliated';
+    public $timestamps = false;
 
     protected $fillable = [
         'SSN',

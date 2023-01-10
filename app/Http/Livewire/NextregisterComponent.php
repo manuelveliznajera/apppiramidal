@@ -32,9 +32,9 @@ class NextregisterComponent extends Component
       $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent()->count();
       $this->items=\Cart::session(Auth()->user()->idUser)->getContent();
         $this->total=\Cart::session(Auth()->user()->idUser)->getTotal();
-        return view('livewire.nextregister-component')
-            ->extends('layout.login')
-            ->section('content');
+        return view('livewire.nextregister-component2')
+            ->extends('layout.base')
+            ->section('body');
     }
       public function onzasPrice( $val )
       {

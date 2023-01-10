@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginComponent extends Component
 {
-    public $username, $password;
+    public $username, $password, $mensaje;
+
+   
     public function render()
     {
         return view('livewire.login-component')
