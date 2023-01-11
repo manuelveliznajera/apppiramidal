@@ -104,7 +104,7 @@ class Register extends Component
                 Mail::send('livewire.register.confirmation_code', $datos, function($message) use ($datos) {
                     $message->to($datos['Email'], $datos['Name'],$datos['confirmation_code'])->subject('Por favor confirma tu correo');
                 });
-                // $this->reset('SSN', 'Name', 'LastName', 'AlternativePhone','Workphone',  'DateBirth', 'Email','Address', 'Country','State','City','ZipCode','Phone','userName');
+                $this->reset('SSN', 'Name', 'LastName', 'AlternativePhone','Workphone',  'DateBirth', 'Email','Address', 'Country','State','City','ZipCode','Phone','userName');
                 return redirect()->to('/login')->with(["notification" => 'We have send a menssage to your for confirm your register']);
                 
                 // return redirect()->route('login')->with([ 'mensaje' => 'e have send a menssage to your for confirm your register' ]);

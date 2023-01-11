@@ -265,7 +265,7 @@
                                     @else
                                         placeholder="Enter your Address"
                                     @endif
-                                    id="Address" class="intro-x  text-white login__input form-control block mt-1 w-3/4" type="text" wire:model="Address"
+                                    id="Address" class="intro-x   login__input form-control block mt-1 w-3/4" type="text" wire:model="Address"
                                         :value="old('Address')" required autofocus />
                                 </div>           
                                 {{-- <x-input-error :messages="$errors->get('Address')" class="mt-2" /> --}}
