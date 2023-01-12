@@ -10,7 +10,7 @@
       <img class="sm:hidden sm:object-fill" src="{{asset('img/paquetes/dospersonas.png')}}" alt="">
     </div>
     <div class="imgenes max-sm:w-full max-xl:w-full w-3/4  mt-5 p-5">
-      <div class="cardsfull max-sm:m-0 max-sm:p-2 flex max-md:flex-col  gap-4 w-full max-md:ml-2  ml-5 ">
+      <div class="cardsfull max-sm:m-0 max-sm:p-2 flex max-md:flex-col  gap-6 w-full max-md:ml-2  ml-5 ">
         
         {{-- MEMBERSHIP --}}
         <div class="max-w-sm:w-4/5 bg-gray-100 rounded-xl overflow-hidden shadow-2xl w-full md:w-1/5">
