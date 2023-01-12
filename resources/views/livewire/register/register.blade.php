@@ -82,7 +82,7 @@
                                     <input id="LastName" class="-intro-x login__input form-control py-3 px-4 block" type="text"
                                     wire:model="LastName" :value="old('LastName')" required 
                                     @if ($lenguaje=='spanish')
-                                        placeholder="Ingrese sus apelllidos"
+                                        placeholder="Ingrese su apellido"
                                         @else
                                         placeholder="Enter your Lastname"
                                         @endif
@@ -107,7 +107,7 @@
                                             @if ($pais=='usa')
                                                 placeholder="ENTER YOUR SSN"
                                             @elseif ($pais=='guatemala')
-                                                placeholder="Ingrese su Dpi"
+                                                placeholder="Ingrese  Dpi"
                                             @elseif ($pais=='colombia')
                                                 placeholder="Ingrese su CC"
                                             @elseif ($pais=='mexico')

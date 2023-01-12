@@ -62,6 +62,7 @@ module.exports = {
                 danger: withOpacityValue("--color-danger"),
                 light: withOpacityValue("--color-light"),
                 dark: withOpacityValue("--color-dark"),
+                besana:'#419616',
                 slate: {
                     50: withOpacityValue("--color-slate-50"),
                     100: withOpacityValue("--color-slate-100"),
@@ -103,7 +104,11 @@ module.exports = {
                 1.5: 1.5,
                 2.5: 2.5,
             },
+            backgroundImage: {
+                'imgfondo': "url('/public/img/3.png')",
+              },
         },
+        
     },
     plugins: [require("@tailwindcss/forms")],
     variants: {
