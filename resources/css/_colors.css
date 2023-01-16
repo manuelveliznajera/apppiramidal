@@ -39,7 +39,7 @@
 
 /* Theme 1 colors */
 .theme-1 {
-    --color-primary: theme("colors.rgb.blue.800");
+    --color-primary: theme("colors.besana");
     --color-secondary: theme("colors.rgb.slate.200");
     --color-success: theme("colors.rgb.lime.500");
     --color-info: theme("colors.rgb.cyan.500");

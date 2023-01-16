@@ -193,9 +193,6 @@
     const email = document.getElementById('email').value;
     const address = document.getElementById('address').value;
 
-    console.log(name);
-    console.log(email);
-    console.log(address);
     });
     
 
@@ -233,6 +230,7 @@
             }
         })
         .then(function(result) {
+            console.log(result)
            if (result.error) {
     
                  var errorElement = document.getElementById('card-errors');

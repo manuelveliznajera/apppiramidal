@@ -10,13 +10,14 @@
         <!-- BEGIN: Side Menu -->
         <nav class="side-nav">
             <a href="" class="intro-x flex items-center pl-5 pt-4 mt-3">
-                <img alt="Besanaglobal.com" class="w-6" src="{{ asset('img/logowhite.png') }}">
-
-                <span class="hidden xl:block text-white text-lg ml-3">
-                    Besana
-                </span>
+                <img alt="Besanaglobal.com" class="" src="{{ asset('img/logowhite.png') }}">
             </a>
-            <div class="side-nav__devider my-6"></div>
+            <a href="{{route('logout')}}" class="intro-x flex items-center pl-5 pt-4 mt-3">
+                <button class="btn btn-outline-info btn-sm"> Salir </button>
+            </a>
+            <div class="side-nav__devider my-6">
+               
+            </div>
             <ul>
                 @foreach ($side_menu as $menuKey => $menu)
                     @if ($menu == 'devider')

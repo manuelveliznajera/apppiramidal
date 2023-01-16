@@ -49,7 +49,7 @@ class Register extends Component
 
     public function mount(String $id='besana'){
         $this->invitedby = $id;
-        $this->lenguaje='english';
+        $this->lenguaje='spanish';
        
        
     }
@@ -85,6 +85,15 @@ class Register extends Component
        
         'Password'=>'required',
         'password_confirmation' => 'required|same:Password'
+    ];
+
+    protected $messages = [
+        'SSN.unique' => 'El id ya esta en uso',
+        'userName.unique'=>'El usuario ya esta en uso',
+        'password_confirmation.same'=>'las contraseñas no coinciden',
+        'Email.unique'=>'El Correo ya esta en uso',
+        'confirmEmail.same'=>'Los correos no coinciden',
+        
     ];
     public function create(){
         

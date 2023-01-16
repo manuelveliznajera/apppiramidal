@@ -31,7 +31,7 @@
                                         @endif
                                     </span>
                                     <select wire:model.lazy="lenguaje" class="-intro-x p-2 bg-primary m-2 text-white rounded-lg w-64 text-center">
-                                        <option value="english"> English </option>
+                                        {{-- <option value="english"> English </option> --}}
                                         <option value="spanish"> Spanish </option>                     
                                     </select>              
                                 
@@ -67,7 +67,7 @@
                                 <div class="text-xl gap-2 items-center w-1/2">
                                     <input  id="Name"
                                     @if ($lenguaje=='spanish')
-                                        placeholder="Ingrese su nombre"
+                                        placeholder="Ingresar nombre"
                                         @else
                                         placeholder="Enter your name"            
                                     @endif
@@ -82,7 +82,7 @@
                                     <input id="LastName" class="-intro-x login__input form-control py-3 px-4 block" type="text"
                                     wire:model="LastName" :value="old('LastName')" required 
                                     @if ($lenguaje=='spanish')
-                                        placeholder="Ingrese su apellido"
+                                        placeholder="Ingresar apellidos"
                                         @else
                                         placeholder="Enter your Lastname"
                                         @endif
@@ -91,12 +91,18 @@
                             </div>
                 
                             <div class=" -intro-x w-full mt-3">                                 
-                                        <label class="text-white" for="DateBirth"> BirthDate:</label>
+                                        <label class="text-white" for="DateBirth">
+                                            @if ($lenguaje=='spanish')
+                                                Fecha de cumpleaños:
+                                            @else
+                                                BirthDay:
+                                            @endif
+                                            </label>
                                         <br>
                                         <input id="DateBirth" class="-intro-x login__input form-control py-3  w-2/6" type="date"
                                         wire:model="DateBirth" :value="old('DateBirth')" required
                                         @if ($lenguaje=='spanish')
-                                            placeholder="Ingrese su fecha de nacimiento"
+                                            placeholder="fecha de cumpleaños"
                                         @else
                                             placeholder="Enter your DateBirth"
                                         @endif
@@ -105,7 +111,7 @@
                                         <input id="SSN" class="-intro-x  form-control py-3   w-2/6 "
                                             type="text" wire:model="SSN" :value="old('SSN')" required
                                             @if ($pais=='usa')
-                                                placeholder="ENTER YOUR SSN"
+                                                placeholder="Ingrese  ID"
                                             @elseif ($pais=='guatemala')
                                                 placeholder="Ingrese  Dpi"
                                             @elseif ($pais=='colombia')
@@ -143,7 +149,7 @@
                                 <div class="w-full">
                                     <div class="col-1">
                                         @if ($lenguaje=='spanish')
-                                            <label class="text-white" for="Invitedby"> Ingrese su Nombre de Usuario:</label>
+                                            <label class="text-white" for="Invitedby">Nombre de Usuario:</label>
                                         @else
                                             <label class="text-white" for="Invitedby"> Enter your username:</label>                        
                                         @endif
@@ -154,7 +160,7 @@
                                         @if ($lenguaje=='english')
                                             placeholder="INGRESE UN NOMBRE DE USUARIO"
                                         @else
-                                            placeholder="ENTER YOUR USERNAME"
+                                            placeholder="USUARIO"
                                         @endif
                                             />
                                             @error('userName') <div class="intro-x bg-red-600 p-2 rounded-lg ">
@@ -212,17 +218,17 @@
         
             {{-- fin columna uno --}}
             <div class="col-2 h-screen bg-gray-300 p-5 mt-5 rounded-lg">
-                            <span class="-intro-x  text-white p-2 font-bold uppercase text-lg bg-primary rounded-lg">Contac Data:</span>  
+                            <span class="-intro-x  text-white p-2 font-bold uppercase text-lg bg-primary rounded-lg">DATOS DE CONTACTO:</span>  
                             <div class="flex w-full gap-2">
                                 <div class="mt-2  w-2/4">
-                                    <label class="font-extrabold text-lg" for="Workphone"> Phone:</label>
+                                    <label class="font-extrabold text-lg" for="Workphone"> Celular:</label>
                                     <input id="Workphone" class="intro-x  login__input form-control block mt-1 w-3/4 " type="number" wire:model="Phone"
                                             :value="old('Workphone')" required autofocus />
                                     {{-- <x-input-error :messages="$errors->get('Workphone')" class="mt-2" /> --}}
                                 </div>
                                 <!-- PHONE -->
                                 <div class="w-2/4 mt-2">
-                                    <label class="font-extrabold text-lg" for="Phone"> WorkPhone:</label>
+                                    <label class="font-extrabold text-lg" for="Phone"> Teléfono:</label>
                                     <input id="Phone" class="intro-x   login__input form-control block mt-1 w-3/4" type="number" wire:model="Workphone"
                                             :value="old('Phone')"  autofocus />
                                     {{-- <x-input-error :messages="$errors->get('Phone')" class="mt-2" /> --}}
@@ -230,7 +236,7 @@
                             </div> 
                             {{-- Email  --}}
                             <div class="w-full mt-2">
-                                <label class="font-extrabold text-lg" for="Email"> Email:</label>
+                                <label class="font-extrabold text-lg" for="Email"> Email valido:</label>
                                     <input id="Email" class="intro-x   login__input form-control block mt-1 w-3/4" type="Email" wire:model="Email"
                                         :value="old('Email')" required autofocus placeholder="Enter your email..." />
                                         @error('Email') <div class="intro-x bg-red-600 p-2 rounded-lg ">
@@ -239,7 +245,7 @@
                             </div>
                             {{-- confirm email --}}
                             <div class="w-full mt-2 mb-3">
-                                <label class="font-extrabold text-lg" for="confirmEmail"> Confirm Email:</label>
+                                <label class="font-extrabold text-lg" for="confirmEmail"> Confirmar Email:</label>
                                 <input id="confirmEmail" class="intro-x   login__input form-control block mt-1 w-3/4" type="email" wire:model="confirmEmail"
                                         :value="old('confirmEmail')" required autofocus placeholder="Confirm email..."/>
                                         @error('confirmEmail') <div class="intro-x bg-red-600 p-2 rounded-lg ">
@@ -247,7 +253,7 @@
                                         </div>  @enderror
                             </div>  
                             {{-- addres  --}}
-                            <span class="-intro-x  text-white p-2 font-bold uppercase text-lg bg-primary rounded-lg">Address Data:</span>  
+                            <span class="-intro-x  text-white p-2 font-bold uppercase text-lg bg-primary rounded-lg">DATOS DE UBICACION:</span>  
                             <div class="w-full mt-2">
                                     <label  for="Address"> 
                                         
@@ -288,7 +294,7 @@
                                 </div>
                                 <!-- State/Province -->
                                 <div class="w-2/4 mt-2">
-                                    <label for="State"> State:</label>
+                                    <label for="State"> Estado/Provincia:</label>
 
                                     <div class="flex text-xl gap-2 items-center">
                                         <i class="fas fa-university"></i>
@@ -303,7 +309,7 @@
 
                             <div class="flex w-full gap-2">
                                 <div class="mt-2  w-2/4">
-                                    <label for="City"> City:</label>
+                                    <label for="City"> Ciudad:</label>
                                     <div class="flex text-xl gap-2 items-center">
                                         <i class="fas fa-City"></i>
                                         <input id="City" class="intro-x login__input form-control block mt-1 w-3/4" type="text" wire:model="City"
@@ -314,7 +320,7 @@
                                 </div>
                                 <!-- Zip -->
                                 <div class="mt-2  w-2/4">
-                                    <label for="ZipCode"> Zipcode:</label>
+                                    <label for="ZipCode"> Código Postal:</label>
                                     <div class="flex text-xl gap-2 items-center">
                                         <i class="fab fa-usps"></i>
                                         <input id="ZipCode" class="intro-x login__input form-control block mt-1 w-3/4" type="text" wire:model="ZipCode"
@@ -326,8 +332,8 @@
                                 </div>
                             </div>
                             <div class="flex items-center justify-end mt-4">
-                                <a class="intro-x login__input underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                                    Already Registered?
+                                <a class="intro-x login__input underline text-sm text-gray-600 hover:text-gray-900 mr-3" href="{{ route('login') }}">
+                                    Ya estas registrado?
                                 </a>
                                 
                                 <button class="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top" wire:click="create()">

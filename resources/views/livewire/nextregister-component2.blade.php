@@ -2,7 +2,8 @@
 >
   <div class="flex flex-col z-10 max-sm:px-4 ">
     <div class="titulos flex flex-col justify-center items-center md:w-3/4 xl:w-3/4 h-32 gap-2 mt-4 max-sm:mt-4 max-md:mt-4"> 
-        <h1 class="  max-md:text-xl text-5xl text-black uppercase">SIMPLE PRICING</h1>
+     
+      <h1 class="  max-md:text-xl text-5xl text-black uppercase">SIMPLE PRICING</h1>
         <h2 class="max-sm:text-lg max-md:text-6xl max-md:text-2xl text-6xl text-black uppercase font-black">Select your subscription</h2>
     </div>
     {{-- IMAGEN PARA CELULAR --}}
@@ -31,13 +32,11 @@
             <span class=" text-sm font-black text-gray-700 ">Plus shipping + tax</span>
           </div>
           <div class="flex flex-col justify-center items-center my-4">
-            <div class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center">
+            <button class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center" onclick="addcartjs(1,'MEMBERSHIP',24.95,1,{{$cantidadProductos}})" >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
                 <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
-              </svg>
-              
-              
-          </div>
+              </svg>  
+            </button>
           </div>
         </div>
         {{-- BESANA BEAUTY --}}
@@ -57,14 +56,12 @@
             <span class=" text-4xl font-black text-besana mt-2 ">$186.55</span>
             <span class=" text-sm font-black text-gray-700 ">Plus shipping + tax</span>
           </div>
-          <div class="flex flex-col justify-center items-center my-4">
-            <div class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center">
+          <div class="flex flex-col justify-center items-center my-4" >
+            <button class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center"  onclick="addcartjs(2,'BESANA PACKAGE',186.55,2,{{$cantidadProductos}})" >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
                 <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
               </svg>
-              
-              
-          </div>
+            </button>
           </div>
         </div>
         {{-- CBG/5 --}}
@@ -84,13 +81,11 @@
             <span class=" text-sm font-black text-gray-700 ">Plus shipping + tax</span>
           </div>
           <div class="flex flex-col justify-center items-center my-4">
-            <div class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center">
+            <button class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center" onclick="addcartjs(3,'CBG/5',109.90,2,{{$cantidadProductos}})" >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
                 <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
               </svg>
-              
-              
-          </div>
+            </button>
           </div>
         </div>
         {{-- B-MAX --}}
@@ -108,17 +103,15 @@
             <span class=" text-sm font-semibold text-gray-700 mb-4">Stamina</span>
            
             <span class=" text-sm font-black text-gray-700 ">Membership for 1 year</span>
-            <span class=" text-4xl font-black text-besana mt-2 ">$94.90</span>
+            <span class=" text-4xl font-black text-besana mt-2 ">$84.95</span>
             <span class=" text-sm font-black text-gray-700 ">Plus shipping + tax</span>
           </div>
           <div class="flex flex-col justify-center items-center my-4">
-            <div class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center">
+            <button class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center" onclick="addcartjs(4,'B-MAX',84.95,2,{{$cantidadProductos}})" >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
                 <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
-              </svg>
-              
-              
-          </div>
+              </svg>   
+            </button>
           </div>
         </div>
         {{-- COMPLETE PACKAGE --}}
@@ -141,21 +134,69 @@
             <span class=" text-sm font-black text-gray-700 ">Plus shipping + tax</span>
           </div>
           <div class="flex flex-col justify-center items-center my-4">
-            <div class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center">
+            <button class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center" onclick="addcartjs(5,'COMPLETE PACKAGE',330.95,3,{{$cantidadProductos}})" >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
                 <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
-              </svg>
-              
-              
-          </div>
+              </svg>  
+            </button>
           </div>
         </div>
 
       </div>
     </div>
     <div class="personas w-full max-md:hidden">
-      <img class="absolute  xl:-right-40 md:-right-40 bottom-1 z-0 w-2/5" src="{{ asset('img/paquetes/dospersonas.png')}}" alt="">
+      <img class="absolute max-sm:hidden  xl:-right-40 md:-right-40 bottom-1 z-0 w-2/5" src="{{ asset('img/paquetes/dospersonas.png')}}" alt="">
     </div>
   </div>
+  <script>
+    function fireModal(action = 1) {
   
+        if (action == 1) {
+            document.querySelector('.modal').classList.add('show')
+            document.querySelector('.modal').style.display = 'block'
+        } else {
+            document.querySelector('.modal').classList.add('hide')
+            document.querySelector('.modal').style.display = 'none'
+        }
+    }
+  
+  
+  
+    window.addEventListener('modal-open', event => {
+        fireModal(1)
+    })
+  
+    window.addEventListener('noty', event => {
+        Swal.fire('', event.detail.msg)
+        if (event.detail.action == 'close-modal') fireModal(0)
+    })
+  
+  
+    
+    function addcartjs(id,paquete,price,onzas,cantidad) {
+      if (cantidad>=1) {
+        Swal.fire('', 'Ya existe un paquete Seleccionado')
+        if (event.detail.action == 'close-modal') fireModal(0)
+        window.location.href = "{{ route('payment')}}";
+        return;
+        sleep(1000)
+      }
+        Swal.fire({
+            title: 'CONFIRM',
+            text: "¿Add Package: "+paquete,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Accept'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                 Swal.fire(paquete, 'Your package is added.', 'success')
+                window.livewire.emit('addCart',id,paquete,price,onzas) // 1,2 ,3
+               
+            }
+        })
+    }
+    
+  </script>
 </div>
