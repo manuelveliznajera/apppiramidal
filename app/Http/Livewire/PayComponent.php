@@ -23,6 +23,7 @@ class PayComponent extends Component
        // dd($variable);
        $variable = config('services.stripe.secret_key');
 
+
          \Stripe\Stripe::setApiKey($variable);
         $payment_intent = \Stripe\PaymentIntent::create([
 			'amount' => $this->total*100,
@@ -34,13 +35,15 @@ class PayComponent extends Component
     }
     public function render()
     {
+      $variablekey = config('services.stripe.secret_pub');
+
 
         $b=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
 
         $this->total= \Cart::session(Auth()->user()->idUser)->getTotal();
         $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent();
 
-        return view('livewire.pay-component',compact('b'))
+        return view('livewire.pay-component',compact('b','variablekey'))
         ->extends('layout.side-menu')
         ->section('subcontent');
     }

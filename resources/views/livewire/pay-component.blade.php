@@ -176,7 +176,8 @@
             iconColor: '#fa755a'
         }
     };
-    const keystripe = '{{ env('STRIPE_KEY') }}';
+    //  const keystripe = '{{ env('STRIPE_KEY') }}';
+    const keystripe="{{ $variablekey }} ";
 
   
      const stripe = Stripe(keystripe, { locale: 'es' }); // Create a Stripe client.
