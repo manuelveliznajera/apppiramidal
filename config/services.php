@@ -27,7 +27,7 @@ return [
 
      'stripe' => [
         'secret_key' => env('STRIPE_SECRET'),
-        'secret_pub'=>env('STRIPE_KEY'),
+        'key_public'=>env('STRIPE_KEY_PUBLIC'),
     ],
 
     'ses' => [

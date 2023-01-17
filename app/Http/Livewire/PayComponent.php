@@ -35,7 +35,9 @@ class PayComponent extends Component
     }
     public function render()
     {
-      $variablekey = config('services.stripe.secret_pub');
+      $variablekey = config('services.stripe.key_public');
+      $variable = config('services.stripe.secret_key');
+
 
 
         $b=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
