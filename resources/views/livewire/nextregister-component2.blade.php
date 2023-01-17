@@ -117,7 +117,7 @@
         {{-- COMPLETE PACKAGE --}}
 
         <div class="max-w-sm:block bg-gray-100 rounded-xl overflow-hidden shadow-2xl w-full md:w-1/5 z-20">
-          <img class="w-full" src="{{asset('img/paquetes/sucription.png')}}" alt="Sunset in the mountains">
+          <img class="w-full" src="{{asset('img/paquetes/package4.png')}}" alt="Sunset in the mountains">
           <div class="flex flex-col justify-center items-center mt-4">
             <div class="font-bold text-xl ">COMPLETE</div>
             <div class="font-bold text-xl ">PACKAGE</div>
