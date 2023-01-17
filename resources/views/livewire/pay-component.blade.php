@@ -1,3 +1,4 @@
+
 <div>
     
        
@@ -8,7 +9,7 @@
                                     <div class="input-group mb-3">
                                     
                                     <h1 class="fw-bold text-dark">BILLING ADDRESS</h1>
-                                        
+                                       
                                     </div>
                                     
                                     <div class="input-group mb-3">
@@ -57,46 +58,37 @@
                                     <div class="input-group mb-3">
                                         <h1 class="fw-bold text-dark">Accepted Cards:</h1>     
                                     </div>
-                                    <div class="input-group mb-3">
-                                       <img src="{{asset('img/creditcard.png')}}" alt="" style=" height:100px">    
-                                    </div>
+                                    
                                     <div class="input-group mb-3">
                                        <span class="badge badge-success">TOTAL:</span> <h2 class="badge badge-success">{{$total}}</h2>
                                      </div>
-                                      <form action=""   id="payment-form">
-                                        @csrf  
-                                      <div class="form-group">
-                                        <div class="card-header">
-                                            <label for="card-element">
-                                                DATA PAY
-                                            </label>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="col-12">
-                                                <div class="form-outline">
-                                                  <input type="text" id="nameCard" class="-intro-x login__input form-control py-3 px-4  mb-3 w-3/4" placeholder="Name card"/>
-                                               
-                                                </div>
-                                            </div>
-                                            <div class="rounded-lg  bg-gray-200">
-                                                <div id="card-element" class="-intro-x login__input form-control py-3 px-4 w-3/4" >
+                                    
+                                    
+                                      
+                                          <form id="payment-form" method="POST" 
+                                          {{-- wire:submit.prevent="save" --}}
+                                          >
+                                          <input type="text" id="nameCard" class="-intro-x form-control">
+                                              @csrf
+                                            <div id="card-element" >
 
                                             </div>
-                                                
+                                            <div id="payment-element" >
+
                                             </div>
+                                            
                                             <!-- Used to display form errors. -->
                                             <div id="card-errors" role="alert"></div>
-                                            <input type="hidden" name="plan" value="" />
-                                        </div>
-                                    </div>
+                                            
+                                        
+                                    
                                     <div class="card-footer">                        
                                       <button
                                       id="card-button"
-                                      class="btn btn-primary mt-2 w-1/4"
                                       type="submit"
-                                      data-secret="{{ $intent }}"
-                                    >  Payer      </button>
-                                          
+                                      class="btn btn-primary mt-3"
+                                    >  Pagar      </button>
+                                
                                     </div>
                                 </form>
                         </div>                           
@@ -152,9 +144,117 @@
                 </div>     
 </div>
 </div>
+@section('script')
 
-<script src="https://js.stripe.com/v3/"></script>
+
 <script>
+  
+    
+const clientsecret="{{$intent}}";
+
+    const options= {
+        clientSecret:clientsecret,
+    }
+
+    const keystripe="{{ $STRIPE_KEY }} ";
+    
+    var stripe= Stripe(keystripe);
+    
+    var elements = stripe.elements(options);
+
+    const cardElement = elements.create("card",{
+  style: {
+    base: {
+            color: 'dark',
+            backgroundColor:'white',
+            lineHeight: '48px',
+            padding:'12px',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '20px',
+            '::placeholder': {
+                color: 'gray'
+            }
+        },
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+        },
+  },
+});
+    cardElement.mount('#payment-element');
+    cardElement.addEventListener('change', function(event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+
+    // const payElement = elements.create('card');
+    // payElement.mount('#card-element');
+    
+    var form = document.getElementById('payment-form');
+    const cardButton = document.getElementById('card-button');
+
+    form.addEventListener('submit', async(event)=> {
+        event.preventDefault();
+        
+        cardButton.disabled = true;
+        
+      let nameCard=  document.getElementById('nameCard').value
+      const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const address = document.getElementById('address').value;
+    console.log(email);
+   await stripe.confirmCardPayment(clientsecret,  {
+            payment_method: {
+                card:cardElement,
+                billing_details: { 
+                    name:nameCard,
+                    email:email,
+                    address:address 
+                }
+                
+            }
+        })
+        .then(function(result) {
+            console.log(result)
+           if (result.error) {
+            cardButton.disabled = false;
+    
+                 var errorElement = document.getElementById('card-errors');
+                 errorElement.textContent = result.error.message;
+
+                //   alert('there is an error paiement') ;
+                Swal.fire('', errorElement.textContent)
+
+              } else {
+             if (result.paymentIntent.status === 'succeeded') {
+
+                Swal.fire('success', 'Pago efectuado!!')
+               
+                Livewire.emit('crearcliente') ;
+
+                  
+    
+                }
+                 else if (result.paymentIntent.status === 'requires_payment_method') {
+      
+                  
+                    
+                     alert('there is an error paiement') ;
+              }
+              }
+            
+        });
+       
+        });
+    
+</script>
+@endsection
+{{-- <script>
     // Custom styling can be passed to options when creating an Element.
     // (Note that this demo uses a wider set of styles than the guide below.)
 
@@ -180,27 +280,26 @@
     const keystripe="{{ $variablekey }} ";
 
   
-     const stripe = Stripe(keystripe, { locale: 'es' }); // Create a Stripe client.
-    // const stripe = Stripe('pk_test_51IR4JwCBDL6tBtH5NVoIgkKfCLS7VsJJZtrmlxAxldvhDvTq5DwJ0irP4Rboo0EKkjL8A1XUMyJtpO2STD7vyP9G00YnNeS843', { locale: 'es' }); // Create a Stripe client.
-
+     var stripe = Stripe(keystripe, { locale: 'es' }); // Create a Stripe client.
+  
     
     
     const elements = stripe.elements(); // Create an instance of Elements.
     const cardElement = elements.create('card', { style: style }); // Create an instance of the card Element.
-    document.getElementById('')
+    
     const cardButton = document.getElementById('card-button');
-    document.addEventListener("DOMContentLoaded", () => {
+    
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const address = document.getElementById('address').value;
 
-    });
+  
     
 
 
 
     const clientSecret = cardButton.dataset.secret;
-    console.log(clientSecret)
+   
 
     cardElement.mount('#card-element'); // Add an instance of the card Element into the `card-element` <div>.
 
@@ -219,15 +318,18 @@
 
     form.addEventListener('submit', function(event) {
         event.preventDefault();
+        cardButton.disabled = true;
+        
       let nameCard=  document.getElementById('nameCard').value
 
-    stripe.handleCardPayment(clientSecret, cardElement, {
+    stripe.confirmCardPayment(clientSecret, cardElement, {
             payment_method_data: {
                 billing_details: { 
                     name:nameCard,
                     email:email,
                     address:address 
-                }
+                },
+                receipt_email:email,
             }
         })
         .then(function(result) {
@@ -260,7 +362,7 @@
             
         });
     });
-</script>
+</script> --}}
 
 
 

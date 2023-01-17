@@ -40,12 +40,12 @@ Route::controller(AuthController::class)->middleware('loggedin')->group(function
 Route::get('register', Register::class)->name('login.register');
 Route::get('register/{id}',Register::class)->name('login.register.afiliate');
 Route::get('/register/verify/{code}', [Register::class, 'verify']);
-Route::get('/dash',[PageController::class,'dashboardOverview1'] )->name('dash');
-Route::get('/partner-tree',[PartnersController::class,'index'] )->name('partnertree');
-Route::get('/products',Products::class )->middleware('auth')->name('products');
+Route::get('/dash',[PageController::class,'dashboardOverview1'] )->middleware(['auth','afiliado'])->name('dash');
+Route::get('/partner-tree',[PartnersController::class,'index'] )->middleware(['auth','afiliado'])->name('partnertree');
+Route::get('/products',Products::class )->middleware(['auth','afiliado'])->name('products');
 Route::get('/addpackage',NextregisterComponent::class )->middleware('auth')->name('addpackage');
-Route::get('/', [PageController::class,'dashboardOverview1'])->middleware('auth')->name('dashboard');
-Route::get('shop',[PageController::class,'productGrid'])->name('shop');
+Route::get('/', [PageController::class,'dashboardOverview1'])->middleware(['auth','afiliado'])->name('dashboard');
+Route::get('shop',[PageController::class,'productGrid'])->middleware(['auth','afiliado'])->name('shop');
 Route::get('payment', PayComponent::class)->middleware('auth')->name('payment');
 Route::get('profile', [PageController::class,'updateProfile'])->middleware('auth')->name('profile');
 

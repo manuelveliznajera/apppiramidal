@@ -15,6 +15,7 @@ class Products extends Component
 
     public function render()
     {
+      
         $this->total=\Cart::session(Auth()->user()->idUser)->getContent()->count();
         $lines=Line::all();
         $this->products=Product::all();

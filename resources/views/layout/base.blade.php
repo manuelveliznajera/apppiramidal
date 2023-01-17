@@ -10,10 +10,13 @@
     <meta name="description" content="Company Besana ">
     <meta name="keywords" content="products, health, affiliate, salud, Besanaglobal.com">
     <meta name="author" content="BESANA">
+    
    
+<script src="https://js.stripe.com/v3/"></script>
    
-    <link rel="stylesheet" href="{{ asset('sweetalerts2/sweetalerts2.css') }}">
-    <script src="{{ asset('assets/balkan/orgchart.js') }}"></script>
+    <link  rel="stylesheet" href="{{ asset('sweetalerts2/sweetalerts2.css') }}">
+    
+    <script  src="{{ asset('assets/balkan/orgchart.js') }}"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -33,5 +36,6 @@
 @livewireScripts
 
 <script src="{{ asset('sweetalerts2/sweetalerts2.min.js') }}"></script>
+
 </body>
 </html>
