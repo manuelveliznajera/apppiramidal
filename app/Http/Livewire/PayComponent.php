@@ -10,17 +10,18 @@ use Stripe;
 class PayComponent extends Component
 {
     public $intent ;
-    
+
     public $total;
     public $nameCard;
     public $cantidadProductos;
 
     protected $listeners = ['payer' => 'payer'];
-    
+
     public function mount() {
          $this->total= \Cart::session(Auth()->user()->idUser)->getTotal();
-        $variable = env('STRIPE_SECRET');
+        //$variable = env('STRIPE_SECRET');
        // dd($variable);
+       $variable = config('services.stripe.secret_key');
 
          \Stripe\Stripe::setApiKey($variable);
         $payment_intent = \Stripe\PaymentIntent::create([
@@ -33,7 +34,7 @@ class PayComponent extends Component
     }
     public function render()
     {
-      
+
         $b=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
 
         $this->total= \Cart::session(Auth()->user()->idUser)->getTotal();
@@ -44,8 +45,8 @@ class PayComponent extends Component
         ->section('subcontent');
     }
 
-   
 
-    
+
+
 
 }
