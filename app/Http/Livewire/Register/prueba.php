@@ -7,7 +7,7 @@ use Livewire\Component;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
-class Register extends Component
+class Prueba extends Component
 {
    
 
