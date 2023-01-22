@@ -63,6 +63,8 @@ module.exports = {
                 light: withOpacityValue("--color-light"),
                 dark: withOpacityValue("--color-dark"),
                 besana:'#419616',
+                belleza:'#f3e3e3',
+                salud:'#d5eda3',
                 slate: {
                     50: withOpacityValue("--color-slate-50"),
                     100: withOpacityValue("--color-slate-100"),

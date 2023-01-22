@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\SocioactivoController;
+use App\Http\Livewire\SocioActivo;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
@@ -13,19 +15,6 @@ use App\Http\Livewire\Products;
 use App\Http\Livewire\Register\Register;
 use Illuminate\Support\Facades\Auth;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-// Auth::routes(['verify' => true]);
-
-
 
 Route::get('dark-mode-switcher', [DarkModeController::class, 'switch'])->name('dark-mode-switcher');
 Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class, 'switch'])->name('color-scheme-switcher');
@@ -38,13 +27,18 @@ Route::controller(AuthController::class)->middleware('loggedin')->group(function
 });
 
 Route::get('register', Register::class)->name('login.register');
+
+
 Route::get('register/{id}',Register::class)->name('login.register.afiliate');
 Route::get('/register/verify/{code}', [Register::class, 'verify']);
 Route::get('/dash',[PageController::class,'dashboardOverview1'] )->middleware(['auth','afiliado'])->name('dash');
+Route::get('/socioactivo', SocioActivo::class)->middleware(['auth'])->name('socioactivo');
+
 Route::get('/partner-tree',[PartnersController::class,'index'] )->middleware(['auth','afiliado'])->name('partnertree');
 Route::get('/products',Products::class )->middleware(['auth','afiliado'])->name('products');
-Route::get('/addpackage',NextregisterComponent::class )->middleware('auth')->name('addpackage');
+Route::get('/addpackage',NextregisterComponent::class )->middleware(['auth','isafiliado'])->name('addpackage');
 Route::get('/', [PageController::class,'dashboardOverview1'])->middleware(['auth','afiliado'])->name('dashboard');
+
 Route::get('shop',[PageController::class,'productGrid'])->middleware(['auth','afiliado'])->name('shop');
 Route::get('payment', PayComponent::class)->middleware('auth')->name('payment');
 Route::get('profile', [PageController::class,'updateProfile'])->middleware('auth')->name('profile');
@@ -99,7 +93,7 @@ Route::middleware('auth')->group(function() {
         Route::get('faq-layout-1-page', 'faqLayout1')->name('faq-layout-1');
         Route::get('faq-layout-2-page', 'faqLayout2')->name('faq-layout-2');
         Route::get('faq-layout-3-page', 'faqLayout3')->name('faq-layout-3');
-        Route::get('login-page', 'login')->name('login');
+        // Route::get('login-page', 'login')->name('login');
         Route::get('register-page', 'register')->name('register');
         Route::get('error-page-page', 'errorPage')->name('error-page');
         Route::get('update-profile-page', 'updateProfile')->name('update-profile');

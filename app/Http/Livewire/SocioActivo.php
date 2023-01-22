@@ -1,18 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\Register;
-
-use App\Models\Affiliate;
+namespace App\Http\Livewire;
 
 use Livewire\Component;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
-
-class Register extends Component
+class SocioActivo extends Component
 {
+  
 
     public $pais;
     public $terminos = false;
@@ -52,9 +46,9 @@ class Register extends Component
 
     public function render()
     {
-        return view('livewire.register.register')
-                ->extends('layout.top-menu')
-                ->section('content');
+        return view('livewire.socio-activo')
+        ->extends('layout.side-menu')
+                ->section('subcontent');
     }
     protected $rules=[
         'SSN' => 'required|unique:affiliates',
@@ -140,4 +134,5 @@ class Register extends Component
 
     //     dd($affiliate);
     // }
+
 }

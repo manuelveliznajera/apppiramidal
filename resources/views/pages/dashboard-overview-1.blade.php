@@ -1,7 +1,7 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>Dashboard - Midone - Tailwind HTML Admin Template</title>
+    <title>Dashboard - Besana</title>
 @endsection
 
 @section('subcontent')
@@ -221,7 +221,7 @@
                                         <img alt="Midone - HTML Admin Template" src="{{ asset('build/assets/images/' . $faker['photos'][0]) }}">
                                     </div>
                                     <div class="ml-4 mr-auto">
-                                        <div class="font-medium">{{ $faker['users'][0]['name'] }}</div>
+                                        <div class="font-medium">{{ $afiliado->Name }}</div>
                                         <div class="text-slate-500 text-xs mt-0.5">{{ $faker['dates'][0] }}</div>
                                     </div>
                                     <div class="py-1 px-2 rounded-full text-xs bg-success text-white cursor-pointer font-medium">137 Sales</div>

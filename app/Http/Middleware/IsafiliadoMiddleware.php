@@ -6,7 +6,7 @@ use App\Models\Affiliate;
 use Closure;
 use Illuminate\Http\Request;
 
-class AfiliadoMiddleware
+class IsafiliadoMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,10 +17,11 @@ class AfiliadoMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-      $user=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+        $user=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
             if ($user->firstBuy) {
-                return $next($request);
+                return redirect()->route('products');
+
             }
-        return redirect()->route('addpackage');
+        return $next($request);
     }
 }

@@ -68,7 +68,7 @@
                                           <form id="payment-form" method="POST" 
                                           {{-- wire:submit.prevent="save" --}}
                                           >
-                                          <input type="text" id="nameCard" class="-intro-x form-control">
+                                          <input type="text" id="nameCard" class="-intro-x form-control" placeholder="Nombre del Titular">
                                               @csrf
                                             <div id="card-element" >
 

@@ -39,13 +39,14 @@
             <img src="{{asset('img/logonew.png')}}" alt="logo Besana" height="100">
         </div>
 
-        <h2 class="c-blue">Hi {{$Name}}, thank you for register in <strong> Besana</strong> !</h2>
-        <p>Please, confirm your email</p>
-        <p>codigo: {{$confirmation_code}}</p>
+        <h2 class="c-blue">Hola {{$Name}}, Bienvenido a la familia Besana Global, estamos felices que te hayas registrado con nosotros. Por favor confirma tu correo electrónico.
+            
+        
+        
      
     
         <a class="t-none" href="{{ url('/register/verify/' . $confirmation_code) }}">
-            Click for confirm your email
+            Presiona Aqui!
         </a>
     </div>
     

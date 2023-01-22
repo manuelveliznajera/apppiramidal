@@ -1,11 +1,10 @@
 <div>
     
-    <div class="shadow-md fixed flex inline" 
+<div class="shadow shadow-green-600 shadow-2xl fixed flex inline " 
    style="margin-top: 40px;
    z-index: 500;
    top: 10;
    margin-right: 100px;
-  
    right: 0;"
                 > 
                     <a href="{{route('payment')}}" class="btn btn-outline-primary flex  " 
@@ -21,11 +20,11 @@
     
                     <button onclick="limpiar()""  class="btn btn-outline-danger ml-2"  >Clear cart</button>
 
-                </div>
+</div>
     <h2 class="intro-y text-lg font-medium mt-10">Product Grid</h2>
    
 
-    <div class="grid grid-cols-12 gap-6 mt-5">
+    <div class="grid grid-cols-3 gap-4 mt-5">
        
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
            
@@ -66,42 +65,44 @@
                 
             </div>
         </div>
+    </div>
         <!-- BEGIN: Users Layout -->
-       
+        <div class="intro-y grid grid-cols-3 gap-4 mt-3">
         @forelse ($products as $key=> $pro)
-            <div class="intro-y col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
-                <div class="box">
-                    <div class="p-5">
-                        {{-- <div class="h-40 2xl:h-56 image-fit rounded-md overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/5"> --}}
-                        <div class="   rounded-md overflow-hidden " style="height: 250px;">
+            
+                <div class="col-span-1 box shadow rounded rounded-lg border-double border-4 border-gray-400
+                    @if ($pro->idLine==3)
+                        shadow-belleza
+                    @else
+                        shadow-salud
+                    @endif
+                    shadow-xl">
+                    
+                        <div class="   rounded-md overflow-hidden " >
+                            <img alt="{{$pro->name}}" class="object-contain h-48 w-96" src="{{ asset('img/products/'.$pro->img) }}" />
+                        </div>
+                        
+                
+                        <div class="text-slate-600 rounded rounded-lg dark:text-slate-500 mt-1
+                            @if ($pro->idLine==3)
+                                bg-belleza
+                            @else
+                                bg-salud
+                            @endif
+                        ">
+                            <div class="flex flex-col items-center  p-2 text-dark">
+                                <h1 class="block font-medium text-base">{{$pro->name}}</h1>
+                                 Price: ${{ $pro->price }}
+                                 <span class="font-black">Puntos a Recibir:</span>
+                                 <span class="font-black text-xl">{{$pro->puntos}}</span>
+                                 <button class="btn btn-primary btn-sm " wire:click="addCart({{$key}})">
+                                     Add Cart
+                                </button>
 
-                            <img alt="{{$pro->name}}" class="object-contain h-48 w-96" src="{{ asset('img/products/' . $pro->img) }}" />
+                            </div>
                            
-                                {{-- <span class="absolute top-0 bg-pending/80 text-white text-xs m-5 px-2 py-1 rounded z-10">Featured</span> --}}
-                          
-                            <div class="absolute bottom-0 text-white px-5 pb-6 z-10">
-                                <a href="" class="block font-medium text-base">{{ $pro->name }}</a>
-                                <span class="text-white/90 text-xs mt-3">{{ $pro->name }}</span>
-                            </div>
                         </div>
-                        <div class="text-slate-600 dark:text-slate-500 mt-5">
-                            <div class="flex items-center">
-                                <i data-lucide="link" class="w-4 h-4 mr-2"></i> Price: ${{ $pro->price }}
-                            </div>
-                            <span> <p class="font-bold">Description:</p> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatem ad repudiandae necessitatibus nostrum qui consectetur consequuntur. Perferendis reprehenderit nisi eius, sequi quae suscipit animi in neque, quod enim quasi vero.</span>
-                            
-                          
-                        </div>
-                    </div>
-                    <div class="flex justify-center lg:justify-end items-center p-5 border-t border-slate-200/60 dark:border-darkmode-400">
-                        
-                        <button class="flex items-center mr-3 btn btn-outline-danger" wire:click="addCart({{$key}})">
-                            <img class="text-transparent" src="{{asset('img/cart.svg')}}" alt="" width="30px"> Add Cart
-                        </button>
-                        
-                    </div>
-                </div>
-            </div>
+                </div> 
             @empty
             <div>
                 <span colspan="6">
@@ -109,56 +110,6 @@
                 </span>
             </div>
         @endforelse
-        <!-- END: Users Layout -->
-        <!-- BEGIN: Pagination -->
-        <div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
-            <nav class="w-full sm:w-auto sm:mr-auto">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="w-4 h-4" data-lucide="chevrons-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="w-4 h-4" data-lucide="chevron-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">...</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">...</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="w-4 h-4" data-lucide="chevron-right"></i>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="w-4 h-4" data-lucide="chevrons-right"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <select class="w-20 form-select box mt-3 sm:mt-0">
-                <option>10</option>
-                <option>25</option>
-                <option>35</option>
-                <option>50</option>
-            </select>
-        </div>
-        <!-- END: Pagination -->
     </div>
 </div>
 <script>

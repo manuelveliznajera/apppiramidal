@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Affiliate;
 use App\Models\Line;
 use App\Models\Product;
 use Livewire\Component;
@@ -15,12 +16,13 @@ class Products extends Component
 
     public function render()
     {
+      $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
       
         $this->total=\Cart::session(Auth()->user()->idUser)->getContent()->count();
         $lines=Line::all();
         $this->products=Product::all();
-        //dd($products);
-        return view('livewire.products',)->extends('layout.side-menu')
+       // dd($this->products);
+        return view('livewire.products', compact('afiliado'))->extends('layout.side-menu')
                 ->section('subcontent');
     }
     public function addCart($id, $cant=1){

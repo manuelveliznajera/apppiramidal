@@ -34,14 +34,38 @@ class SideMenu
                     ],
                     'title' => 'Shop'
                 ],
-
+                'Socios Activos' => [
+                    'icon' => 'user',
+                    'route_name' => 'socioactivo',
+                    'params' => [
+                        'layout' => 'side-menu'
+                    ],
+                    'title' => 'Socio Activo'
+                ],
+                'Socios Promotores' => [
+                    'icon' => 'user',
+                    'route_name' => 'partnertree',
+                    'params' => [
+                        'layout' => 'side-menu'
+                    ],
+                    'title' => 'Socio Promotor'
+                ],
+                'Clientes' => [
+                    'icon' => 'user',
+                    'route_name' => 'partnertree',
+                    'params' => [
+                        'layout' => 'side-menu'
+                    ],
+                    'title' => 'Cliente'
+                ],
+                'devider',
                 'Tree' => [
                     'icon' => 'user',
                     'route_name' => 'partnertree',
                     'params' => [
                         'layout' => 'side-menu'
                     ],
-                    'title' => 'Partner Tree'
+                    'title' => 'Geneología'
                 ],
                 'devider',
                
