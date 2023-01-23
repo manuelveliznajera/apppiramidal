@@ -8,71 +8,13 @@
             <div class="col-1">
                 <form method="POST" wire:submit.prevent="create" >
                     @csrf
-                            <a href="" class="-intro-x flex items-center ">
-                                <img src="
-                                @if ($lenguaje=='spanish')
-                                {{asset('img/LogoWhite.png')}}
-                                @else
-                                {{asset('img/LogoWhite.png')}}
-
-                                    
-                                @endif
-                                
-                                " class="-intro-x object-cover h-48 w-96 " alt="besanaglobal">
-                            {{-- <span class="text-5xl text-white">BESANA GLOBAL</span> --}}
-                            </a>    
-                            <div class="-intro-x flex">            
-                                <fieldset class="-intro-x my-auto">
-                                    <span class="-intro-x text-white text-lg ml-3 ">
-                                        @if ($lenguaje=='spanish')
-                                            Seleccione un Lenguaje: 
-                                        @else
-                                            Selected Lenguage:
-                                        @endif
-                                    </span>
-                                    <select wire:model.lazy="lenguaje" class="-intro-x p-2 bg-primary m-2 text-white rounded-lg w-64 text-center">
-                                        {{-- <option value="english"> English </option> --}}
-                                        <option value="spanish"> Spanish </option>                     
-                                    </select>              
-                                
-                                </fieldset>
-
-                                <fieldset class="-intro-x my-auto">
-                                    <span class="-intro-x text-white text-lg ml-3 ">
-                                        @if ($lenguaje=='spanish')
-                                                Seleccione un pais:
-                                            @else
-                                                Selected Country:
-                                            @endif
-                                        
-                                    </span>
-                                    <select wire:model.lazy="pais" class="-intro-x p-2 bg-primary m-2 text-white rounded-lg w-64 text-center">
-                                        <option selected value="usa"> Seleccione su Pais: </option>
-                                        <option value="usa"> Usa </option>
-                                        <option value="mexico"> Mexico </option>
-                                        <option value="guatemala"> Guatemala </option>
-                                        <option value="colombia"> Colombia </option>
-                                        <option value="panama"> Panáma </option>
-
-                                    </select>
-                                </fieldset>
-                            </div>
-                            <span class="-intro-x  text-white  font-bold uppercase text-lg ">
-                                @if ($lenguaje=='spanish')
+                            <span class=" font-bold uppercase text-lg ">
                                     Datos Personales:
-                                @else
-                                    Data Person:
-                                @endif
-                          
                             </span>
                             <div class="w-full">                         
                                 <div class="text-xl gap-2 items-center w-1/2">
                                     <input  id="Name"
-                                    @if ($lenguaje=='spanish')
                                         placeholder="Ingresar nombre"
-                                        @else
-                                        placeholder="Enter your name"            
-                                    @endif
                                         class="-intro-x login__input form-control py-3 " type="text" wire:model="Name" :value="old('Name')"
                                         required autofocus />
                                 </div>
@@ -83,48 +25,23 @@
                                 <div class="flex text-xl gap-2 items-center">
                                     <input id="LastName" class="-intro-x login__input form-control py-3 px-4 block" type="text"
                                     wire:model="LastName" :value="old('LastName')" required 
-                                    @if ($lenguaje=='spanish')
-                                        placeholder="Ingresar apellidos"
-                                        @else
-                                        placeholder="Enter your Lastname"
-                                        @endif
+                                    placeholder="Ingresar apellidos"
                                     />
                                 </div>
                             </div>
                 
                             <div class=" -intro-x w-full mt-3">                                 
-                                        <label class="text-white" for="DateBirth">
-                                            @if ($lenguaje=='spanish')
+                                        <label class="text-gray-600" for="DateBirth">
                                                 Fecha de cumpleaños:
-                                            @else
-                                                BirthDay:
-                                            @endif
                                             </label>
                                         <br>
                                         <input id="DateBirth" class="-intro-x login__input form-control py-3  w-2/6" type="date"
                                         wire:model="DateBirth" :value="old('DateBirth')" required
-                                        @if ($lenguaje=='spanish')
-                                            placeholder="fecha de cumpleaños"
-                                        @else
-                                            placeholder="Enter your DateBirth"
-                                        @endif
-                                            placeholder="Enter your DateBirth" /> 
+                                         /> 
 
                                         <input id="SSN" class="-intro-x  form-control py-3   w-2/6 "
                                             type="text" wire:model="SSN" :value="old('SSN')" required
-                                            @if ($pais=='usa')
                                                 placeholder="Ingrese su SSN"
-                                            @elseif ($pais=='guatemala')
-                                                placeholder="Ingrese  Dpi"
-                                            @elseif ($pais=='colombia')
-                                                placeholder="Ingrese su CC"
-                                            @elseif ($pais=='mexico')
-                                                placeholder="Ingrese su FRC"
-                                            @elseif ($pais=='panama')
-                                                placeholder="Ingrese Número de Cédula"
-                                            @else
-                                                placeholder="Ingrese su SSN"
-                                            @endif
                                                 />
                                         @error('SSN') <div class="intro-x bg-red-600 p-2 rounded-lg ">
                                             <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
@@ -133,41 +50,30 @@
                                   
                             </div>
 
-                            <span class="-intro-x  text-white p-2 font-bold uppercase text-lg">Datos de Sistema:</span>    
+                            <span class="-intro-x  p-2 font-bold uppercase text-lg">Datos de Sistema:</span>    
 
                             <div class=" -intro-x grid grid-cols-2 gap-4"> 
                                 <div class="w-full">
                                         <div class="col-1">
-                                                @if ($lenguaje=='spanish')
-                                                <label class="text-white" for="Invitedby"> Invitado Por:</label>
-                                            @else
-                                                <label class="text-white" for="Invitedby"> Invited By:</label>                        
-                                            @endif
+                                                <label class="text-gray-600" for="Invitedby"> Invitado Por:</label>
                                         </div>
                                         <div class="col-2">
-
                                             <input id="Invitedby" class="-intro-x login__input form-control py-3" type="text"
                                             wire:model="invitedby"  :value="old('DateBirth')" required />
                                         </div>
                                 </div>                          
                                 <div class="w-full">
                                     <div class="col-1">
-                                        @if ($lenguaje=='spanish')
-                                            <label class="text-white" for="Invitedby">Nombre de Usuario:</label>
-                                        @else
-                                            <label class="text-white" for="Invitedby"> Enter your username:</label>                        
-                                        @endif
+                                       
+                                            <label class="text-gray-600" for="Invitedby">Nombre de Usuario:</label>
                                     </div>
                                     <div class="col-2">
                                         <input id="userName" class="-intro-x  form-control py-3  "
                                         type="text" wire:model="userName" :value="old('userName')" required
-                                        @if ($lenguaje=='english')
-                                            placeholder="INGRESE UN NOMBRE DE USUARIO"
-                                        @else
                                             placeholder="Ingrese usuario"
-                                        @endif
                                             />
-                                            @error('userName') <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                                            @error('userName') 
+                                            <div class="intro-x bg-red-600 p-2 rounded-lg ">
                                                 <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
                                             </div>  @enderror
                                     </div>
@@ -178,20 +84,18 @@
                             <div class="-intro-x grid grid-cols-2 gap-2 mt-3">
                                     <div class="w-fulll">
                                         <div class="col-1">
-                                            <label for="Password" class="-intro-x text-white"> 
-                                                @if ($lenguaje=='spanish')
+                                            <label for="Password" class="-intro-x text-gray-600"> 
                                                     Contraseña
-                                                @else
-                                                    Password
-                                                @endif
                                             </label>
                                         </div>
                                         <div class="col-2">
-                                            <input id="Password" class="-intro-x  form-control py-3" type="password" wire:model="Password"
+                                            <input id="Password" class="-intro-x  form-control py-3"   type="text" wire:model="Password"
                                             required />
-                                            @error('Password') <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                                            @error('Password') 
+                                            <div class="intro-x bg-red-600 p-2 rounded-lg ">
                                                 <span class="-intro-x bg-red-500 p-2 rounded-lg text-white ml-4">{{ $message }}</span>
-                                            </div>  @enderror
+                                            </div>  
+                                            @enderror
                                         </div>
                                         
                                             {{-- <x-input-error :messages="$errors->get('Password')" class="mt-2" /> --}}
@@ -199,17 +103,13 @@
                                     <!-- Confirm Password -->
                                     <div class="-intro-x w-full ">
                                         <div class="col-1">
-                                            <label for="password_confirmation" class="-intro-x text-white"> 
-                                                @if ($lenguaje=='spanish')
+                                            <label for="password_confirmation" class="-intro-x text-gray-600"> 
                                                         Confirmar Contraseña
-                                                    @else
-                                                        Password Confirm
-                                                    @endif
                                             </label>
                                         </div>
                                         <div class="col-2">
-                                            <input id="password_confirmation" class="-intro-x  form-control py-3" type="password"
-                                                wire:model="password_confirmation"  required />
+                                            <input id="password_confirmation" class="-intro-x  form-control py-3" type="text"
+                                                wire:model="password_confirmation" placeholder="Besanabg2023"  required value="Besanabg2023"/>
                                                 @error('password_confirmation') <div class="intro-x bg-red-600 p-2 rounded-lg ">
                                                     <span class="-intro-x bg-red-500 p-2 rounded-lg text-white ml-4">{{ $message }}</span>
                                                 </div>  @enderror
@@ -292,7 +192,7 @@
                                         <div class="flex text-xl gap-2 items-center">
                                             <i class="fas fa-globe-americas"></i>
                                             <input id="Country" class="intro-x login__input form-control block mt-1 w-3/4" type="text" wire:model="Country"
-                                                :value="old('Country')" required autofocus />
+                                                :value="old('Country')" required placeholder="Usa"/>
                                         </div>           
                                         {{-- <x-input-error :messages="$errors->get('Country')" class="mt-2" /> --}}
                                     </div>
@@ -389,7 +289,7 @@
                     'success'
                     ).then(result => {
                         if(result.isConfirmed){
-                            window.location = '/login'
+                            window.location = '/socioactivo'
                         }
                     }
                         

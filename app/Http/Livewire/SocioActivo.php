@@ -2,7 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use Illuminate\Support\Carbon;
 use Livewire\Component;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class SocioActivo extends Component
 {
@@ -30,8 +34,8 @@ class SocioActivo extends Component
     public $Latitude;
     public $Longitude;
     public $userName='';
-    public $Password='';
-    public $confirmPassword='';
+    public $Password='Besanabg2023';
+    public $confirmPassword='Besanabg2023';
     public array $data;
     public $message='';
     public $confirmation_code;
@@ -88,7 +92,7 @@ class SocioActivo extends Component
        $createdAt = Carbon::parse($datos['DateBirth']);
        $dateBirth=$createdAt->format('M d Y');
        $datecreated=$mytime->format('Y-m-d h:i');
-       $website='https://www.besanaglobal.com/'.$datos['userName'];
+       $website='https://besanaglobal.com?sponsor='.$datos['userName'];
        $pass=Hash::make($datos['Password']);
             try {
             $this->data = json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL SpAffiliated ('NEW',0,'{$datos['SSN']}','{$datos['Name']}','{$datos['LastName']}',{$datos['Workphone']},{$datos['Phone']},'{$datos['DateBirth']}','{$datos['Email']}',null,'{$datos['Address']}','{$datos['Country']}','{$datos['State']}','{$datos['City']}',{$datos['ZipCode']},'333.333','12.345545','-12.34566','$datecreated',null,null,1,'{$datos['userName']}','{$pass}',1,'{$website}','{$confirmation_code}')")),true);
@@ -97,7 +101,7 @@ class SocioActivo extends Component
                     $message->to($datos['Email'], $datos['Name'])->subject('Por favor confirma tu correo');
                 });
                 $this->reset('SSN', 'Name', 'LastName', 'AlternativePhone','Workphone',  'DateBirth', 'Email','Address', 'Country','State','City','ZipCode','Phone','userName');
-                return redirect()->to('/login')->with(["notification" => 'We have send a menssage to your for confirm your register']);
+                $this->dispatchBrowserEvent('noty', ['msg' => 'Nuevo socio Activo: '.$datos['userName']]);
                 
                 // return redirect()->route('login')->with([ 'mensaje' => 'e have send a menssage to your for confirm your register' ]);
                 //$this->dispatchBrowserEvent('noty', ['msg' => 'We have send a menssage to your for confirm your register']);

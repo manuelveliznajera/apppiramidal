@@ -9,11 +9,8 @@
     <div class="flex mt-[4.7rem] md:mt-0 overflow-hidden">
         <!-- BEGIN: Side Menu -->
         <nav class="side-nav">
-            <a href="" class="intro-x flex items-center pl-5 pt-4 mt-3">
+            <a href="" class="intro-x flex items-center ">
                 <img alt="Besanaglobal.com" class="" src="{{ asset('img/logowhite.png') }}">
-            </a>
-            <a href="{{route('logout')}}" class="intro-x flex items-center pl-5 pt-4 mt-3">
-                <button class="btn btn-outline-info btn-sm"> Salir </button>
             </a>
             <div class="side-nav__devider my-6">
                

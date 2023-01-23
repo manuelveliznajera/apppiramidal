@@ -25,8 +25,10 @@
                         wire:submit.prevent="login"        
                         >
                         @csrf
+                            <label for="userName" class="text-gray-500">Usuario:</label>
                             <input id="userName" type="text" class="intro-x login__input form-control py-3 px-4 block" placeholder="Usuario" wire:model="username">
                             <div id="error-email" class="login__input-error text-danger mt-2"></div>
+                            <label for="password" class="text-gray-500">Contraseña:</label>
                             <input id="password" type="password" class="intro-x login__input form-control py-3 px-4 block mt-4"  wire:model="password">
                             <div id="error-password" class="login__input-error text-danger mt-2"></div>    
                     </div>
