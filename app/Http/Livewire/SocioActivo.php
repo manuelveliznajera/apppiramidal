@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Affiliate;
+use App\Models\User;
+
 use Illuminate\Support\Carbon;
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +16,7 @@ class SocioActivo extends Component
   
 
     public $pais;
+    public $fechaingreso;
     public $terminos = false;
     public $lenguaje='english';
     public $invitedby;
@@ -30,7 +34,7 @@ class SocioActivo extends Component
     public $State='';
     public $City='';
     public $ZipCode='';
-    public $Phone='00000000';
+    public $WorkPhone='00000000';
     public $Latitude;
     public $Longitude;
     public $userName='';
@@ -56,20 +60,21 @@ class SocioActivo extends Component
     }
     protected $rules=[
         'SSN' => 'required|unique:affiliates',
+        'fechaingreso'=>'required',
+        'invitedby'=>'required',
         'Email' => 'required|unique:affiliates',
         'confirmEmail' => 'required|same:Email', 
         'userName'=>'required|unique:users',  
         'Name'=>'required|string',
         'LastName'=>'required|string',
-        'AlternativePhone'=>'nullable|string',
-        'Workphone'=>'required|string',
+        'AlternativePhone'=>'required|string',
+        'WorkPhone'=>'required',
         'DateBirth'=>'required|string',    
         'Address'=>'required|string',
         'Country'=>'required|string',
         'State'=>'required|string',
         'City'=>'required|string',
-        'ZipCode'=>'required|string',
-        'Phone'=>'required|string',  
+        'ZipCode'=>'required|string',  
         'Password'=>'required',
         'password_confirmation' => 'required|same:Password'
     ];
@@ -94,22 +99,58 @@ class SocioActivo extends Component
        $datecreated=$mytime->format('Y-m-d h:i');
        $website='https://besanaglobal.com?sponsor='.$datos['userName'];
        $pass=Hash::make($datos['Password']);
-            try {
-            $this->data = json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL SpAffiliated ('NEW',0,'{$datos['SSN']}','{$datos['Name']}','{$datos['LastName']}',{$datos['Workphone']},{$datos['Phone']},'{$datos['DateBirth']}','{$datos['Email']}',null,'{$datos['Address']}','{$datos['Country']}','{$datos['State']}','{$datos['City']}',{$datos['ZipCode']},'333.333','12.345545','-12.34566','$datecreated',null,null,1,'{$datos['userName']}','{$pass}',1,'{$website}','{$confirmation_code}')")),true);
 
-                Mail::send('livewire.register.confirmation_code', $datos, function($message) use ($datos) {
-                    $message->to($datos['Email'], $datos['Name'])->subject('Por favor confirma tu correo');
-                });
-                $this->reset('SSN', 'Name', 'LastName', 'AlternativePhone','Workphone',  'DateBirth', 'Email','Address', 'Country','State','City','ZipCode','Phone','userName');
-                $this->dispatchBrowserEvent('noty', ['msg' => 'Nuevo socio Activo: '.$datos['userName']]);
+       //User::where('userName', $datos['invitedby'])->first();
+        if (User::where('userName', $datos['invitedby'])->first()) {
+                $user=User::where('userName', $datos['invitedby'])->first();
+
+
+            try {
+
+
+                $this->data = json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL SpAffiliated (
+                'NEW',
+                0,
+                '{$datos['SSN']}',
+                '{$datos['Name']}',
+                '{$datos['LastName']}',
+                {$datos['AlternativePhone']},
+                {$datos['WorkPhone']},
+                '{$datos['DateBirth']}',
+                '{$datos['Email']}',
+                null,
+                '{$datos['Address']}',
+                '{$datos['Country']}',
+                '{$datos['State']}',
+                '{$datos['City']}',
+                {$datos['ZipCode']},
+                {$datos['AlternativePhone']},
+                '-12.34566',
+                '12.34566',
+                '{$datos['fechaingreso']}',
+                null,
+                '2023-01-23 03:40:31',
+                1,
+                '{$datos['userName']}',
+                '{$pass}',
+                '{$user->idAffiliated}',
+                '{$website}',
+                '{$confirmation_code}',
+                3)")), true);
+
+               
+                $this->reset('SSN', 'Name', 'LastName', 'AlternativePhone', 'Workphone', 'DateBirth', 'Email', 'Address', 'Country', 'State', 'City', 'ZipCode',  'userName');
+                $this->dispatchBrowserEvent('noty', ['msg' => 'Nuevo socio Activo: ' . $datos['userName']]);
+                return;
                 
-                // return redirect()->route('login')->with([ 'mensaje' => 'e have send a menssage to your for confirm your register' ]);
-                //$this->dispatchBrowserEvent('noty', ['msg' => 'We have send a menssage to your for confirm your register']);
-                // return view('layout.login')->with("mensaje", "We have send a menssage to your for confirm your register ");
             } catch (\Throwable $th) {
-                $this->dispatchBrowserEvent('noty', ['msg' => 'error de transaccion en base de datos: '.$th]);
+                $this->dispatchBrowserEvent('noty', ['msg' => 'error de transaccion en base de datos: ' . $th]);
                 return;
             }
+        }else{
+            $this->dispatchBrowserEvent('noty', ['msg' => 'Usuario no existe ']);
+            return;
+        }
 
     }
 
@@ -128,15 +169,8 @@ class SocioActivo extends Component
             return redirect('/login')->with('notification', 'You have confirmed your email correctly!');
         }
 
-        // $user->confirmed = true;
-        // $user->confirmation_code = null;
-        // $user->save();
 
     }
 
-    // public function Editar(Affiliate $affiliate){
-
-    //     dd($affiliate);
-    // }
 
 }

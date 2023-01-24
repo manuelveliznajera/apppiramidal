@@ -25,7 +25,7 @@ function filterData () {
 
 d.addEventListener('DOMContentLoaded',()=>{
 
-    let parsed = filterData()
+    let parsed = filterData()//contiene la data ya eliminado el grandchild items
 
        OrgChart.templates.myTemplate = Object.assign({}, OrgChart.templates.diva);
        OrgChart.templates.myTemplate.size = [200,170];
@@ -44,7 +44,7 @@ d.addEventListener('DOMContentLoaded',()=>{
         enableSearch: true,
         nodeBinding: {
             field_0: "name",
-            field_1: "nivel",
+            field_1: "rank",
             img_0: "img"
 
         },

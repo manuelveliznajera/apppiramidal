@@ -28,6 +28,16 @@
                                     placeholder="Ingresar apellidos"
                                     />
                                 </div>
+                                <label class="text-gray-600" for="fechaingreso">
+                                    Fecha de ingreso:
+                                </label>
+                                <div class="flex text-xl gap-2 items-center">
+                                    
+                                    <input id="fechaingreso" class="-intro-x login__input form-control py-3 px-4 block" type="date"
+                                    wire:model="fechaingreso" :value="old('fechaingreso')" required 
+                                    
+                                    />
+                                </div>
                             </div>
                 
                             <div class=" -intro-x w-full mt-3">                                 
@@ -125,16 +135,15 @@
                                 <span class="-intro-x  text-white p-2 font-bold uppercase text-lg bg-primary rounded-lg">DATOS DE CONTACTO:</span>  
                                 <div class="flex w-full gap-2">
                                     <div class="mt-2  w-2/4">
-                                        <label class="font-extrabold text-lg" for="Workphone"> Celular:</label>
-                                        <input id="Workphone" class="intro-x  login__input form-control block mt-1 w-3/4 " type="number" wire:model="Phone"
-                                                :value="old('Workphone')" required autofocus />
-                                        {{-- <x-input-error :messages="$errors->get('Workphone')" class="mt-2" /> --}}
+                                        <label class="font-extrabold text-lg" for="AlternativePhone"> Celular:</label>
+                                        <input id="AlternativePhone" class="intro-x  login__input form-control block mt-1 w-3/4 " type="number" wire:model="AlternativePhone"
+                                                :value="old('AlternativePhone')" required autofocus />
                                     </div>
                                     <!-- PHONE -->
                                     <div class="w-2/4 mt-2">
-                                        <label class="font-extrabold text-lg" for="Phone"> Teléfono:</label>
-                                        <input id="Phone" class="intro-x   login__input form-control block mt-1 w-3/4" type="number" wire:model="Workphone"
-                                                :value="old('Phone')"  autofocus />
+                                        <label class="font-extrabold text-lg" for="WorkPhone"> Teléfono:</label>
+                                        <input id="WorkPhone" class="intro-x   login__input form-control block mt-1 w-3/4" type="number" wire:model="WorkPhone"
+                                                :value="old('WorkPhone')"  autofocus />
                                         {{-- <x-input-error :messages="$errors->get('Phone')" class="mt-2" /> --}}
                                     </div>
                                 </div> 
@@ -284,12 +293,28 @@
                 // Swal.fire('', event.detail.msg)
                 // if (event.detail.action == 'close-modal') fireModal(0)
                     Swal.fire(
-                    'Good job!',
+                    'Mensaje',
                     event.detail.msg,
-                    'success'
+                    'info'
                     ).then(result => {
                         if(result.isConfirmed){
-                            window.location = '/socioactivo'
+                            // window.location = '/socioactivo'
+                        }
+                    }
+                        
+                    )
+             
+            })
+            window.addEventListener('error', event => {
+                // Swal.fire('', event.detail.msg)
+                // if (event.detail.action == 'close-modal') fireModal(0)
+                    Swal.fire(
+                    'Error',
+                    event.detail.msg,
+                    'error'
+                    ).then(result => {
+                        if(result.isConfirmed){
+                           
                         }
                     }
                         

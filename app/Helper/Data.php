@@ -12,23 +12,27 @@ class Data
 
           [
              'id'   => 1,
-             'pid'  => null,
+             'pid'  => null,//iddel padre
              'name' => 'Jhon Carter',
              'nivel' => 'Father',
              'email' => 'carter@email.com',
              'phone' => 236567787,
-             'img'   => "img/partner/1.jpg"
+             'img'   => "img/partner/1.jpg",
+             'rank'=>'oro'
+
           
             ],
             [
          
               'id'   => 2,
-              'pid'  => 1,
+              'pid'  => 1,//id del padre
               'name' => 'Nelly Sack',
               'nivel' => 'Child',
               'email' => 'carter@email.com',
               'phone' => 236567787,
-              'img'   => "img/partner/2.jpg"
+              'img'   => "img/partner/2.jpg",
+             'rank'=>'oro'
+
              
       
              ],
@@ -39,7 +43,9 @@ class Data
              'nivel' => 'Child',
              'email' => 'carter@email.com',
              'phone' => 236567787,
-             'img'   => "img/partner/3.jpg"
+             'img'   => "img/partner/3.jpg",
+             'rank'=>'oro'
+
             ],
            [
          
@@ -49,7 +55,9 @@ class Data
              'nivel' => 'Grandchild',
              'email' => 'carter@email.com',
              'phone' => 236567787,
-             'img'   => "img/logonew.png"
+             'img'   => "img/logonew.png",
+             'rank'=>'oro'
+
            
             ],
            [
@@ -60,7 +68,9 @@ class Data
              'nivel' => 'Grandchild',
              'email' => 'carter@email.com',
              'phone' => 236567787,
-             'img'   => "img/partner/5.jpg"
+             'img'   => "img/partner/5.jpg",
+             'rank'=>'oro'
+
            
      
             ],
@@ -73,7 +83,9 @@ class Data
             'nivel' => 'Grandchild',
             'email' => 'carter@email.com',
             'phone' => 236567787,
-            'img'   => "img/partner/6.jpg"
+            'img'   => "img/partner/6.jpg",
+            'rank'=>'oro'
+
               
         
                ],
@@ -85,7 +97,9 @@ class Data
             'nivel' => 'Grandchild',
              'email' => 'carter@email.com',
              'phone' => 236567787,
-             'img'   => "img/logonew.png"
+             'img'   => "img/logonew.png",
+             'rank'=>'oro'
+
               
                ],
                
@@ -97,7 +111,9 @@ class Data
             'nivel' => 'Grandchild',
              'email' => 'carter@email.com',
              'phone' => 236567787,
-             'img'   => "img/partner/8.jpg"
+             'img'   => "img/partner/8.jpg",
+             'rank'=>'oro'
+
               
                ],
 
@@ -109,7 +125,8 @@ class Data
             'nivel' => 'Grandchild',
              'email' => 'carter@email.com',
              'phone' => 236567787,
-             'img'   => "img/partner/7.jpg"
+             'img'   => "img/partner/7.jpg",
+             'rank'=>'oro'
               
                ],
             

@@ -26,8 +26,8 @@ class User extends Authenticatable
       
         'userName',
         'active',
-        'Password'
-       
+        'Password',
+        'idAffiliated'
 
     ];
 

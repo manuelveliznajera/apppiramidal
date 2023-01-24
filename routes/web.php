@@ -33,7 +33,6 @@ Route::get('register/{id}',Register::class)->name('login.register.afiliate');
 Route::get('/register/verify/{code}', [Register::class, 'verify']);
 Route::get('/dash',[PageController::class,'dashboardOverview1'] )->middleware(['auth','afiliado'])->name('dash');
 Route::get('/socioactivo', SocioActivo::class)->middleware(['auth'])->name('socioactivo');
-
 Route::get('/partner-tree',[PartnersController::class,'index'] )->middleware(['auth','afiliado'])->name('partnertree');
 Route::get('/products',Products::class )->middleware(['auth','afiliado'])->name('products');
 Route::get('/addpackage',NextregisterComponent::class )->middleware(['auth','isafiliado'])->name('addpackage');
