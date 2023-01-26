@@ -7,12 +7,14 @@
         @include('../layout/components/main-color-switcher') --}}
 
         <!-- BEGIN: JS Assets-->
+        @push('javas')
+        @stack('javascript')
+            
+        @endpush
       
-        <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
         @vite('resources/js/app.js')
         <!-- END: JS Assets-->
 
-        @yield('script')
 
     </body>
 @endsection

@@ -59,6 +59,14 @@ class SideMenu
                     'title' => 'Cliente'
                 ],
                 'devider',
+                'Listar-afiliados' => [
+                    'icon' => 'user',
+                    'route_name' => 'ListUsers',
+                    'params' => [
+                        'layout' => 'side-menu'
+                    ],
+                    'title' => 'Listar Afiliados'
+                ],
                 'Tree' => [
                     'icon' => 'user',
                     'route_name' => 'partnertree',
