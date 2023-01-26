@@ -14,23 +14,16 @@ class PartnersController extends Controller
     public function index()
     {
         try {
-
-            //conectar a esta tabla con id del loqueado para traer todo sus hijos y nietos
-
-            // $data = Data::getData();
-            // $id=Auth()->user()->idUser;
-            // $data =[ 'id'=>$id] ;
-            $datas = RelSponsor::all();
-            foreach ($datas as $value) {
-                //dd($value);
-            }
-
-            //dd($datas);
-            $data = [];
-
-            $user = json_encode($data);
+            $id = Auth()->user()->idUser;
             
-            return view('pages.partner-tree',['user'=> $user]);
+            $data =  json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL TreeAff ('{$id}',5)")),true);
+
+            $datos = json_encode($data);
+
+
+        
+            
+            return view('pages.partner-tree',['data'=> $datos]);
 
         } catch (\Exception $e) {
             

@@ -6,7 +6,7 @@ const $container = d.getElementById('tree');
 function filterData () {
 
     let data = JSON.parse(partners)
-
+console.log(data);
     data.forEach(el => {
 
         if(el.nivel === 'Grandchild'){
@@ -26,7 +26,52 @@ function filterData () {
 d.addEventListener('DOMContentLoaded',()=>{
 
     let parsed = filterData()//contiene la data ya eliminado el grandchild items
+    
+    var datos=[];
+parsed.forEach(element => {
+    
+    if (element.idrel==0) {
+       let dat ={
+            'id':element.idrel,
+            'name':'BESANA GLOBAL',
+            'img'  : "img/logonew.png",
+            'email':element.Email
+        }
+        datos.push(dat)
+        dat={};
+        return;
+    }
+    if (element.idrel==1) {
+        let dat ={
+            'id':element.idrel,
+            'pid':0,
+            'name':element.Name,
+            'img'  : "img/logonew.png",
+            'email':element.Email
 
+        }
+        datos.push(dat)
+        dat={};
+        return;
+    } else {
+
+      let  dat ={
+            'id':element.idrel,
+            'pid':element.PID,
+            'name':element.Name,
+            'img'  : "img/logonew.png",
+            'email':element.Email
+
+        }
+    datos.push(dat)
+
+    }
+});
+
+console.log(datos)
+let set                 = new Set( datos.map( JSON.stringify ) )
+let arrSinDuplicaciones = Array.from( set ).map( JSON.parse );
+console.log(arrSinDuplicaciones)
        OrgChart.templates.myTemplate = Object.assign({}, OrgChart.templates.diva);
        OrgChart.templates.myTemplate.size = [200,170];
        OrgChart.templates.myTemplate.plus ='<circle cx="15" cy="15" r="15" fill="#ffffff" stroke="#aeaeae" stroke-width="1"></circle>'
@@ -35,7 +80,7 @@ d.addEventListener('DOMContentLoaded',()=>{
 
       let chart = new OrgChart($container, {
         collapse: {
-            level: 2,
+            level: 9,
             allChildren: true
         },
         mouseScrool: OrgChart.action.none,
@@ -48,11 +93,11 @@ d.addEventListener('DOMContentLoaded',()=>{
             img_0: "img"
 
         },
-        nodes: parsed,
+        nodes: arrSinDuplicaciones,
         
     })
 
-    console.log(chart)
+   
   
 })
 

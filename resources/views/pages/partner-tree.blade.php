@@ -5,7 +5,7 @@
 <div >
  
 
-    <div data-tree="{{$user}}" id="tree" class="partner_tree"></div>
+    <div data-tree="{{$data}}" id="tree" class="partner_tree"></div>
   
 </div>
 
