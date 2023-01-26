@@ -144,225 +144,113 @@
                 </div>     
 </div>
 </div>
-@section('script')
-
+@push('javascript')
+    
 
 <script>
   
     
-const clientsecret="{{$intent}}";
-
-    const options= {
-        clientSecret:clientsecret,
-    }
-
-    const keystripe="{{ $STRIPE_KEY }} ";
+    const clientsecret="{{$intent}}";
     
-    var stripe= Stripe(keystripe);
-    
-    var elements = stripe.elements(options);
-
-    const cardElement = elements.create("card",{
-  style: {
-    base: {
-            color: 'dark',
-            backgroundColor:'white',
-            lineHeight: '48px',
-            padding:'12px',
-            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-            fontSmoothing: 'antialiased',
-            fontSize: '20px',
-            '::placeholder': {
-                color: 'gray'
-            }
-        },
-        invalid: {
-            color: '#fa755a',
-            iconColor: '#fa755a'
-        },
-  },
-});
-    cardElement.mount('#payment-element');
-    cardElement.addEventListener('change', function(event) {
-        var displayError = document.getElementById('card-errors');
-        if (event.error) {
-            displayError.textContent = event.error.message;
-        } else {
-            displayError.textContent = '';
+        const options= {
+            clientSecret:clientsecret,
         }
-    });
-
-    // const payElement = elements.create('card');
-    // payElement.mount('#card-element');
     
-    var form = document.getElementById('payment-form');
-    const cardButton = document.getElementById('card-button');
-
-    form.addEventListener('submit', async(event)=> {
-        event.preventDefault();
-        
-        cardButton.disabled = true;
-        
-      let nameCard=  document.getElementById('nameCard').value
-      const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const address = document.getElementById('address').value;
-    console.log(email);
-   await stripe.confirmCardPayment(clientsecret,  {
-            payment_method: {
-                card:cardElement,
-                billing_details: { 
-                    name:nameCard,
-                    email:email,
-                    address:address 
-                }
-                
-            }
-        })
-        .then(function(result) {
-            console.log(result)
-           if (result.error) {
-            cardButton.disabled = false;
-    
-                 var errorElement = document.getElementById('card-errors');
-                 errorElement.textContent = result.error.message;
-
-                //   alert('there is an error paiement') ;
-                Swal.fire('', errorElement.textContent)
-
-              } else {
-             if (result.paymentIntent.status === 'succeeded') {
-
-                Swal.fire('success', 'Pago efectuado!!')
-               
-                Livewire.emit('crearcliente') ;
-
-                  
-    
-                }
-                 else if (result.paymentIntent.status === 'requires_payment_method') {
-      
-                  
-                    
-                     alert('there is an error paiement') ;
-              }
-              }
-            
-        });
+        const keystripe="{{ $STRIPE_KEY }} ";
        
-        });
-    
-</script>
-@endsection
-{{-- <script>
-    // Custom styling can be passed to options when creating an Element.
-    // (Note that this demo uses a wider set of styles than the guide below.)
-
-    var style = {
-        base: {
-            color: 'dark',
-            backgroundColor:'white',
-            lineHeight: '48px',
-            padding:'12px',
-            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-            fontSmoothing: 'antialiased',
-            fontSize: '20px',
-            '::placeholder': {
-                color: 'gray'
-            }
-        },
-        invalid: {
-            color: '#fa755a',
-            iconColor: '#fa755a'
-        }
-    };
-    //  const keystripe = '{{ env('STRIPE_KEY') }}';
-    const keystripe="{{ $variablekey }} ";
-
-  
-     var stripe = Stripe(keystripe, { locale: 'es' }); // Create a Stripe client.
-  
-    
-    
-    const elements = stripe.elements(); // Create an instance of Elements.
-    const cardElement = elements.create('card', { style: style }); // Create an instance of the card Element.
-    
-    const cardButton = document.getElementById('card-button');
-    
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const address = document.getElementById('address').value;
-
-  
-    
-
-
-
-    const clientSecret = cardButton.dataset.secret;
-   
-
-    cardElement.mount('#card-element'); // Add an instance of the card Element into the `card-element` <div>.
-
-    // Handle real-time validation errors from the card Element.
-    cardElement.addEventListener('change', function(event) {
-        var displayError = document.getElementById('card-errors');
-        if (event.error) {
-            displayError.textContent = event.error.message;
-        } else {
-            displayError.textContent = '';
-        }
-    });
-
-    // Handle form submission.
-    var form = document.getElementById('payment-form');
-
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        cardButton.disabled = true;
+        var stripe= Stripe(keystripe);
         
-      let nameCard=  document.getElementById('nameCard').value
-
-    stripe.confirmCardPayment(clientSecret, cardElement, {
-            payment_method_data: {
-                billing_details: { 
-                    name:nameCard,
-                    email:email,
-                    address:address 
-                },
-                receipt_email:email,
-            }
-        })
-        .then(function(result) {
-            console.log(result)
-           if (result.error) {
+        var elements = stripe.elements(options);
     
-                 var errorElement = document.getElementById('card-errors');
-                 errorElement.textContent = result.error.message;
-
-                //   alert('there is an error paiement') ;
-                Swal.fire('', errorElement.textContent)
-
-              } else {
-             if (result.paymentIntent.status === 'succeeded') {
-
-                Swal.fire('success', 'Pago efectuado!!')
-               
-                // Livewire.emit('payer') ;
-
-                  
-    
+        const cardElement = elements.create("card",{
+      style: {
+        base: {
+                color: 'dark',
+                backgroundColor:'white',
+                lineHeight: '48px',
+                padding:'12px',
+                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '20px',
+                '::placeholder': {
+                    color: 'gray'
                 }
-                 else if (result.paymentIntent.status === 'requires_payment_method') {
-      
-                  
-                    
-                     alert('there is an error paiement') ;
-              }
-              }
-            
-        });
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            },
+      },
     });
-</script> --}}
-
-
-
+        cardElement.mount('#payment-element');
+        cardElement.addEventListener('change', function(event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+    
+        // const payElement = elements.create('card');
+        // payElement.mount('#card-element');
+        
+        var form = document.getElementById('payment-form');
+        const cardButton = document.getElementById('card-button');
+    
+        form.addEventListener('submit', async(event)=> {
+            event.preventDefault();
+            
+            cardButton.disabled = true;
+            
+          let nameCard=  document.getElementById('nameCard').value
+          const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const address = document.getElementById('address').value;
+        console.log(email);
+       await stripe.confirmCardPayment(clientsecret,  {
+                payment_method: {
+                    card:cardElement,
+                    billing_details: { 
+                        name:nameCard,
+                        email:email,
+                        address:address 
+                    }
+                    
+                }
+            })
+            .then(function(result) {
+                console.log(result)
+               if (result.error) {
+                cardButton.disabled = false;
+        
+                     var errorElement = document.getElementById('card-errors');
+                     errorElement.textContent = result.error.message;
+    
+                    //   alert('there is an error paiement') ;
+                    Swal.fire('', errorElement.textContent)
+    
+                  } else {
+                 if (result.paymentIntent.status === 'succeeded') {
+    
+                    Swal.fire('success', 'Pago efectuado!!')
+                   
+                    Livewire.emit('crearcliente') ;
+    
+                      
+        
+                    }
+                     else if (result.paymentIntent.status === 'requires_payment_method') {
+          
+                      
+                        
+                         alert('there is an error paiement') ;
+                  }
+                  }
+                
+            });
+           
+            });
+        
+    </script>
+@endpush
