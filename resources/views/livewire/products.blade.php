@@ -94,7 +94,7 @@
                                 <h1 class="block font-medium text-base">{{$pro->name}}</h1>
                                  Price: ${{ $pro->price }}
                                  <span class="font-black">Puntos a Recibir:</span>
-                                 <span class="font-black text-xl">{{$pro->puntos}}</span>
+                                 <span class="font-black text-xl">{{$pro->puntos}} Puntos</span>
                                  <button class="btn btn-primary btn-sm " wire:click="addCart({{$key}})">
                                      Add Cart
                                 </button>

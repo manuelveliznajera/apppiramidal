@@ -15,10 +15,46 @@ class PartnersController extends Controller
     {
         try {
             $id = Auth()->user()->idUser;
+            $user = User::all();
             
+            // dd($result);
+            $relsponsor = RelSponsor::all();
+            $pp = [];
+            foreach ($relsponsor as  $value) {
+                
+                $us = Affiliate::where('idAffiliated', $value->idAffiliatedChild) ->first();
+                $usuario = User::where('idAffiliated', $us->idAffiliated)->first();
+                  
+                if ($value->idRel==1) {
+                    
+                    $dat = [
+                        'id' => $value->idRel,
+                        'name' => $usuario->userName,
+                        'email' => $us->Email,
+                        'rank' => 'oro'
+                    ];
+                    array_push($pp, $dat);
+                }else{
+                    $dat = [
+                        'id' => $value->idRel,
+                        'pid'=>$value->idAffiliatedParent,
+                        'name' =>$usuario->userName,
+                        'email' => $us->Email,
+                        'rank' => 'oro'
+                    ];
+                    array_push($pp, $dat);
+
+                }
+               
+
+            }
+            // dd($pp);
+
             $data =  json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL TreeAff ('{$id}',5)")),true);
 
-            $datos = json_encode($data);
+
+            $prueba = Data::getData();
+            $datos = json_encode($pp);
 
 
         

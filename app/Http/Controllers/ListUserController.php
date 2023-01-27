@@ -60,7 +60,7 @@ class ListUserController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('afiliados.edit');
     }
 
     /**

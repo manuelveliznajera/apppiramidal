@@ -28,8 +28,10 @@ Route::controller(AuthController::class)->middleware('loggedin')->group(function
 });
 
 Route::get('register', Register::class)->name('login.register');
-Route::get('ListUsers', [ListUserController::class, 'index'])->middleware(['auth','afiliado'])->name('ListUsers');
 
+//afiliados
+Route::get('ListUsers', [ListUserController::class, 'index'])->middleware(['auth','afiliado'])->name('ListUsers');
+Route::get('afiliado/{id}', [ListUserController::class, 'edit'])->middleware(['auth','afiliado'])->name('afiliado');
 
 
 Route::get('register/{id}',Register::class)->name('login.register.afiliate');

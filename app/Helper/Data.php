@@ -12,7 +12,6 @@ class Data
 
           [
              'id'   => 1,
-             'pid'  => null,//iddel padre
              'name' => 'Jhon Carter',
              'nivel' => 'Father',
              'email' => 'carter@email.com',
