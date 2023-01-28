@@ -59,7 +59,7 @@ class PayComponent extends Component
           $b = $this->user;
     
           $this->intent = $payment_intent->client_secret;
-      // dd($STRIPE_KEY);
+      
           return view('livewire.pay-component',compact('b','STRIPE_KEY'))
           ->extends('layout.side-menu')
           ->section('subcontent');

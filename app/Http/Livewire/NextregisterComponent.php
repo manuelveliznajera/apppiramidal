@@ -52,99 +52,41 @@ class NextregisterComponent extends Component
             $this->shipping = 14;
               break;
         }
-
-        // if ($val==0) {
-        //     return;
-        // }
-        // if ($this->shipping==0) {
-        //   $this->shipping = 7;
-        //   return;
-        //  }elseif ($this->totalOnzas > 0 ||$this->totalOnzas<32) {
-        //   $this->shipping += 2;
-           
-        //  }elseif ($this->totalOnzas > 64) {
-        //   $this->shipping += 7;
-        //  }
-       
-
       }
+
+    
       protected $listeners = ['addCart' => 'addCart'];
     public function addCart($id,$paquete, $price, $onzas){
-     
-     
-    $this->onzasPrice($onzas);
-    $taxState = 0;
-        switch ($this->state) {
-          case 'NEVADA':
-              $taxState=8.375;
-              
-            break;
-          case 'CALIFORNIA':
-              $taxState=6.5;
-            break;
-          case 'UTAH':
-              $taxState=4.7;
-            break;
-          case 'OTHER':
-              $taxState=0;
-            break;
-        
-        }
-        // $existMem=\Cart::session(Auth()->user()->idUser)->getContent(0)->count();
-        
-        // if ($price==24.95) {
+      $this->onzasPrice($onzas);
+      $taxState = 0;
+          switch ($this->state) {
+            case 'NEVADA':
+                $taxState=8.375;
+                
+              break;
+            default:
+                $taxState=0;
+              break;
           
-        //   if ( $existMem > 0) {
-        //         return;
-        //     }
-        //       $priceTax = $price;
-        //       \Cart::session(Auth()->user()->idUser)->add(array(
-        //         'id' => 0, // inique row ID
-        //         'name' => 'Membresia',
-        //         'price' => 24.95,
-        //         'quantity' => 1,
-        //     ));
-        //     $this->membresia = true;
-        //     return;
-        // }
-        $this->taxes = round($price * $taxState/100, 2);
-        $priceTax    = round($this->taxes + $price, 2);
+          }
+            if($id!=1){
+              $newprice = $price - 24.95;
+              $this->taxes = round($newprice * $taxState/100, 2);
+            $priceTax    = round($this->taxes + $price, 2);
+            }else{
+              $priceTax = $price;
+            }
 
-
-        // if ($this->membresia==false) {
-        //       \Cart::session(Auth()->user()->idUser)->add(array(
-        //         'id' => 0, // inique row ID
-        //         'name' => 'Membresia',
-        //         'price' => 24.95,
-        //         'quantity' => 1,
-        //     ));
-        //     $this->membresia = true;
-        //   }
-
-         
-           
+            
+   
           \Cart::session(Auth()->user()->idUser)->add(array(
             'id' => $id, // inique row ID
-            'name' => $id.' '.$paquete.'Tax: '.$this->taxes,
+            'name' => $id.' '.$paquete .' Tax: '.$this->taxes,
             'price' => $priceTax,
             'quantity' => 1,
         ));
     
-    return redirect()->route('payment');
-
-
-          
-  
-          // if ($this->cantidadProductos==$cantTem) {
-          //   $this->dispatchBrowserEvent('noty', ['msg' => 'Producto Actualizado la cantidad']);
-          // $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent($id)->count();
-  
-          // }else{
-          //   $this->dispatchBrowserEvent('noty', ['msg' => 'Producto nuevo agregado!']);
-  
-          // }  
-            // $this->dispatchBrowserEvent('noty', ['msg' => 'Paquete '.$paquete.'Seleccionado exitosamente!']);
-
+        return redirect()->route('payment');
           
       }
       public function Cart($id, $price, $onzas){

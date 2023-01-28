@@ -32,10 +32,12 @@ class LoginComponent extends Component
                     $id=Auth()->user()->idAffiliated;
                     $status=Affiliate::where('idAffiliated',$id)->get();
 
-                   //dd($status[0]);
+                 
                    if ($status[0]['ConfirmedEmail']) {
 
-                        if (!$status[0]['firstBuy']) {
+                        if (!$status[0]['firstBuy']||$status[0]['StatusAff']==1) {
+                    $this->dispatchBrowserEvent('noty', ['msg' => 'Upss lo sentimos tu membresia ha expirado, renueva tu membresia!.']);
+
                             return redirect()->route('addpackage');
                         }else{
                             return redirect()->route('products');
