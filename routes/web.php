@@ -40,7 +40,7 @@ Route::get('/dash',[PageController::class,'dashboardOverview1'] )->middleware(['
 Route::get('/socioactivo', SocioActivo::class)->middleware(['auth'])->name('socioactivo');
 Route::get('/partner-tree',[PartnersController::class,'index'] )->middleware(['auth','afiliado'])->name('partnertree');
 Route::get('/products',Products::class )->middleware(['auth','afiliado'])->name('products');
-Route::get('/addpackage',NextregisterComponent::class )->middleware(['auth','isafiliado'])->name('addpackage');
+Route::get('/addpackage',NextregisterComponent::class )->middleware(['auth'])->name('addpackage');
 Route::get('/', [PageController::class,'dashboardOverview1'])->middleware(['auth','afiliado'])->name('dashboard');
 
 Route::get('shop',[PageController::class,'productGrid'])->middleware(['auth','afiliado'])->name('shop');
