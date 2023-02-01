@@ -10,7 +10,7 @@
         <!-- BEGIN: Side Menu -->
         <nav class="side-nav">
             <a href="" class="intro-x flex items-center ">
-                <img alt="Besanaglobal.com" class="" src="{{ asset('img/logowhite.png') }}">
+                <img alt="Besanaglobal.com" class="" src="{{ asset('img/besana.png') }}">
             </a>
             <div class="side-nav__devider my-6">
                
