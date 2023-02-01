@@ -1,7 +1,7 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>CRUD Data List - Midone - Tailwind HTML Admin Template</title>
+    <title>Listado de Socios Promotores | BesanaGlobal</title>
 @endsection
 
 @section('subcontent')
@@ -125,7 +125,7 @@
                         <th class="whitespace-nowrap">USUARIOS</th>
                         <th class="text-center whitespace-nowrap">CORREO ELECTRONICO</th>
                         <th class="text-center whitespace-nowrap">TELEFONO</th>
-                        <th class="text-center whitespace-nowrap">VOLUMEN GRUPAL</th>
+                        <th class="text-center whitespace-nowrap">VOLUMEN DE CLIENTE </th>
                         <th class="text-center whitespace-nowrap">ESTADO</th>
                         {{-- <th class="text-center whitespace-nowrap">ACCIONES</th> --}}
                     </tr>
@@ -156,7 +156,7 @@
                             <td class="text-center">info@besanaglobal.com</td>
                             <td class="text-center">TEL. 242342-234242</td>
 
-                            <td class="text-center">{{ $faker['stocks'][0] }}</td>
+                            <td class="text-center">{{ $faker['stocks'][0] }} - PUNTOS</td>
 
                             <td class="w-40">
                                 <div class="flex items-center justify-center {{ $faker['true_false'][0] ? 'text-success' : 'text-danger' }}">

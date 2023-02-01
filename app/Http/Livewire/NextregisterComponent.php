@@ -29,7 +29,7 @@ class NextregisterComponent extends Component
       //  dd(Auth()->user()->idUser);
     $af = User::where('idUser', Auth()->user()->idUser)->first();
     $Affiliated = Affiliate::where('idAffiliated', $af->idAffiliated)->first();
-    // dd($Affiliated->State);
+     //dd($Affiliated->Email);
 
     $this->state = strtoupper($Affiliated->State);
       $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent()->count();
@@ -69,22 +69,45 @@ class NextregisterComponent extends Component
               break;
           
           }
+    $newprice = 0;
             if($id!=1){
               $newprice = $price - 24.95;
+
               $this->taxes = round($newprice * $taxState/100, 2);
             $priceTax    = round($this->taxes + $price, 2);
+            $totalpago = $priceTax + $this->shipping;
+
+            \Cart::session(Auth()->user()->idUser)->add(array(
+              'id' => $id, // inique row ID
+              'name' => $paquete ,
+              'price' => $totalpago,
+              'attributes'=>array(
+                'producto'=>$newprice,
+                'tax'=>$this->taxes,
+                'shipping'=>$this->shipping,
+                'membresia'=>24.95
+              ),
+              'quantity' => 1,
+          ));
             }else{
               $priceTax = $price;
+              $newprice=$price;
+              \Cart::session(Auth()->user()->idUser)->add(array(
+                'id' => $id, // inique row ID
+                'name' => $paquete ,
+                'price' => $newprice,
+                'attributes'=>array(
+                  'producto'=>$newprice,
+                  'tax'=>0,
+                  'shipping'=>0,
+                  'membresia'=>24.95
+                ),
+                'quantity' => 1,
+            ));
             }
-
             
    
-          \Cart::session(Auth()->user()->idUser)->add(array(
-            'id' => $id, // inique row ID
-            'name' => $id.' '.$paquete .' Tax: '.$this->taxes,
-            'price' => $priceTax,
-            'quantity' => 1,
-        ));
+       
     
         return redirect()->route('payment');
           

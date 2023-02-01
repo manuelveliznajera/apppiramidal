@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ListUserController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SocioactivoController;
 use App\Http\Livewire\SocioActivo;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,9 @@ Route::get('register', Register::class)->name('login.register');
 Route::get('ListUsers', [ListUserController::class, 'index'])->middleware(['auth','afiliado'])->name('ListUsers');
 Route::get('afiliado/{id}', [ListUserController::class, 'edit'])->middleware(['auth','afiliado'])->name('afiliado');
 
+//productos
+Route::get('/addproduct',[ProductController::class,'index'])->middleware(['auth','afiliado'])->name('addproduct');
+
 
 Route::get('register/{id}',Register::class)->name('login.register.afiliate');
 Route::get('/register/verify/{code}', [Register::class, 'verify']);
@@ -57,6 +61,8 @@ Route::get('profile', [PageController::class,'updateProfile'])->middleware('auth
 Route::middleware('auth')->group(function() {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::controller(PageController::class)->group(function() {
+        Route::get('/socios-promotores', 'sociospromotor')->name('sociospromotores');
+
         Route::get('/', 'dashboardOverview1')->name('dashboard-overview-1');
         Route::get('dashboard-overview-2-page', 'dashboardOverview2')->name('dashboard-overview-2');
         Route::get('dashboard-overview-3-page', 'dashboardOverview3')->name('dashboard-overview-3');

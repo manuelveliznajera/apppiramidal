@@ -250,7 +250,10 @@ class PageController extends Controller
     {
         return view('pages/users-layout-1');
     }
-
+    public function sociospromotor()
+    {
+        return view('pages.sociospromotor');
+    }
     /**
      * Show specified view.
      *

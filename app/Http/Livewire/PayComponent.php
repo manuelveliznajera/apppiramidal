@@ -37,30 +37,58 @@ class PayComponent extends Component
       $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent();
       $cantidad=count($this->cantidadProductos);
       if ($cantidad>0) {
-        
+      // dd($this->cantidadProductos);
         $STRIPE_KEY = config('services.stripe.STRIPE_KEY');
         $variable = config('services.stripe.STRIPE_SECRET');
-        $this->user=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+        $this->user=Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
+      // dd($this->user);
         $this->total= \Cart::session(Auth()->user()->idUser)->getTotal();
           $items = [];
           foreach ($this->cantidadProductos as $pro) {
-             $items = $pro->name;
+        $idcart = $pro->id;
+             $name = $pro->name;
+        $priceproducto = $pro->attributes->producto;
+              $tax = $pro->attributes->tax;
+        $shipping = $pro->attributes->shipping;
+        $membresia = $pro->attributes->membresia;
+
           }
+          $amount_details = array(
+            "Producto" => $priceproducto,
+            "Membresia"=>$membresia,
+            "Tax" => $tax,
+            "Shipping" => $shipping
+          );
           $this->stripe = new \Stripe\StripeClient($variable);
+
           $payment_intent = $this->stripe->paymentIntents->create([
-            'amount' => $this->total*100,
-            'description'=>$items,
-            'currency' => 'usd',
+            "amount" => $this->total*100,            
+            "currency" => 'usd',  
             "payment_method_types"=> [
               "card"
             ],
-            'receipt_email'=>$this->user->Email,
+            "description"=>$name,
+            "receipt_email"=>$this->user->Email,
+           
           ]);
+      
+          //     $payment_intent->amount_details = [
+          //       $name=>$priceproducto,
+          //       'Membresia'=>$membresia,
+          //       'Tax: '=>$tax,
+          //       'Shipping: '=>$shipping,
+          // ];
+
+      // dd($payment_intent);
+      
+      
+      // dd($payment_intent);
           $b = $this->user;
     
           $this->intent = $payment_intent->client_secret;
+      $idIntente = $payment_intent->id;
       
-          return view('livewire.pay-component',compact('b','STRIPE_KEY'))
+          return view('livewire.pay-component',compact('b','STRIPE_KEY','idIntente'))
           ->extends('layout.side-menu')
           ->section('subcontent');
       }else{

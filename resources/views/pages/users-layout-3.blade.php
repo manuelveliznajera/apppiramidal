@@ -5,10 +5,10 @@
 @endsection
 
 @section('subcontent')
-    <h2 class="intro-y text-lg font-medium mt-10">Users Layout</h2>
+    <h2 class="intro-y text-lg font-medium mt-10">Prospectos</h2>
     <div class="grid grid-cols-12 gap-6 mt-5">
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
-            <button class="btn btn-primary shadow-md mr-2">Add New User</button>
+            {{-- <button class="btn btn-primary shadow-md mr-2">Add New User</button> --}}
             <div class="dropdown">
                 <button class="dropdown-toggle btn px-2 box" aria-expanded="false" data-tw-toggle="dropdown">
                     <span class="w-5 h-5 flex items-center justify-center">
@@ -45,7 +45,7 @@
                     <div class="flex items-start px-5 pt-5">
                         <div class="w-full flex flex-col lg:flex-row items-center">
                             <div class="w-16 h-16 image-fit">
-                                <img alt="Midone - HTML Admin Template" class="rounded-full" src="{{ asset('build/assets/images/' . $faker['photos'][0]) }}">
+                                <img alt="Midone - HTML Admin Template" class="rounded-full" src="{{ asset('face.jpeg') }}">
                             </div>
                             <div class="lg:ml-4 text-center lg:text-left mt-3 lg:mt-0">
                                 <a href="" class="font-medium">{{ $faker['users'][0]['name'] }}</a>

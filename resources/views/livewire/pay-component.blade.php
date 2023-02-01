@@ -98,32 +98,72 @@
                             
                                 <h1>Cantidad de Productos</h1>
                                 <span class="badge badge-success">{{$cantidadProductos->count()}}</span>
-                                <img src="{{asset('img/cart.svg')}}" alt="" width="100px">
+                                
+
                                 <table class="table-responsive">
                                     <thead>
                                         <tr>                                        
-                                            <th class="">PRODUCT</th>      
-                                            <th class="">PRICE</th>
-                                            <th class="">QUANTITY</th>
-                                            <th class="d-flex justify-content-end">TOTAL</th>                                         
+                                            <th class="p-2 bg-primary text-white">PRODUCT</th>      
+                                            <th class="p-2 bg-primary text-white">PRICE</th>
+                                            <th class="p-2 bg-primary text-white">QUANTITY</th>
+                                            <th class="p-2 bg-primary text-white">TOTAL</th>                                         
                                         </tr>       
                                     </thead>
                                     <tbody>
                                         @forelse($cantidadProductos as $pro)
+                                        @php
+                                            $name=$pro->name;
+                                            $precio=$pro->price - $pro->attributes->shipping - $pro->attributes->tax -24.95
+                                        @endphp
+                                <span>{{ $pro->attributes->shipping}}</span>
+
                                         <tr>
                                             <td class=" pr-5">
                                                 {{-- <img src="{{asset('img/products/'.$pro->attributes['img'])}}" class="card-img-top img-thumbnail mt-3" alt="{{$pro->name}}" style="width: 40px; height:40px;">    --}}
                                                 <span class=""> {{$pro->name}}</span>
                                                 {{-- <button wire:click="remove({{$pro->id}})" class="btn btn-sm btn-outline-warning m-2">Eliminar</button> --}}
                                             </td>
-                                            <td class=" d-flex ">${{$pro->price}}</td>
+                                            <td class=" d-flex ">$ {{ number_format(floatval($precio),2) }}</td>
                                             <td class="text-center">
                                                         <span class="badge badge-info">{{$pro->quantity}}</span>                                   
                                             </td>
-                                            <td class="d-flex justify-content-end">
-                                                {{$pro->quantity * $pro->price}}
+                                            <td class="text-right">
+                                                 {{number_format(floatval($precio),2)}}
                                             </td>                                           
-                                        </tr>                                     
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>Membresia:</td>
+
+                                            <td class="text-right">
+                                                {{number_format(floatval($pro->attributes->membresia),2)}}
+                                            </td>
+                                            
+                                        </tr> 
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>Tax:</td>
+
+                                            <td class="text-right">
+                                                
+                                                {{number_format(floatval($pro->attributes->tax),2)}}
+                                            </td>
+                                            
+                                        </tr> 
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>Shipping:</td>
+
+                                            <td class="text-right">
+                                                {{number_format(floatval($pro->attributes->shipping),2)}}
+                                               
+                                            </td>
+                                            
+                                        </tr> 
+
                                         @empty
                                         <tr>
                                             <td colspan="6">
@@ -134,8 +174,8 @@
                                         <tr>
                                             <td></td>
                                             <td></td>
-                                            <td class="mt-5"></td>
-                                            <td>  <h1 class="mt-5 badge badge-dark">TOTAL: {{$total}}</h1></td>
+                                            <td class="mt-5"> </td>
+                                            <td>  <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold text-xl">TOTAL: $. {{number_format(floatval($total),2)}}</h1></td>
                                         </tr>      
                                     </tbody>
                                 </table>
@@ -148,18 +188,37 @@
     
 
 <script>
-  
-    
+
+    const city="{{$b->City}}"
+    const keystripe="{{ $STRIPE_KEY }} ";
+
+  const nombreproducto="{{$name}}"
+//   console.log(nombreproducto)
+    const idIntent="{{$idIntente}}"
+         
     const clientsecret="{{$intent}}";
+    // console.log(idIntent)
+
+    var stripe= Stripe(keystripe);
+
+
+const paymentIntentId = "{{$idIntente}}";
+const amount = 1000; // in cents, so this is equivalent to $10
+const amount_details = {
+  "subtotal": 500,
+  "tax": 250,
+  "shipping": 250
+};
+
+
+
     
         const options= {
             clientSecret:clientsecret,
         }
     
-        const keystripe="{{ $STRIPE_KEY }} ";
        
-        var stripe= Stripe(keystripe);
-        
+     
         var elements = stripe.elements(options);
     
         const cardElement = elements.create("card",{
@@ -197,33 +256,61 @@
         
         var form = document.getElementById('payment-form');
         const cardButton = document.getElementById('card-button');
-    
+        // var stt=  stripe.updatePaymentIntent(paymentIntentId,{
+        //         'amount_details':amount_details
+        //     });
+            console.log(stripe.updatePaymentIntent);
+
         form.addEventListener('submit', async(event)=> {
+
             event.preventDefault();
             
             cardButton.disabled = true;
-            
+           
           let nameCard=  document.getElementById('nameCard').value
           const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const address = document.getElementById('address').value;
-        console.log(email);
+        // console.log(email);
        await stripe.confirmCardPayment(clientsecret,  {
                 payment_method: {
                     card:cardElement,
                     billing_details: { 
-                        name:nameCard,
-                        email:email,
-                        address:address 
+                        "address": {
+                        "city": '{{$b->City}}',
+                        "country": 'US',
+                        "line1": '{{$b->Address}}',
+                        "line2": null,
+                        "postal_code": "{{$b->ZipCode}}",
+                        "state": '{{$b->State}}'
+                        },
                     }
                     
                 }
             })
             .then(function(result) {
-                console.log(result)
+                
+                // console.log(result)
+                const nameP=nombreproducto.toUpperCase();
+                if (nameP=='MEMBRESIA') {
+                    console.log('ingreso a membresia')
+                    result.paymentIntent.amount_details ={
+                    nameP:24.95,
+                    }
+                }else{
+                    result.paymentIntent.amount_details ={
+                        
+                       'producto':'{{ number_format(floatval($precio),2) }}',
+                    'Membresia: ':'{{number_format(floatval($pro->attributes->membresia),2)}}',
+                    'Tax: ':'{{number_format(floatval($pro->attributes->shipping),2)}}', 
+                    'Shipping':'{{number_format(floatval($pro->attributes->shipping),2)}}'
+                    }
+                }
+                
+                // console.log(result.paymentIntent)
                if (result.error) {
                 cardButton.disabled = false;
-        
+                
                      var errorElement = document.getElementById('card-errors');
                      errorElement.textContent = result.error.message;
     
@@ -232,12 +319,11 @@
     
                   } else {
                  if (result.paymentIntent.status === 'succeeded') {
-    
-                    Swal.fire('success', 'Pago efectuado!!')
+                    
+                    // Swal.fire('success', 'Pago efectuado!!')
                    
-                    Livewire.emit('crearcliente') ;
+                    // Livewire.emit('crearcliente') ;
     
-                      
         
                     }
                      else if (result.paymentIntent.status === 'requires_payment_method') {

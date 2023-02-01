@@ -11,7 +11,7 @@
                 <!-- BEGIN: General Report -->
                 <div class="col-span-12 mt-8">
                     <div class="intro-y flex items-center h-10">
-                        <h2 class="text-lg font-medium truncate mr-5">General Report</h2>
+                        <h2 class="text-lg font-medium truncate mr-5">Informe General</h2>
                         <a href="" class="ml-auto flex items-center text-primary">
                             <i data-lucide="refresh-ccw" class="w-4 h-4 mr-3"></i> Reload Data
                         </a>
@@ -21,15 +21,17 @@
                             <div class="report-box zoom-in">
                                 <div class="box p-5">
                                     <div class="flex">
-                                        <i data-lucide="shopping-cart" class="report-box__icon text-primary"></i>
+                                        <img src="{{asset('svg/socioactivo.svg')}}" alt="cliente" class="object-fit w-14 h-10">
+                
+                
                                         <div class="ml-auto">
                                             <div class="report-box__indicator bg-success tooltip cursor-pointer" title="33% Higher than last month">
-                                                33% <i data-lucide="chevron-up" class="w-4 h-4 ml-0.5"></i>
+                                                33% <i data-lucide="chevron-up" class="object-contain w-4 h-4 ml-0.5"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-medium leading-8 mt-6">4.710</div>
-                                    <div class="text-base text-slate-500 mt-1">Item Sales</div>
+                                    <div class="text-3xl font-medium leading-8 mt-2">4,710</div>
+                                    <div class="text-base text-slate-500 mt-1">Volumen de Socios Activos</div>
                                 </div>
                             </div>
                         </div>
@@ -37,15 +39,16 @@
                             <div class="report-box zoom-in">
                                 <div class="box p-5">
                                     <div class="flex">
-                                        <i data-lucide="credit-card" class="report-box__icon text-pending"></i>
+                                        <img src="{{asset('svg/promotores.svg')}}" alt="cliente" class=" object-fit w-14 h-14">
+                
                                         <div class="ml-auto">
                                             <div class="report-box__indicator bg-danger tooltip cursor-pointer" title="2% Lower than last month">
                                                 2% <i data-lucide="chevron-down" class="w-4 h-4 ml-0.5"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-medium leading-8 mt-6">3.721</div>
-                                    <div class="text-base text-slate-500 mt-1">New Orders</div>
+                                    <div class="text-3xl font-medium leading-8 mt-2">3,721</div>
+                                    <div class="text-base text-slate-500 mt-1">Volumen de Socios Promotores</div>
                                 </div>
                             </div>
                         </div>
@@ -53,15 +56,16 @@
                             <div class="report-box zoom-in">
                                 <div class="box p-5">
                                     <div class="flex">
-                                        <i data-lucide="monitor" class="report-box__icon text-warning"></i>
+                                        <img src="{{asset('svg/clientes.svg')}}" alt="cliente" class="object-fit w-20 h-14 ">
+                
                                         <div class="ml-auto">
                                             <div class="report-box__indicator bg-success tooltip cursor-pointer" title="12% Higher than last month">
                                                 12% <i data-lucide="chevron-up" class="w-4 h-4 ml-0.5"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-medium leading-8 mt-6">2.149</div>
-                                    <div class="text-base text-slate-500 mt-1">Total Products</div>
+                                    <div class="text-3xl font-medium leading-8 mt-2">2,149 </div>
+                                    <div class="text-base text-slate-500 mt-1">Volumen de Clientes</div>
                                 </div>
                             </div>
                         </div>
@@ -69,15 +73,16 @@
                             <div class="report-box zoom-in">
                                 <div class="box p-5">
                                     <div class="flex">
-                                        <i data-lucide="user" class="report-box__icon text-success"></i>
+                                        <img src="{{asset('svg/wallet.svg')}}" alt="wallet" class="object-contain w-10 h-10">
+                                          
                                         <div class="ml-auto">
                                             <div class="report-box__indicator bg-success tooltip cursor-pointer" title="22% Higher than last month">
                                                 22% <i data-lucide="chevron-up" class="w-4 h-4 ml-0.5"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-medium leading-8 mt-6">152.040</div>
-                                    <div class="text-base text-slate-500 mt-1">Unique Visitor</div>
+                                    <div class="text-3xl font-medium leading-8 mt-6">$ 4,000.50</div>
+                                    <div class="text-base text-slate-500 mt-1">Cartera</div>
                                 </div>
                             </div>
                         </div>
@@ -218,7 +223,7 @@
                             <div class="intro-y">
                                 <div class="box px-4 py-4 mb-3 flex items-center zoom-in">
                                     <div class="w-10 h-10 flex-none image-fit rounded-md overflow-hidden">
-                                        <img alt="Midone - HTML Admin Template" src="{{ asset('build/assets/images/' . $faker['photos'][0]) }}">
+                                        <img alt="Midone - HTML Admin Template" src="{{ asset('face.jpeg') }}">
                                     </div>
                                     <div class="ml-4 mr-auto">
                                         <div class="font-medium">{{ $afiliado->Name }}</div>
@@ -416,14 +421,14 @@
                     <!-- BEGIN: Transactions -->
                     <div class="col-span-12 md:col-span-6 xl:col-span-4 2xl:col-span-12 mt-3 2xl:mt-8">
                         <div class="intro-x flex items-center h-10">
-                            <h2 class="text-lg font-medium truncate mr-5">Transactions</h2>
+                            <h2 class="text-lg font-medium truncate mr-5">Socios Activos</h2>
                         </div>
                         <div class="mt-5">
                             @foreach (array_slice($fakers, 0, 5) as $faker)
                                 <div class="intro-x">
                                     <div class="box px-5 py-3 mb-3 flex items-center zoom-in">
                                         <div class="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
-                                            <img alt="Midone - HTML Admin Template" src="{{ asset('build/assets/images/' . $faker['photos'][0]) }}">
+                                            <img alt="Midone - HTML Admin Template" src="{{ asset('face.jpeg') }}">
                                         </div>
                                         <div class="ml-4 mr-auto">
                                             <div class="font-medium">{{ $faker['users'][0]['name'] }}</div>

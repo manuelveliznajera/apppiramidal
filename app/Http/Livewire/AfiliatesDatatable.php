@@ -43,10 +43,10 @@ class AfiliatesDatatable extends LivewireDatatable
             })->unsortable()
         ];
     }
-    public function rowClasses($row, $column)
-{
-    return 'flex justify-center'  ;
-}
+            public function rowClasses($row, $column)
+        {
+            return 'flex justify-center'  ;
+        }
 
 
     
