@@ -9,8 +9,10 @@ class Line extends Model
 {
     use HasFactory;
     protected $table ='lineProduct';
+    protected $primaryKey = 'idLine';
+
     protected $fillable = [
-        'idLine',
+        
         'Line'
     ];
 

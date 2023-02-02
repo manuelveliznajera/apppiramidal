@@ -19,6 +19,7 @@ class Product extends Model
         'description',
         'idLine',
         'price',
-        'active'
+        'active',
+        'puntos'
     ];
 }

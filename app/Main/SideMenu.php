@@ -31,6 +31,15 @@ class SideMenu
                     ],
                     'title' => 'Tienda'
                 ],
+                'Compras' => [
+                    'icon' => 'shopping-cart',
+                    'route_name' => 'products',
+                    'params' => [
+                        'layout' => 'side-menu'
+                    ],
+                    'title' => 'Mis Compras'
+                ],
+                'devider',
                 'Agregar-afiliado' => [
                     'icon' => 'plus-circle',
                     'route_name' => 'socioactivo',
@@ -91,12 +100,12 @@ class SideMenu
                     'title' => 'Centro de Recursos'
                 ],
                 'Listar-afiliados' => [
-                    'icon' => 'user',
+                    'icon' => 'list',
                     'route_name' => 'ListUsers',
                     'params' => [
                         'layout' => 'side-menu'
                     ],
-                    'title' => 'Listar Afiliados'
+                    'title' => 'Lista de Afiliados'
                 ],
                 'Tree' => [
                     'icon' => 'user',
