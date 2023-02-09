@@ -27,21 +27,17 @@ class PayComponent extends Component
          $this->total= \Cart::session(Auth()->user()->idUser)->getTotal();
      
        $variable = config('services.stripe.STRIPE_SECRET');
-
-
-    
-   
     }
     public function render()
     {
       $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent();
       $cantidad=count($this->cantidadProductos);
       if ($cantidad>0) {
-      // dd($this->cantidadProductos);
+      
         $STRIPE_KEY = config('services.stripe.STRIPE_KEY');
         $variable = config('services.stripe.STRIPE_SECRET');
         $this->user=Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
-      // dd($this->user);
+      
         $this->total= \Cart::session(Auth()->user()->idUser)->getTotal();
           $items = [];
           foreach ($this->cantidadProductos as $pro) {
@@ -71,18 +67,6 @@ class PayComponent extends Component
             "receipt_email"=>$this->user->Email,
            
           ]);
-      
-          //     $payment_intent->amount_details = [
-          //       $name=>$priceproducto,
-          //       'Membresia'=>$membresia,
-          //       'Tax: '=>$tax,
-          //       'Shipping: '=>$shipping,
-          // ];
-
-      // dd($payment_intent);
-      
-      
-      // dd($payment_intent);
           $b = $this->user;
     
           $this->intent = $payment_intent->client_secret;

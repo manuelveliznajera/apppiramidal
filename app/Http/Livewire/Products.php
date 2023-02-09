@@ -13,53 +13,105 @@ class Products extends Component
     public $subTotal;
     public $session=2;
     public $total;
-
+    public $taxes = 0;
+    public $shipping = 0;
+    public $onzas=0;
+  public $registrado = 0;
+  public $puntosTemporal=0;
     public function render()
     {
+      
       $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+
       
         $this->total=\Cart::session(Auth()->user()->idUser)->getContent()->count();
         $lines=Line::all();
         $this->products=Product::all();
-       // dd($this->products);
+      //  dd($this->products);
         return view('livewire.products', compact('afiliado'))->extends('layout.side-menu')
                 ->section('subcontent');
     }
-    public function addCart($id, $cant=1){
-      
-        //dd($idProd);
-        //$cantTem=\Cart::getContent()->count();
+    public function onzasPrice( $val )
+      {
+        $this->totalOnzas = $val;
+
+        switch ($val) {
+          case 2:
+            $this->shipping = 7;
+            break;
+            case 4:
+            $this->shipping = 14;
+              break;
+        }
+      }
+
+      private function obtenerOnzas($id){
+    $value = $id;
+        switch ($value) {
+            case 0:
+                $this->onzas+=3;
+              break;
+            case 1:
+                $this->onzas=$this->onzas+24; 
+                break;
+            case 2:
+                $this->onzas=$this->onzas+3;
+                break; 
+            case 3:
+                $this->onzas=$this->onzas+2;
+                break;
+            case 4:
+                $this->onzas=$this->onzas+3;
+                break;  
+            case 5:
+                $this->onzas=$this->onzas+8;
+                break;
+            case 6:
+                $this->onzas=$this->onzas+5;
+                break;
+            case 7:
+                $this->onzas=$this->onzas+5;
+                break; 
+        }
+      }
+    public function addCart($id, $cant=1 ){
+
+    $this->obtenerOnzas($id);
+    if ($this->onzas < 32 ) {
+        $this->shipping = 7;
+      }else{
+        $residual = intval($this->onzas - (31+$this->registrado));
+        $this->registrado += $residual;
+        $this->shipping += $residual;
+      }
+      // $this->onzasPrice($onzas);
+      $taxState = 0;
+          // switch ($this->state) {
+          //   case 'NEVADA':
+          //       $taxState=8.375;
+                
+          //     break;
+          //   default:
+          //       $taxState=0;
+          //     break;
+          
+          // }
+    $newprice = 0;
+    
          $cantTem=\Cart::session(Auth()->user()->idUser)->getContent()->count();
           
-        
-         // dd($id);
-  
-         
-          // $product=json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL SpProducts ('U_PROD',null,null,null,null,null,null,$id)")));
-          // dd($product);
-        //  $product=Product::where('idProd',$id)->first();
-         //  dd($product);
-  
-          // $cartAdd= \Cart::add(
-          //     $this->products[$id]['idProd'],
-          //     $this->products[$id]['name'],
-          //     $this->products[$id]['price'],
-          //     $cant,
-          //     $this->products[$id]['img']
-          // );
-          //$userId=Auth()->user()->id;
-         //$iduser=2;
          \Cart::session(Auth()->user()->idUser)->add(array(
             'id' => $this->products[$id]['idProd'], // inique row ID
             'name' => $this->products[$id]['name'],
             'price' => $this->products[$id]['price'],
             'quantity' => $cant,
              'attributes'=>array(
-               'img'=>$this->products[$id]['img']
+               'img'=>$this->products[$id]['img'],
+               'puntos'=>$this->products[$id]['puntos'],
              ),
             
         ));
-          // $this->cantidadProductos=\Cart::getContent()->count();
+    $this->puntosTemporal = $this->products[$id]['puntos'];
           $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent($id)->count();
   
           if ($this->cantidadProductos==$cantTem) {
@@ -70,8 +122,7 @@ class Products extends Component
             $this->dispatchBrowserEvent('noty', ['msg' => 'Producto nuevo agregado!']);
   
           }
-          
-          //Cart::add(455, 'Sample Item', 100.99, 2, array());
+        
          
           
       }

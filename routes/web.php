@@ -3,6 +3,7 @@
 use App\Http\Controllers\ListUserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SocioactivoController;
+use App\Http\Livewire\PagePay;
 use App\Http\Livewire\SocioActivo;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -51,8 +52,10 @@ Route::get('/', [PageController::class,'dashboardOverview1'])->middleware(['auth
 
 Route::get('shop',[PageController::class,'productGrid'])->middleware(['auth','afiliado'])->name('shop');
 Route::get('payment', PayComponent::class)->middleware('auth')->name('payment');
+Route::get('cart-pay', PagePay::class)->middleware('auth')->name('cart-pay');
 Route::get('profile', [PageController::class,'updateProfile'])->middleware('auth')->name('profile');
 Route::get('modal', [PageController::class,'modal'])->name('modal');
+
 
 
 

@@ -9,8 +9,10 @@
     <div class="flex mt-[4.7rem] md:mt-0 overflow-hidden">
         <!-- BEGIN: Side Menu -->
         <nav class="side-nav">
-            <a href="" class="intro-x flex items-center ">
+            <a href="" class="intro-x flex flex-col items-center ">
                 <img alt="Besanaglobal.com" class="" src="{{ asset('img/besana.png') }}">
+                <span class=" text-bold text-lime-400 font-black uppercase text-xl ">Activo</span>
+                <span class=" text-bold text-red-700 font-black uppercase text-xl ">Inactivo</span>
             </a>
             <div class="side-nav__devider my-6">
                

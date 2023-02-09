@@ -7,7 +7,7 @@
    margin-right: 100px;
    right: 0;"
                 > 
-                    <a href="{{route('payment')}}" class="btn btn-outline-primary flex  " 
+                    <a href="{{route('cart-pay')}}" class="btn btn-outline-primary flex  " 
                    
                     >
                     <i class="fa-solid fa-cart-shopping fs-4 mr-2"></i>
@@ -28,11 +28,13 @@
        
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
            
-            <button class="btn btn-primary shadow-md mr-2">Add New Product</button>
+            
+            <button class="btn btn-primary shadow-md mr-2">Onzas total:{{$onzas}}</button>
+            <button class="btn btn-primary shadow-md mr-2">Shipping $:{{$shipping}}</button>
+
+
             <span class="intro-x text-primary">
-                @auth
-                    autenticado
-                @endauth
+         
             </span>
             <div class="dropdown">
                 <button class="dropdown-toggle btn px-2 box" aria-expanded="false" data-tw-toggle="dropdown">
@@ -68,7 +70,7 @@
     </div>
         <!-- BEGIN: Users Layout -->
         <div class="intro-y grid grid-cols-3 gap-4 mt-3">
-        @forelse ($products as $key=> $pro)
+        @forelse ($products as $key => $pro)
             
                 <div class="col-span-1 box shadow rounded rounded-lg border-double border-4 border-gray-400
                     @if ($pro->idLine==3)
