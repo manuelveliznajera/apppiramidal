@@ -4,72 +4,72 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Affiliate;
-use Illuminate\Support\Facades\Auth;
-use PhpParser\Node\Expr\New_;
 use Stripe;
-use Carbon\Carbon;
 class PagePay extends Component
 {
     
-    public $intent ;
+   public $onzasblade=0;
     public $total;
+    public $taxtotal=0;
     public $pagoprueba;
     public $nameCard;
      protected $stripe;
     public $user;
     public $cantidadProductos;
+  public $subTotal;
+  public $taxes   = 0;
+  public $shipping = 0;
+  public $totalcard = 0;
 
-    protected $listeners = ['payer' => 'payer',
+    protected $listeners = ['pay' => 'pay',
         'crearcliente'=>'crearcliente'];
 
   public function mount() {
     $this->total= \Cart::session(Auth()->user()->idUser)->getTotal();
-    $variable = config('services.stripe.STRIPE_SECRET');
+    
     }
     public function render()
     {
       $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent();
-        // dd($this->cantidadProductos);
+      $this->subtotal=\Cart::session(Auth()->user()->idUser)->getSubTotal();
+
       $cantidad=count($this->cantidadProductos);
+
       if ($cantidad>0) {
+
+        $totalonzas=0;
+        foreach ($this->cantidadProductos as $key => $value) {
+          $totalonzas+=$value->attributes->onzas*$value->quantity;
+         
+        }
+        $this->onzasblade=$totalonzas;
+        if ($totalonzas < 32 ) {
+          $this->shipping = 7;
+        }else{
+          $shippinadd=intval($totalonzas-31);
+          $this->shipping = intval($shippinadd+7);
+         
+        }
         $STRIPE_KEY = config('services.stripe.STRIPE_KEY');
         $variable = config('services.stripe.STRIPE_SECRET');
         $this->user=Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
-     
         $this->total= \Cart::session(Auth()->user()->idUser)->getTotal();
+        // dd($this->user->Email);
           $items = [];
-          foreach ($this->cantidadProductos as $pro) {
-        $idcart = $pro->id;
-             $name = $pro->name;
-        $priceproducto = $pro->attributes->producto;
-              $tax = $pro->attributes->tax;
-        $shipping = $pro->attributes->shipping;
-        $membresia = $pro->attributes->membresia;
+          $state=$this->user->State;
 
-          }
-          $amount_details = array(
-            "Producto" => $priceproducto,
-            "Membresia"=>$membresia,
-            "Tax" => $tax,
-            "Shipping" => $shipping
-          );
+          switch (strtoupper($state)) {
+            case 'NEVADA':
+                $this->taxes=8.375;
+                
+              break;
+            default:
+                $this->taxes=0;
+              break;
+            }
+        //  dd($this->taxes);
           $this->stripe = new \Stripe\StripeClient($variable);
-
-          // $payment_intent = $this->stripe->paymentIntents->create([
-          //   "amount" => $this->total*100,            
-          //   "currency" => 'usd',  
-          //   "payment_method_types"=> [
-          //     "card"
-          //   ],
-          //   "description"=>$name,
-          //   "receipt_email"=>$this->user->Email,
-           
-          // ]);
           $b = $this->user;
-    
-      //     $this->intent = $payment_intent->client_secret;
-      // $idIntente = $payment_intent->id;
-      
         return view('livewire.page-pay',compact('b','STRIPE_KEY',))
           ->extends('layout.side-menu')
           ->section('subcontent');
@@ -80,83 +80,41 @@ class PagePay extends Component
       }
 
     }
-
-    public function CartShop($id, $price, $onzas){
-
-        $this->onzasPrice($onzas);
-        $taxState = 0;
-            switch ($this->state) {
-              case 'NEVADA':
-                  $taxState=8.375;
-                  
-                break;
-              case 'CALIFORNIA':
-                  $taxState=6.5;
-                break;
-              case 'UTAH':
-                  $taxState=4.7;
-                break;
-              case 'OTHER':
-                  $taxState=0;
-                break;
-            
-            }
-            $existMem=\Cart::session(Auth()->user()->idUser)->getContent(0)->count();
-            
-            if ($price==24.95) {
-              
-              if ( $existMem > 0) {
-                    return;
-                }
-                  $priceTax = $price;
-                  \Cart::session(Auth()->user()->idUser)->add(array(
-                    'id' => 0, // inique row ID
-                    'name' => 'Membresia',
-                    'price' => 24.95,
-                    'quantity' => 1,
-                ));
-                $this->membresia = true;
-                return;
-            }
-            $this->taxes = round($price * $taxState/100, 2);
-            $priceTax    = round($this->taxes + $price, 2);
-    
-    
-            if ($this->membresia==false) {
-                  \Cart::session(Auth()->user()->idUser)->add(array(
-                    'id' => 0, // inique row ID
-                    'name' => 'Membresia',
-                    'price' => 24.95,
-                    'quantity' => 1,
-                ));
-                $this->membresia = true;
-              }
-    
-             $cantTem=\Cart::session(Auth()->user()->idUser)->getContent()->count();
+        public function pay($token, $name, $total, ){
+      $variable = config('services.stripe.STRIPE_SECRET');
+      $this->stripe = new \Stripe\StripeClient($variable);
+      $totaltaxes=number_format(floatval($this->total*$this->taxes/100),2);
+      $Totalfull=$totaltaxes+$this->total+$this->shipping;
+      $metadata = [];
+    // dd($this->cantidadProductos);
+      foreach ($this->cantidadProductos as $pro) {
+      // dd($pro['name']);
+      $metadata[] = [
+          'Producto' => $pro['name'],
+          'Cantidad' => $pro['quantity'],
+          'Precio' => floatval($pro['price']),
+      ];
+      }
+    // dd($total);
+      $metadata[]=[
+        'Impuesto'=>$totaltaxes,
+        'Envio'=>$this->shipping,
+  
+      ];
+      $charge = $this->stripe->charges->create([
+                'amount' => $total*100,
+                'currency' => 'usd',
+                'description' => json_encode($metadata),
+                'source' => $token,
+                'receipt_email'=>$this->user->Email,
                
-              \Cart::session(Auth()->user()->idUser)->add(array(
-                'id' => $id, // inique row ID
-                'name' => 'Package #'.$id.'Tax: '.$this->taxes,
-                'price' => $priceTax,
-                'quantity' => 1,
-                 
-                
-            ));
-              
-    
-              $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent($id)->count();
-      
-              if ($this->cantidadProductos==$cantTem) {
-                $this->dispatchBrowserEvent('noty', ['msg' => 'Producto Actualizado la cantidad']);
-              $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent($id)->count();
-      
-              }else{
-                $this->dispatchBrowserEvent('noty', ['msg' => 'Producto nuevo agregado!']);
-      
-              }  
-              
-          }
+            ]);
+            dd($charge);
 
+
+            return back()->with('success', 'Pago realizado con éxito');
+        
+    }
       public function ClearCart()
       {
         \Cart::session(Auth()->user()->idUser)->clear();

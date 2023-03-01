@@ -6,9 +6,9 @@
                      
                         <div class="basis-1/4 p-3">
                            
-                                    <div class="input-group mb-3">
+                                    <div class="">
                                     
-                                    <h1 class="fw-bold text-dark">BILLING ADDRESS</h1>
+                                    <h1 class="font-bold uppercase text-xl p-2 bg-gray-300 rounded mb-3">BILLING ADDRESS</h1>
                                        
                                     </div>
                                     
@@ -51,141 +51,127 @@
                                     </div>
                         </div> 
                         {{-- fin de la primera columna --}}
-                        <div class="basis-2/4 py-2">
-                                    <div class="input-group mb-3">
-                                        <h1 class="fw-bold text-dark">PAYMENT</h1>     
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <h1 class="fw-bold text-dark">Accepted Cards:</h1>     
-                                    </div>
-                                    
-                                    <div class="input-group mb-3">
-                                       {{-- <span class="badge badge-success">TOTAL:</span> <h2 class="badge badge-success">{{$total}}</h2> --}}
-                                     </div>
-                                    
-                                    
-                                      
-                                          <form id="payment-form" method="POST" 
-                                          {{-- wire:submit.prevent="save" --}}
-                                          >
-                                              @csrf
-                                              <label class="font-black uppercase text-base" for="">Total:</label>
-                                              <input type="text" value="{{$total}}" class="-intro-y form-control">
-                                              <label class="font-black uppercase text-base" for="nameCard">Nombre:</label>
-                                             <input type="text" id="nameCard" class="-intro-x form-control" placeholder="Nombre del Titular">
-                                             <label class="font-black uppercase text-base" for="nameCard">Datos de Tarjeta:</label>
-
-                                            <div id="card-element" >
-
-                                            </div>
-                                            <div id="payment-element" >
-
-                                            </div>
-                                            
-                                            <!-- Used to display form errors. -->
-                                            <div id="card-errors" role="alert"></div>
-                                            
-                                        
-                                    
-                                    <div class="card-footer">                        
-                                      <button
-                                      id="card-button"
-                                      type="submit"
-                                      class="btn btn-primary mt-3"
-                                    >  Pagar      </button>
-                                
-                                    </div>
-                                </form>
-                        </div>                           
+                                                
                          
                         
-                        <div class="basis-1/4 py-2">
+                        <div class="basis-2/4 p-3 text-center">
                             
-                                <h1>Cantidad de Productos</h1>
-                                <span class="badge badge-success">{{$cantidadProductos->count()}}</span>
-                                
+                                <h1 class="font-bold uppercase text-xl p-2 bg-gray-300 rounded mb-3">Detalle de Compra</h1>
+                              
+                            
+                                <h2>{{$onzasblade}}</h2>
+                                <h2>Total Envio:{{$shipping}}</h2>
 
-                                <table class="table-responsive">
+
+                                <table class="table-responsive text-center w-full">
                                     <thead>
-                                        <tr>                                        
-                                            <th class="p-2 bg-primary text-white">PRODUCT</th>      
-                                            <th class="p-2 bg-primary text-white">PRICE</th>
-                                            <th class="p-2 bg-primary text-white">QUANTITY</th>
-                                            <th class="p-2 bg-primary text-white">TOTAL</th>                                         
+                                        <tr>                              
+                                            <th class="p-2 bg-primary text-white">CANTIDAD</th>
+                                            <th class="p-2 bg-primary text-white">PRODUCTO</th>      
+                                            <th class="p-2 bg-primary text-white">PRECIO</th>
+                                            <th class="p-2 bg-primary text-white">IMPUESTO</th>
+                                            <th class="p-2 bg-primary text-white">SUB-TOTAL</th>                                         
                                         </tr>       
                                     </thead>
                                     <tbody>
                                         @forelse($cantidadProductos as $pro)
                                         @php
-                                            $name=$pro->name;
-                                            $precio=$pro->price - $pro->attributes->shipping - $pro->attributes->tax -24.95
+                                            $taxunique=($pro->price*$taxes)/100;
+                                            $taxblade=$taxunique*$pro->quantity;
+                                            $taxtotal+=$taxblade;
+                                            $totalblade=$total+$taxtotal;
                                         @endphp
-                                <span>{{ $pro->attributes->shipping}}</span>
-
-                                        <tr>
-                                            <td class=" pr-5">
-                                                {{-- <img src="{{asset('img/products/'.$pro->attributes['img'])}}" class="card-img-top img-thumbnail mt-3" alt="{{$pro->name}}" style="width: 40px; height:40px;">    --}}
-                                                <span class=""> {{$pro->name}}</span>
-                                                {{-- <button wire:click="remove({{$pro->id}})" class="btn btn-sm btn-outline-warning m-2">Eliminar</button> --}}
-                                            </td>
-                                            <td class=" d-flex ">$ {{ number_format(floatval($precio),2) }}</td>
-                                            <td class="text-center">
-                                                        <span class="badge badge-info">{{$pro->quantity}}</span>                                   
-                                            </td>
-                                            <td class="text-right">
-                                                 {{number_format(floatval($precio),2)}}
-                                            </td>                                           
+                                        <tr class="border-4  border-b-gray-500">
+                                            <td class="text-center"><span class="badge badge-info">{{$pro->quantity}}</span></td>
+                                            <td class=" pr-5"> <span class=""> {{$pro->name}}</span></td>
+                                            <td class=" text-right">$ {{ number_format(floatval($pro->price),2) }}</td>
+                                            <td class=" text-right ">$ {{number_format(floatval($taxblade),2)}}</td>                                       
+                                            <td class="text-right">{{number_format(floatval(($pro->price*$pro->quantity)+$taxblade),2)}}</td>                                           
                                         </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td>Membresia:</td>
-
-                                            <td class="text-right">
-                                                {{number_format(floatval($pro->attributes->membresia),2)}}
-                                            </td>
-                                            
-                                        </tr> 
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td>Tax:</td>
-
-                                            <td class="text-right">
-                                                
-                                                {{number_format(floatval($pro->attributes->tax),2)}}
-                                            </td>
-                                            
-                                        </tr> 
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td>Shipping:</td>
-
-                                            <td class="text-right">
-                                                {{number_format(floatval($pro->attributes->shipping),2)}}
-                                               
-                                            </td>
-                                            
-                                        </tr> 
-
                                         @empty
-                                        <tr>
+                                        <tr class="border-4 border-indigo-200 border-b-indigo-500">
                                             <td colspan="6">
                                                 NO DATA
                                             </td>
                                         </tr>
-                                        @endforelse    
+                                        @endforelse
                                         <tr>
                                             <td></td>
+                                            <td class="text-center ">
+                                                Subtotal:
+                                            </td>
+                                             <td></td>
+                                            <td >  <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold "> {{number_format(floatval($totalblade),2)}}</h1></td>
+                                        </tr> 
+                                        <tr>
                                             <td></td>
-                                            <td class="mt-5"> </td>
-                                            <td>  <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold text-xl">TOTAL: $. {{number_format(floatval($total),2)}}</h1></td>
+                                            <td class="text-center ">
+                                                Envio:
+                                            </td>
+                                             <td></td>
+                                            <td >  <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold "> {{number_format(floatval($shipping),2)}}</h1></td>
+                                        </tr>   
+                                        <tr >
+                                            <td></td>
+                                          <td class="text-center ">
+                                            TOTAL: $.
+                                          </td>
+                                          <td></td>
+                                            <td >  <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold "> {{number_format(floatval($totalblade+$shipping),2)}}</h1></td>
                                         </tr>      
                                     </tbody>
                                 </table>
                            
-                        </div>                                                                                   
+                        </div>   
+                        <div class="basis-2/4 p-3 bg-gray-200">
+                            <div class="">
+                                <h1 class="font-bold uppercase text-xl p-2 bg-gray-600 rounded mb-3 text-white text-center">METODO DE PAGO</h1>     
+                            </div>
+                            <div class="input-group mb-3">
+                                <h1 class="fw-bold text-dark">Accepted Cards:</h1>    
+                                <img src="{{asset('img/creditcard.png')}}" class="object-fill h-10 w-66" alt=""> 
+                            </div>
+                            
+                            <div class="input-group mb-3">
+                               {{-- <span class="badge badge-success">TOTAL:</span> <h2 class="badge badge-success">{{$total}}</h2> --}}
+                             </div>
+                            
+                            
+                              
+                                  <form id="payment-form" 
+                                   {{-- wire:submit.prevent="pay"   --}}
+                                  >
+                                  @csrf
+                                 
+                                      
+                                      <label class="font-black uppercase text-base" for="">Total:</label>
+                                      <input id="totalfull" type="text" value="{{number_format(floatval($totalblade+$shipping),2)}}" class="-intro-y form-control">
+                                      <label class="font-black uppercase text-base" for="nameCard">Nombre:</label>
+                                     <input type="text" id="nameCard" class="-intro-x form-control" placeholder="Nombre del Titular">
+                                     <label class="font-black uppercase text-base" for="nameCard">Datos de Tarjeta:</label>
+
+                                    <div id="card-element" >
+
+                                    </div>
+                                    <div id="payment-element" >
+
+                                    </div>
+                                    
+                                    <!-- Used to display form errors. -->
+                                    <div id="card-errors" role="alert"></div>
+                                    
+                                
+                            
+                            <div class="card-footer">                        
+                              <button
+                              id="card-button"
+                              type="submit"
+                              class="btn btn-primary mt-3"
+                            >  Pagar      </button>
+                        
+                            </div>
+                        </form>
+                </div>                                                                                   
                 </div>     
 </div>
 </div>
@@ -197,7 +183,7 @@
     const city="{{$b->City}}"
     const keystripe="{{ $STRIPE_KEY }} ";
 
-  const nombreproducto="{{$name}}"
+ 
 
     var stripe= Stripe(keystripe);
 
@@ -206,21 +192,21 @@
   style: {
     base: {
       iconColor: '#c4f0ff',
-      color: '#fff',
+      color: 'black',
       fontWeight: '500',
       fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
       fontSize: '16px',
       fontSmoothing: 'antialiased',
       ':-webkit-autofill': {
-        color: '#fce883',
+        color: 'primary',
       },
       '::placeholder': {
-        color: '#87BBFD',
+        color: 'green',
       },
     },
     invalid: {
-      iconColor: '#FFC7EE',
-      color: '#FFC7EE',
+      iconColor: 'red',
+      color: 'white',
     },
   },
 });
@@ -243,84 +229,36 @@
         // var stt=  stripe.updatePaymentIntent(paymentIntentId,{
         //         'amount_details':amount_details
         //     });
-            console.log(stripe.updatePaymentIntent);
+ 
 
         form.addEventListener('submit', async(event)=> {
 
             event.preventDefault();
-            
+            let nameCard=  document.getElementById('nameCard').value
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const address = document.getElementById('address').value;
+                const totalfull = document.getElementById('totalfull').value;
+
+              
             cardButton.disabled = true;
-           
-          let nameCard=  document.getElementById('nameCard').value
-          const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const address = document.getElementById('address').value;
-        // console.log(email);
-       await stripe.confirmCardPayment(clientsecret,  {
-                payment_method: {
-                    card:cardElement,
-                    billing_details: { 
-                        "address": {
-                        "city": '{{$b->City}}',
-                        "country": 'US',
-                        "line1": '{{$b->Address}}',
-                        "line2": null,
-                        "postal_code": "{{$b->ZipCode}}",
-                        "state": '{{$b->State}}'
-                        },
-                    }
-                    
-                }
-            })
-            .then(function(result) {
-                
-                // console.log(result)
-                const nameP=nombreproducto.toUpperCase();
-                if (nameP=='MEMBRESIA') {
-                    console.log('ingreso a membresia')
-                    result.paymentIntent.amount_details ={
-                    nameP:24.95,
-                    }
-                }else{
-                    result.paymentIntent.amount_details ={
-                        
-                       'producto':'{{ number_format(floatval($precio),2) }}',
-                    'Membresia: ':'{{number_format(floatval($pro->attributes->membresia),2)}}',
-                    'Tax: ':'{{number_format(floatval($pro->attributes->shipping),2)}}', 
-                    'Shipping':'{{number_format(floatval($pro->attributes->shipping),2)}}'
-                    }
-                }
-                
-                // console.log(result.paymentIntent)
-               if (result.error) {
-                cardButton.disabled = false;
-                
-                     var errorElement = document.getElementById('card-errors');
-                     errorElement.textContent = result.error.message;
-    
-                    //   alert('there is an error paiement') ;
-                    Swal.fire('', errorElement.textContent)
-    
-                  } else {
-                 if (result.paymentIntent.status === 'succeeded') {
-                    
-                    // Swal.fire('success', 'Pago efectuado!!')
-                   
-                    // Livewire.emit('crearcliente') ;
-    
-        
-                    }
-                     else if (result.paymentIntent.status === 'requires_payment_method') {
-          
-                      
-                        
-                         alert('there is an error paiement') ;
-                  }
-                  }
-                
+
+            stripe.createToken(cardElement, { name: nameCard }).then(function(result) {
+            if (result.error) {
+                console.log(result.error)
+            } else {
+                // Enviar el token a tu servidor
+                var input = document.createElement('input');
+            
+                Livewire.emit('pay',result.token.id, name, totalfull)
+                //  form.submit();
+                console.log(result.token.id)
+            }
             });
            
-            });
+                
+        });
+       
         
     </script>
 @endpush

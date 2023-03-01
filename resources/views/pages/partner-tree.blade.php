@@ -1,4 +1,4 @@
-@extends('../layout/'.$layout)
+@extends('../layout/side-menu')
 
 @section('subcontent')
 <style>

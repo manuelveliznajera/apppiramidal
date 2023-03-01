@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Affiliate;
+use App\Models\RelSponsor;
 use App\Models\User;
 
 use Illuminate\Support\Carbon;
@@ -44,7 +45,8 @@ class SocioActivo extends Component
     public $message='';
     public $confirmation_code;
     public $password_confirmation;
-
+public $asignarSocio=false;
+public $webseries = [];    
     public function mount(String $id='besana'){
         $this->invitedby = $id;
         $this->lenguaje='spanish';
@@ -54,8 +56,10 @@ class SocioActivo extends Component
 
     public function render()
     {
+        $this->webseries=RelSponsor::where('idAffiliatedParent',Auth()->user()->idAffiliated)->get();
+        dd($this->webseries);
         return view('livewire.socio-activo')
-        ->extends('layout.side-menu')
+        ->extends('layout.basenew')
                 ->section('subcontent');
     }
     protected $rules=[

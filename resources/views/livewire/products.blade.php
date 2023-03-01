@@ -1,26 +1,28 @@
 <div>
     
-<div class="shadow shadow-green-600 shadow-2xl fixed flex inline " 
-   style="margin-top: 40px;
-   z-index: 500;
-   top: 10;
-   margin-right: 100px;
-   right: 0;"
-                > 
-                    <a href="{{route('cart-pay')}}" class="btn btn-outline-primary flex  " 
-                   
-                    >
-                    <i class="fa-solid fa-cart-shopping fs-4 mr-2"></i>
-                    <span class=" "  >
-                    {{$total}}
-                    <img class="color-white-300 text-white " src="{{asset('img/cart.svg')}}" alt="" width="20px">
+    @if ($total>0)
+        <div class="shadow shadow-green-600 shadow-2xl fixed flex inline " 
+        style="margin-top: 40px;
+        z-index: 500;
+        top: 10;
+        margin-right: 100px;
+        right: 0;"
+                        > 
+                            <a href="{{route('cart-pay',$onzasfront,)}}" class="btn btn-outline-primary flex  " 
+                        
+                            >
+                            <i class="fa-solid fa-cart-shopping fs-4 mr-2"></i>
+                            <span class=" "  >
+                            {{$total}}
+                            <img class="color-white-300 text-white " src="{{asset('img/cart.svg')}}" alt="" width="20px">
 
-                    </span>
-                    </a>
-    
-                    <button onclick="limpiar()""  class="btn btn-outline-danger ml-2"  >Clear cart</button>
+                            </span>
+                            </a>
+            
+                            <button onclick="limpiar()""  class="btn btn-outline-danger ml-2"  >Clear cart</button>
 
-</div>
+        </div>
+    @endif
     <h2 class="intro-y text-lg font-medium mt-10">Product Grid</h2>
    
 
@@ -29,8 +31,8 @@
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
            
             
-            <button class="btn btn-primary shadow-md mr-2">Onzas total:{{$onzas}}</button>
-            <button class="btn btn-primary shadow-md mr-2">Shipping $:{{$shipping}}</button>
+            <button class="btn btn-primary shadow-md mr-2">Onzas total:{{$onzasfront}}</button>
+            <button class="btn btn-primary shadow-md mr-2">Shipping $:{{$shippingfront}}</button>
 
 
             <span class="intro-x text-primary">

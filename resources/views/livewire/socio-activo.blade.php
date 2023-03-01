@@ -1,5 +1,5 @@
-
-
+<div>
+   
     
     <div class="container">
         <!-- BEGIN: Login Info -->
@@ -128,6 +128,23 @@
                                             {{-- <x-input-error :messages="$errors->get('confirmPassword')" class="mt-2" /> --}}                               
                                     </div>   
                             </div>
+                            <div class="-intro-x grid grid-cols-2 gap-2 mt-3">
+                                <div class="w-full p-3">
+                                    <input type="checkbox" class="-intro-x bg-primary " style=" input:checked {
+                                        background-color:green;
+                                    }" wire:model="asignarSocio">
+                                    <span>Deseas asignar a un socio-activo </span>
+                                    <div wire:ignore>
+                                        <select class="form-control" id="select2-dropdown">
+                                            <option value="">Select Option</option>
+                                            @foreach($webseries as $item)
+                                            <option value="{{ $item }}">{{ $item }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
                 </div>   
             
                 {{-- fin columna uno --}}
@@ -271,6 +288,16 @@
                 
                 </form>
         </div>
+        @push('scripts')
+        <script>
+            
+                $('#select2-dropdown').select2();
+                $('#select2-dropdown').on('change', function (e) {
+                    var data = $('#select2-dropdown').select2("val");
+                    @this.set('ottPlatform', data);
+                });
+          
+        </script>
         <script>
             function fireModal(action = 1) {
             
@@ -336,14 +363,14 @@
             // const myInput = document.getElementById('confirmEmail');
             // myInput.onpaste = e => e.preventDefault();
             // }
-           
+         
         </script>
     </div>
 
         <!-- END: Login Info -->
         <!-- BEGIN: Login Form -->
         
-        
+    </div>       
      
                
               

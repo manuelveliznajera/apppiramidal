@@ -15,16 +15,29 @@ class Products extends Component
     public $total;
     public $taxes = 0;
     public $shipping = 0;
+  public $shippingfront = 0;
+
     public $onzas=0;
+  public $onzasfront = 0;
   public $registrado = 0;
   public $puntosTemporal=0;
+  public $state;
     public function render()
     {
       
-      $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
-
+      $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
+    $this->state = $afiliado->State;
       
         $this->total=\Cart::session(Auth()->user()->idUser)->getContent()->count();
+    $content = \Cart::session(Auth()->user()->idUser)->getContent();
+        if ($this->total>0) {
+          foreach ($content as $value) {
+            
+              $this->shippingfront = $value->attributes->shipping;
+              $this->onzasfront = $value->attributes->onzas;
+        // dd($value);
+          }
+        }
         $lines=Line::all();
         $this->products=Product::all();
       //  dd($this->products);
@@ -49,32 +62,33 @@ class Products extends Component
     $value = $id;
         switch ($value) {
             case 0:
-                $this->onzas+=3;
+                $this->onzas=3;
               break;
             case 1:
-                $this->onzas=$this->onzas+24; 
+                $this->onzas=24; 
                 break;
             case 2:
-                $this->onzas=$this->onzas+3;
+                $this->onzas=3;
                 break; 
             case 3:
-                $this->onzas=$this->onzas+2;
+                $this->onzas=2;
                 break;
             case 4:
-                $this->onzas=$this->onzas+3;
+                $this->onzas=3;
                 break;  
             case 5:
-                $this->onzas=$this->onzas+8;
+                $this->onzas=8;
                 break;
             case 6:
-                $this->onzas=$this->onzas+5;
+                $this->onzas=5;
                 break;
             case 7:
-                $this->onzas=$this->onzas+5;
+                $this->onzas=5;
                 break; 
         }
       }
     public function addCart($id, $cant=1 ){
+    
 
     $this->obtenerOnzas($id);
     if ($this->onzas < 32 ) {
@@ -84,19 +98,21 @@ class Products extends Component
         $this->registrado += $residual;
         $this->shipping += $residual;
       }
-      // $this->onzasPrice($onzas);
-      $taxState = 0;
-          // switch ($this->state) {
-          //   case 'NEVADA':
-          //       $taxState=8.375;
+
+     
+     
+          switch (strtoupper($this->state)) {
+            case 'NEVADA':
+                $this->taxes+=number_format(floatval((8.375*$this->products[$id]['price'])/100),2);
                 
-          //     break;
-          //   default:
-          //       $taxState=0;
-          //     break;
+              break;
+            default:
+                $this->taxes=0;
+              break;
           
-          // }
-    $newprice = 0;
+          }
+
+   
     
          $cantTem=\Cart::session(Auth()->user()->idUser)->getContent()->count();
           
@@ -108,6 +124,8 @@ class Products extends Component
              'attributes'=>array(
                'img'=>$this->products[$id]['img'],
                'puntos'=>$this->products[$id]['puntos'],
+               'onzas'=>$this->onzas,
+               'tax'=>$this->taxes
              ),
             
         ));
@@ -131,6 +149,8 @@ class Products extends Component
       {
         \Cart::session(Auth()->user()->idUser)->clear();
         $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent()->count();
+    $this->shippingfront = 0;
+    $this->onzasfront = 0;
   
       }
 }
