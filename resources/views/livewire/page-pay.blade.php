@@ -59,8 +59,8 @@
                                 <h1 class="font-bold uppercase text-xl p-2 bg-gray-300 rounded mb-3">Detalle de Compra</h1>
                               
                             
-                                <h2>{{$onzasblade}}</h2>
-                                <h2>Total Envio:{{$shipping}}</h2>
+                              
+                              
 
 
                                 <table class="table-responsive text-center w-full">
