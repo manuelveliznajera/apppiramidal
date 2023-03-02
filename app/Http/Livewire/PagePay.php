@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Website;
 use Livewire\Component;
 use App\Models\Affiliate;
 use Stripe;
+use DB;
 class PagePay extends Component
 {
     
@@ -20,6 +22,7 @@ class PagePay extends Component
   public $taxes   = 0;
   public $shipping = 0;
   public $totalcard = 0;
+  public $cantidadinterna=0;
 
     protected $listeners = ['pay' => 'pay',
         'crearcliente'=>'crearcliente'];
@@ -32,10 +35,11 @@ class PagePay extends Component
     {
       $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent();
       $this->subtotal=\Cart::session(Auth()->user()->idUser)->getSubTotal();
+      
 
-      $cantidad=count($this->cantidadProductos);
+      $this->cantidadinterna=count($this->cantidadProductos);
 
-      if ($cantidad>0) {
+      if ($this->cantidadinterna>0) {
 
         $totalonzas=0;
         foreach ($this->cantidadProductos as $key => $value) {
@@ -80,15 +84,21 @@ class PagePay extends Component
       }
 
     }
-        public function pay($token, $name, $total, ){
+    public function pay($token, $name, $total, ){
       $variable = config('services.stripe.STRIPE_SECRET');
       $this->stripe = new \Stripe\StripeClient($variable);
       $totaltaxes=number_format(floatval($this->total*$this->taxes/100),2);
       $Totalfull=$totaltaxes+$this->total+$this->shipping;
       $metadata = [];
     // dd($this->cantidadProductos);
+    $productos=[];
+    $precio=[];
       foreach ($this->cantidadProductos as $pro) {
-      // dd($pro['name']);
+      $productos[]=[
+        'id'=>$pro['id'],
+        'precio'=>$pro['price'],
+      ];
+      
       $metadata[] = [
           'Producto' => $pro['name'],
           'Cantidad' => $pro['quantity'],
@@ -109,8 +119,38 @@ class PagePay extends Component
                 'receipt_email'=>$this->user->Email,
                
             ]);
-            dd($charge);
+      $idAfiliado=Auth()->user()->idAffiliated;
+      if ($this->cantidadinterna>1) {
+        dd('ingreso a mayor que 1');
+      }else{
+        $website=Website::where('idAffiliated',$idAfiliado)->first();
+    
+        $id=$productos[0]['id'];
+        $precio=floatval($productos[0]['precio']);
+        $web=intval($website->idWebsite);
+        try {
+       
+            DB::select('CALL SpSales(?,?, ?,?,?,?,?,?,?)', array(
+              'Sale',
+              $idAfiliado,
+              $id,
+              $web,
+              $precio,
+              'CASH',
+              0,
+              null,
+              null, // Convertir a nulo si es una cadena vacía
+          ));
+          $this->ClearCart();
+          return redirect('/products')->with('success', 'Compra Exitosa!!.');
+        } catch (\Throwable $th) {
+          dd($th);
+        }
+        
 
+             
+      }
+           
 
             return back()->with('success', 'Pago realizado con éxito');
         

@@ -57,7 +57,7 @@ public $webseries = [];
     public function render()
     {
         $this->webseries=RelSponsor::where('idAffiliatedParent',Auth()->user()->idAffiliated)->get();
-        dd($this->webseries);
+        // dd($this->webseries);
         return view('livewire.socio-activo')
         ->extends('layout.basenew')
                 ->section('subcontent');
