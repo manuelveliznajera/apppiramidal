@@ -109,7 +109,7 @@ class NextregisterComponent extends Component
    
        
     
-        return redirect()->route('payment');
+        return redirect()->route('cart-pay');
           
       }
       public function Cart($id, $price, $onzas){
