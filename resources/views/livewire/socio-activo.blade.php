@@ -4,10 +4,16 @@
     <div class="container">
         <!-- BEGIN: Login Info -->
         <div class="grid grid-cols-2 gap-4">
+            
+
         
             <div class="col-1">
-                <form method="POST" wire:submit.prevent="create" >
-                    @csrf
+                <form  wire:submit.prevent="create" >
+                    @if (session()->has('mensaje'))
+                            <div class=" w-full  alert alert-success">
+                                {{ session('mensaje') }}
+                            </div>
+                        @endif
                             <span class=" font-bold uppercase text-lg ">
                                     Datos Personales:
                             </span>
@@ -133,15 +139,19 @@
                                     <input type="checkbox" class="-intro-x bg-primary " style=" input:checked {
                                         background-color:green;
                                     }" wire:model="asignarSocio">
+
                                     <span>Deseas asignar a un socio-activo </span>
-                                    <div wire:ignore>
-                                        <select class="form-control" id="select2-dropdown">
-                                            <option value="">Select Option</option>
-                                            @foreach($webseries as $item)
-                                            <option value="{{ $item }}">{{ $item }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                                    @if ($asignarSocio)
+                                        <div wire:ignore>
+                                            <select class="form-control" id="select2-dropdown" wire:model='asignacionSocio'>
+                                                <option value="">Seleccione al Socio</option>
+                                                @foreach($webseries as $item)
+                                                <option value="{{ $item->idAffiliated }}">{{ $item->userName}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @endif
+                                    
                                 </div>
                             </div>
 
@@ -278,7 +288,7 @@
                                         @else 
                                             
                                         @endif
-                                    class="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top" wire:click="create()">
+                                    class="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top" type="submit">
                                         Registrarse
                                     </button>
                                     
@@ -288,7 +298,7 @@
                 
                 </form>
         </div>
-        @push('scripts')
+   
         <script>
             
                 $('#select2-dropdown').select2();

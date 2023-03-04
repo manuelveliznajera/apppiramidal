@@ -11,6 +11,7 @@
     <meta name="keywords" content="products, health, affiliate, salud, Besanaglobal.com">
     <meta name="author" content="BESANA">
    
+    @livewireStyles
    
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" ></script>
@@ -18,7 +19,6 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    @livewireStyles
 </head>
 <body class="py-5 md:py-0 bg-black/[0.15] dark:bg-transparent">
     @include('../layout/components/mobile-menu')
@@ -27,8 +27,11 @@
         <nav class="side-nav">
             <a href="" class="intro-x flex flex-col items-center ">
                 <img alt="Besanaglobal.com" class="" src="{{ asset('img/besana.png') }}">
-                <span class=" text-bold text-lime-400 font-black uppercase text-xl ">Activo</span>
-                <span class=" text-bold text-red-700 font-black uppercase text-xl ">Inactivo</span>
+                @if (Auth::user()->active==1)
+                         <span class=" text-bold text-lime-400 font-black uppercase text-xl ">Activo</span>
+                @else
+                    <span class=" text-bold text-red-700 font-black uppercase text-xl ">Inactivo</span>
+                 @endif
             </a>
             <div class="side-nav__devider my-6">
                
@@ -101,10 +104,11 @@
         </div>
         <!-- END: Content -->
     </div>
+@livewireScripts
+
 </body>
 
 @vite('resources/js/app.js')
 <script src="//unpkg.com/alpinejs" defer></script>
-@livewireScripts
 @stack('scripts')
 </html>

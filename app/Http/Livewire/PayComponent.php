@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Affiliate;
+use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Expr\New_;
@@ -30,6 +31,9 @@ class PayComponent extends Component
     }
     public function render()
     {
+     
+      $usuario = User::where('idUser' ,Auth()->user()->idUser)->first();
+    
       $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent();
       $cantidad=count($this->cantidadProductos);
       if ($cantidad>0) {

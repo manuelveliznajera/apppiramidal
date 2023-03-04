@@ -177,7 +177,7 @@
       if (cantidad>=1) {
         Swal.fire('', 'Ya existe un paquete Seleccionado')
         if (event.detail.action == 'close-modal') fireModal(0)
-        window.location.href = "{{ route('payment')}}";
+        window.location.href = "{{ route('cart-pay')}}";
         return;
         sleep(1000)
       }

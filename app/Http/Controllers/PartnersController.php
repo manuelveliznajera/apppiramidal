@@ -6,6 +6,7 @@ use App\Helper\Data;
 use App\Models\Affiliate;
 use App\Models\RelSponsor;
 use App\Models\User;
+use DB;
 
 use Illuminate\Http\Request;
 
@@ -15,29 +16,28 @@ class PartnersController extends Controller
     {
         try {
             $id = Auth()->user()->idUser;
+
+           $newdata= DB::select('CALL sp_consultararbol(?)', array(
+                $id
+                // Convertir a nulo si es una cadena vacía
+            ));
+            // dd($newdata);
             $user = User::all();
             $relsponsor = RelSponsor::all();
 
             $pp = [];
-            foreach ($relsponsor as  $value) {
+            $dat = [
+                'id' => $id,
+                'name' => Auth()->user()->userName,
+                'rank' => 'oro'
+            ];
+            array_push($pp, $dat);
+            foreach ($newdata as  $value) {
                 
-                $us = Affiliate::where('idAffiliated', $value->idAffiliatedChild) ->first();
-                $usuario = User::where('idAffiliated', $us->idAffiliated)->first();
-                  
-                if ($value->idRel==1) {  
                     $dat = [
-                        'id' => $value->idAffiliatedChild,
-                        'name' => $usuario->userName,
-                        'email' => $us->Email,
-                        'rank' => 'oro'
-                    ];
-                    array_push($pp, $dat);
-                }else{
-                    $dat = [
-                        'id' => $value->idAffiliatedChild,
-                        'pid'=>$value->idAffiliatedParent,
-                        'name' =>$usuario->userName,
-                        'email' => $us->Email,
+                        'id' => $value->idAffiliated,
+                        'pid'=>$id,
+                        'name' =>$value->userName,
                         'rank' => 'oro'
                     ];
                     array_push($pp, $dat);
@@ -45,13 +45,13 @@ class PartnersController extends Controller
                 }
                
 
-            }
+            
             //  dd($pp);
 
-            $data =  json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL TreeAff ('{$id}',5)")),true);
+            // $data =  json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL TreeAff ('{$id}',5)")),true);
 
 
-            $prueba = Data::getData();
+            // $prueba = Data::getData();
             $datos = json_encode($pp);
 
 

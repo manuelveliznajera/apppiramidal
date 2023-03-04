@@ -51,7 +51,7 @@ Route::get('/partner-tree',[PartnersController::class,'index'] )->middleware(['a
 Route::get('/products',Products::class )->middleware(['auth','afiliado'])->name('products');
 Route::post('/addproduct',[ProductController::class,'store'])->middleware(['auth','afiliado'])->name('addproduct.create');
 
-Route::get('/addpackage',NextregisterComponent::class )->middleware(['auth'])->name('addpackage');
+Route::get('/addpackage',NextregisterComponent::class )->middleware(['auth','afiliado'])->name('addpackage');
 Route::get('/', [PageController::class,'dashboardOverview1'])->middleware(['auth','afiliado'])->name('dashboard');
 
 Route::get('shop',[PageController::class,'productGrid'])->middleware(['auth','afiliado'])->name('shop');

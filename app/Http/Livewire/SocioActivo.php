@@ -11,12 +11,13 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-
+use DB;
 class SocioActivo extends Component
 {
   
 
     public $pais;
+    public $asignacionSocio;
     public $fechaingreso;
     public $terminos = false;
     public $lenguaje='english';
@@ -56,8 +57,13 @@ public $webseries = [];
 
     public function render()
     {
-        $this->webseries=RelSponsor::where('idAffiliatedParent',Auth()->user()->idAffiliated)->get();
-        // dd($this->webseries);
+        $idafiliado=Auth()->user()->idAffiliated;
+        $this->webseries= DB::select('CALL sp_consultarhijos(?)', array(
+             $idafiliado
+        ));
+        
+
+        
         return view('livewire.socio-activo')
         ->extends('layout.basenew')
                 ->section('subcontent');
@@ -92,7 +98,7 @@ public $webseries = [];
         
     ];
     public function create(){
-        
+        // dd('create');
        $confirmation_code =Str::random(25);
        $datos = $this->validate();
        $datos['confirmation_code'] = $confirmation_code;
@@ -143,8 +149,9 @@ public $webseries = [];
                 3)")), true);
 
                
-                $this->reset('SSN', 'Name', 'LastName', 'AlternativePhone', 'Workphone', 'DateBirth', 'Email', 'Address', 'Country', 'State', 'City', 'ZipCode',  'userName');
-                $this->dispatchBrowserEvent('noty', ['msg' => 'Nuevo socio Activo: ' . $datos['userName']]);
+                $this->reset('SSN', 'Name', 'LastName', 'AlternativePhone', 'Workphone', 'DateBirth', 'Email', 'Address', 'Country', 'State', 'City', 'ZipCode',  'userName', 'confirmEmail','invitedby','asignacionSocio');
+                // $this->dispatchBrowserEvent('noty', ['msg' => 'Nuevo socio Activo: ' . $datos['userName']]);
+                session()->flash('mensaje', '¡Registro Exitoso!');
                 return;
                 
             } catch (\Throwable $th) {

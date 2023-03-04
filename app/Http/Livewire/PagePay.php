@@ -3,8 +3,11 @@
 namespace App\Http\Livewire;
 
 use App\Models\Website;
+
 use Livewire\Component;
 use App\Models\Affiliate;
+use App\Models\User;
+
 use Stripe;
 use DB;
 class PagePay extends Component
@@ -36,6 +39,8 @@ class PagePay extends Component
     {
       // $this->activo=Auth()->user()->active;
       // dd(Auth()->user());
+      // $usuario = User::where('idUser' ,Auth()->user()->idUser)->first();
+      // dd($usuario);
       $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent();
       $this->subtotal=\Cart::session(Auth()->user()->idUser)->getSubTotal();
       
@@ -144,6 +149,10 @@ class PagePay extends Component
               null,
               null, // Convertir a nulo si es una cadena vacía
           ));
+          $idusuario=Auth()->user()->idUser;
+          $usuario = User::where('idUser' ,$idusuario)->first();
+          $usuario->active=1;
+          $usuario->save();
           $this->ClearCart();
           return redirect('/products')->with('success', 'Compra Exitosa!!.');
         } catch (\Throwable $th) {
