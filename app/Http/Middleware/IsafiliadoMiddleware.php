@@ -18,10 +18,12 @@ class IsafiliadoMiddleware
     public function handle(Request $request, Closure $next)
     {
         $user=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
-            if ($user->firstBuy) {
-                return redirect()->route('products');
+        $activo=Auth()->user()->active;
+            if ($user->firstBuy||$activo==1) {
+                 return $next($request);
 
             }
-        return $next($request);
+            return redirect()->route('addpackage');
+
     }
 }

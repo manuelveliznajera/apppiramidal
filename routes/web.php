@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('dark-mode-switcher', [DarkModeController::class, 'switch'])->name('dark-mode-switcher');
 Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class, 'switch'])->name('color-scheme-switcher');
 Route::get('login', LoginComponent::class)->name('login');
-// Route::post('login', [AuthController::class,'login'])->name('login.check');
+
 
 Route::controller(AuthController::class)->middleware('loggedin')->group(function() {
     // Route::get('login', 'loginView')->name('login.index');
@@ -34,7 +34,7 @@ Route::get('register', Register::class)->name('login.register');
 
 //miscompras
 
-Route::get('myShops', MyShops::class )->middleware('auth','afiliado')->name('myshops');
+Route::get('myShops', MyShops::class )->middleware(['auth','afiliado'])->name('myshops');
 //afiliados
 Route::get('ListUsers', [ListUserController::class, 'index'])->middleware(['auth','afiliado'])->name('ListUsers');
 Route::get('afiliado/{id}', [ListUserController::class, 'edit'])->middleware(['auth','afiliado'])->name('afiliado');
@@ -46,7 +46,7 @@ Route::get('/addproduct',[ProductController::class,'index'])->middleware(['auth'
 Route::get('register/{id}',Register::class)->name('login.register.afiliate');
 Route::get('/register/verify/{code}', [Register::class, 'verify']);
 Route::get('/dash',[PageController::class,'dashboardOverview1'] )->middleware(['auth','afiliado'])->name('dash');
-Route::get('/socioactivo', SocioActivo::class)->middleware(['auth'])->name('socioactivo');
+Route::get('/socioactivo', SocioActivo::class)->middleware(['auth','afiliado'])->name('socioactivo');
 Route::get('/partner-tree',[PartnersController::class,'index'] )->middleware(['auth','afiliado'])->name('partnertree');
 Route::get('/products',Products::class )->middleware(['auth','afiliado'])->name('products');
 Route::post('/addproduct',[ProductController::class,'store'])->middleware(['auth','afiliado'])->name('addproduct.create');

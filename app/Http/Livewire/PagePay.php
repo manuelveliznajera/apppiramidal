@@ -19,6 +19,7 @@ class PagePay extends Component
     public $user;
     public $cantidadProductos;
   public $subTotal;
+  public $activo;
   public $taxes   = 0;
   public $shipping = 0;
   public $totalcard = 0;
@@ -33,6 +34,8 @@ class PagePay extends Component
     }
     public function render()
     {
+      // $this->activo=Auth()->user()->active;
+      // dd(Auth()->user());
       $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent();
       $this->subtotal=\Cart::session(Auth()->user()->idUser)->getSubTotal();
       
