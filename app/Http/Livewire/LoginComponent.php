@@ -38,7 +38,9 @@ class LoginComponent extends Component
                         if (!$status[0]['firstBuy']||$status[0]['StatusAff']==1) {
                     $this->dispatchBrowserEvent('noty', ['msg' => 'Upss lo sentimos tu membresia ha expirado, renueva tu membresia!.']);
 
-                            return redirect()->route('addpackage');
+                            return redirect()->route('addpackage'); 
+                            // return redirect()->route('products');
+
                         }else{
                             return redirect()->route('products');
                         }

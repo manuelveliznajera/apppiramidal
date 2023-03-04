@@ -39,7 +39,8 @@ class Products extends Component
           }
         }
         $lines=Line::all();
-        $this->products=Product::all();
+        $excludedIds = [5];
+        $this->products=Product::whereNotIn('idLine',$excludedIds)->get();;
       //  dd($this->products);
         return view('livewire.products', compact('afiliado'))->extends('layout.side-menu')
                 ->section('subcontent');

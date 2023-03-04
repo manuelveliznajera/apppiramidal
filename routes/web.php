@@ -3,6 +3,7 @@
 use App\Http\Controllers\ListUserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SocioactivoController;
+use App\Http\Livewire\MyShops;
 use App\Http\Livewire\PagePay;
 use App\Http\Livewire\SocioActivo;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,9 @@ Route::controller(AuthController::class)->middleware('loggedin')->group(function
 
 Route::get('register', Register::class)->name('login.register');
 
+//miscompras
+
+Route::get('myShops', MyShops::class )->middleware('auth','afiliado')->name('myshops');
 //afiliados
 Route::get('ListUsers', [ListUserController::class, 'index'])->middleware(['auth','afiliado'])->name('ListUsers');
 Route::get('afiliado/{id}', [ListUserController::class, 'edit'])->middleware(['auth','afiliado'])->name('afiliado');

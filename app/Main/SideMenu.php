@@ -33,7 +33,7 @@ class SideMenu
                 ],
                 'Compras' => [
                     'icon' => 'shopping-cart',
-                    'route_name' => 'products',
+                    'route_name' => 'myshops',
                     'params' => [
                         'layout' => 'side-menu'
                     ],

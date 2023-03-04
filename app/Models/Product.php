@@ -22,4 +22,9 @@ class Product extends Model
         'active',
         'puntos'
     ];
+
+    public function linea()
+{
+    return $this->belongsTo(Line::class, 'idLine');
+}
 }
