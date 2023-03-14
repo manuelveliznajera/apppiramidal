@@ -82,6 +82,7 @@ class PagePay extends Component
         //  dd($this->taxes);
           $this->stripe = new \Stripe\StripeClient($variable);
           $b = $this->user;
+          
         return view('livewire.page-pay',compact('b','STRIPE_KEY',))
           ->extends('layout.side-menu')
           ->section('subcontent');
@@ -123,8 +124,8 @@ class PagePay extends Component
                 'amount' => $total*100,
                 'currency' => 'usd',
                 'description' => json_encode($metadata),
+                'receipt_email'=>'manuelcotonio9@gmail.com',
                 'source' => $token,
-                'receipt_email'=>$this->user->Email,
                
             ]);
       $idAfiliado=Auth()->user()->idAffiliated;
@@ -137,6 +138,7 @@ class PagePay extends Component
         $precio=floatval($productos[0]['precio']);
         $web=intval($website->idWebsite);
         try {
+          $language=session()->get('locale');
        
             DB::select('CALL SpSales(?,?, ?,?,?,?,?,?,?)', array(
               'Sale',
@@ -154,9 +156,16 @@ class PagePay extends Component
           $usuario->active=1;
           $usuario->save();
           $this->ClearCart();
-          return redirect('/products')->with('success', 'Compra Exitosa!!.');
+          $mensaje='';
+          if ($language=='en') {
+            $mensaje='successful purchase!!.';
+          }else{
+            $mensaje='Compra Exitosa!!';
+          }
+          return redirect('/products')->with('success', $mensaje);
         } catch (\Throwable $th) {
-          dd($th);
+          return redirect('/products')->with('error', $th);
+
         }
         
 

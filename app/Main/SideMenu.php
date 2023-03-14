@@ -15,7 +15,7 @@ class SideMenu
         return [
             'dashboard' => [
                     'icon' => 'home',
-                    'title' => 'Inicio',
+                    'title' => 'Home',
                     'route_name' => 'dash',
                     'params' => [
                         'layout' => 'side-menu'
@@ -29,7 +29,7 @@ class SideMenu
                     'params' => [
                         'layout' => 'side-menu'
                     ],
-                    'title' => 'Tienda'
+                    'title' => 'Shop'
                 ],
                 'Compras' => [
                     'icon' => 'shopping-cart',
@@ -37,7 +37,7 @@ class SideMenu
                     'params' => [
                         'layout' => 'side-menu'
                     ],
-                    'title' => 'Mis Compras'
+                    'title' => 'My shopping'
                 ],
                 'devider',
                 'Agregar-afiliado' => [
@@ -46,7 +46,7 @@ class SideMenu
                     'params' => [
                         'layout' => 'side-menu'
                     ],
-                    'title' => 'Agregar Afiliado'
+                    'title' => 'Add affiliate'
                 ],
                 'Socios-Activos' => [
                     'icon' => 'users',
@@ -54,7 +54,7 @@ class SideMenu
                     'params' => [
                         'layout' => 'side-menu'
                     ],
-                    'title' => 'Socios Activos'
+                    'title' => 'Active Member'
                 ],
                 'Socios-Promotores' => [
                     'icon' => 'user-check',
@@ -62,7 +62,7 @@ class SideMenu
                     'params' => [
                         'layout' => 'side-menu'
                     ],
-                    'title' => 'Socios Promotores'
+                    'title' => 'Promoter Partner'
                 ],
               
                 'Clientes' => [
@@ -71,7 +71,7 @@ class SideMenu
                     'params' => [
                         'layout' => 'side-menu'
                     ],
-                    'title' => 'Clientes'
+                    'title' => 'Customers'
                 ],
                 'Prospectos' => [
                     'icon' => 'user-plus',
@@ -79,7 +79,7 @@ class SideMenu
                     'params' => [
                         'layout' => 'side-menu'
                     ],
-                    'title' => 'Prospectos'
+                    'title' => 'Prospects'
                 ],
                 'devider',
                 'Wallet' => [
@@ -88,7 +88,7 @@ class SideMenu
                     'params' => [
                         'layout' => 'side-menu'
                     ],
-                    'title' => 'Cartera'
+                    'title' => 'Wallet'
                 ],
                 'devider',
                 'Centroderecursos' => [
@@ -97,7 +97,7 @@ class SideMenu
                     'params' => [
                         'layout' => 'side-menu'
                     ],
-                    'title' => 'Centro de Recursos'
+                    'title' => 'Resource Center'
                 ],
                 'Listar-afiliados' => [
                     'icon' => 'list',
@@ -105,7 +105,7 @@ class SideMenu
                     'params' => [
                         'layout' => 'side-menu'
                     ],
-                    'title' => 'Lista de Afiliados'
+                    'title' => 'Affiliate List'
                 ],
                 'Tree' => [
                     'icon' => 'user',
@@ -113,7 +113,7 @@ class SideMenu
                     'params' => [
                         'layout' => 'side-menu'
                     ],
-                    'title' => 'Geneología'
+                    'title' => 'Genealogy'
                 ],
                 'devider',
         ];

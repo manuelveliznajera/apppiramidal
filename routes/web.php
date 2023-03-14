@@ -20,6 +20,19 @@ use App\Http\Livewire\Register\Register;
 use Illuminate\Support\Facades\Auth;
 
 
+Route::get('lenguage/{locale}',function ($locale) {
+   
+    if (!in_array($locale, ['en', 'es'])) {
+        abort(404);
+        
+    } 
+        session()->put('locale', $locale);
+        App::setLocale(session()->get('locale'));
+        return back();
+    
+    
+})->name('changelanguage');
+
 Route::get('dark-mode-switcher', [DarkModeController::class, 'switch'])->name('dark-mode-switcher');
 Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class, 'switch'])->name('color-scheme-switcher');
 Route::get('login', LoginComponent::class)->name('login');

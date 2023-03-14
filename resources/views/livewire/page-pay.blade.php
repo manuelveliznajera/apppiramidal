@@ -8,45 +8,45 @@
                            
                                     <div class="">
                                     
-                                    <h1 class="font-bold uppercase text-xl p-2 bg-gray-300 rounded mb-3">BILLING ADDRESS</h1>
+                                    <h1 class="font-bold uppercase text-xl p-2 bg-gray-300 rounded mb-3">{{__('Information')}}</h1>
                                        
                                     </div>
                                     
                                     <div class="input-group mb-3">
-                                        <span  class="input-group-text" id="basic-addon1">Name</span>
+                                        <span  class="input-group-text" id="basic-addon1">{{__('Name')}}</span>
                                         <input id="name" value="{{$b->Name}}" type="text" class="form-control" placeholder="{{$b->Name}}" aria-label="notification" aria-describedby="basic-addon1">
                                     </div>
                                   
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text" id="basic-addon1">Last name</span>
+                                        <span class="input-group-text" id="basic-addon1">{{__('Last Name')}}</span>
                                         <input readonly value="{{$b->LastName}}" type="text" class="form-control" placeholder="{{$b->LastName}}" aria-label="notification" aria-describedby="basic-addon1">
                                     </div>
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text" id="basic-addon1">Email</span>
+                                        <span class="input-group-text" id="basic-addon1">{{__('Email')}}</span>
                                         <input id="email" value="{{$b->Email}}" readonly type="text" class="form-control" placeholder="{{$b->Email}}" aria-label="notification" aria-describedby="basic-addon1">
                                     </div>
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text" id="basic-addon1">Phone</span>
+                                        <span class="input-group-text" id="basic-addon1">{{__('Phone')}}</span>
                                         <input readonly type="text" class="form-control" placeholder="{{$b->Phone}}" aria-label="notification" aria-describedby="basic-addon1">
                                     </div>
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text pr-2" id="basic-addon1">ZipCode</span>
+                                        <span class="input-group-text pr-2" id="basic-addon1">{{__('ZipCode')}}</span>
                                         <input readonly type="text" class="form-control" placeholder="{{$b->ZipCode}}" aria-label="notification" aria-describedby="basic-addon1">
                                     </div>
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text pr-2" >Address</span>
+                                        <span class="input-group-text pr-2" >{{__('Address')}}</span>
                                         <input id="address" value="{{$b->Address}}" readonly type="text" class="form-control" placeholder="{{$b->Address}}" aria-label="notification" aria-describedby="basic-addon1">
                                     </div>
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text pr-2" id="basic-addon1">Country</span>
+                                        <span class="input-group-text pr-2" id="basic-addon1">{{__('Country')}}</span>
                                         <input id="country" value="{{$b->Country}}" readonly type="text" class="form-control" placeholder="" aria-label="notification" aria-describedby="basic-addon1">
                                     </div>
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text pr-2" id="basic-addon1">State</span>
+                                        <span class="input-group-text pr-2" id="basic-addon1">{{__('State')}}</span>
                                         <input readonly type="text" class="form-control" placeholder="{{$b->State}}" aria-label="notification" aria-describedby="basic-addon1">
                                     </div>
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text pr-2" id="basic-addon1">City</span>
+                                        <span class="input-group-text pr-2" id="basic-addon1">{{__('City')}}</span>
                                         <input readonly type="text" class="form-control" placeholder="{{$b->City}}" aria-label="notification" aria-describedby="basic-addon1">
                                     </div>
                         </div> 
@@ -56,21 +56,15 @@
                         
                         <div class="basis-2/4 p-3 text-center">
                             
-                                <h1 class="font-bold uppercase text-xl p-2 bg-gray-300 rounded mb-3">Detalle de Compra</h1>
-                              
-                            
-                              
-                              
-
-
+                                <h1 class="font-bold uppercase text-xl p-2 bg-gray-300 rounded mb-3">{{__('Purchase Detail')}}</h1>
                                 <table class="table-responsive text-center w-full">
                                     <thead>
                                         <tr>                              
-                                            <th class="p-2 bg-primary text-white">CANTIDAD</th>
-                                            <th class="p-2 bg-primary text-white">PRODUCTO</th>      
-                                            <th class="p-2 bg-primary text-white">PRECIO</th>
-                                            <th class="p-2 bg-primary text-white">IMPUESTO</th>
-                                            <th class="p-2 bg-primary text-white">SUB-TOTAL</th>                                         
+                                            <th class="p-2 bg-primary text-white">{{__('Amount')}}</th>
+                                            <th class="p-2 bg-primary text-white">{{__('Product')}}</th>      
+                                            <th class="p-2 bg-primary text-white">{{{__('Price')}}}</th>
+                                            <th class="p-2 bg-primary text-white">{{__('Tax')}}</th>
+                                            <th class="p-2 bg-primary text-white">Subtotal</th>                                         
                                         </tr>       
                                     </thead>
                                     <tbody>
@@ -106,7 +100,7 @@
                                         <tr>
                                             <td></td>
                                             <td class="text-center ">
-                                                Envio:
+                                               {{__('Shipping')}}:
                                             </td>
                                              <td></td>
                                             <td >  <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold "> {{number_format(floatval($shipping),2)}}</h1></td>
@@ -125,7 +119,7 @@
                         </div>   
                         <div class="basis-2/4 p-3 bg-gray-200">
                             <div class="">
-                                <h1 class="font-bold uppercase text-xl p-2 bg-gray-600 rounded mb-3 text-white text-center">METODO DE PAGO</h1>     
+                                <h1 class="font-bold uppercase text-xl p-2 bg-gray-600 rounded mb-3 text-white text-center">{{__('Payment method')}}</h1>     
                             </div>
                             <div class="input-group mb-3">
                                 <h1 class="fw-bold text-dark">Accepted Cards:</h1>    
@@ -146,14 +140,14 @@
                                       
                                       <label class="font-black uppercase text-base" for="">Total:</label>
                                       <input id="totalfull" type="text" value="{{number_format(floatval($totalblade+$shipping),2)}}" class="-intro-y form-control">
-                                      <label class="font-black uppercase text-base" for="nameCard">Nombre:</label>
+                                      <label class="font-black uppercase text-base" for="nameCard">{{__('Name')}}:</label>
                                      <input type="text" id="nameCard" class="-intro-x form-control" placeholder="Nombre del Titular">
-                                     <label class="font-black uppercase text-base" for="nameCard">Datos de Tarjeta:</label>
+                                     <label class="font-black uppercase text-base" for="nameCard">{{__('Card Data')}}:</label>
 
                                     <div id="card-element" >
 
                                     </div>
-                                    <div id="payment-element" >
+                                    <div id="payment-element" class="bg-stone-50 p-3" >
 
                                     </div>
                                     
@@ -167,7 +161,7 @@
                               id="card-button"
                               type="submit"
                               class="btn btn-primary mt-3"
-                            >  Pagar      </button>
+                            >  {{__('Pay')}}      </button>
                         
                             </div>
                         </form>
@@ -190,19 +184,14 @@
     var elements = stripe.elements();
     var cardElement = elements.create('card',{
   style: {
-    base: {
-      iconColor: '#c4f0ff',
-      color: 'black',
-      fontWeight: '500',
-      fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
-      fontSize: '16px',
-      fontSmoothing: 'antialiased',
-      ':-webkit-autofill': {
-        color: 'primary',
-      },
-      '::placeholder': {
-        color: 'green',
-      },
+        base: {
+        color: "#32325d",
+        fontFamily: 'Arial, sans-serif',
+        fontSmoothing: "antialiased",
+        fontSize: "16px",
+        "::placeholder": {
+          color: "#32325d"
+        }
     },
     invalid: {
       iconColor: 'red',

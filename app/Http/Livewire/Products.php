@@ -132,15 +132,29 @@ class Products extends Component
         ));
     $this->puntosTemporal = $this->products[$id]['puntos'];
           $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent($id)->count();
-  
+        $language=session()->get('locale');
           if ($this->cantidadProductos==$cantTem) {
-            $this->dispatchBrowserEvent('noty', ['msg' => 'Producto Actualizado la cantidad']);
+                if ($language=='en') {
+                  $this->dispatchBrowserEvent('noty', ['msg' => 'Product Updated']);
+                }else{
+                  $this->dispatchBrowserEvent('noty', ['msg' => 'Producto Actualizado la cantidad']);
+
+                }
+          
           $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent($id)->count();
   
           }else{
-            $this->dispatchBrowserEvent('noty', ['msg' => 'Producto nuevo agregado!']);
-  
+                if ($language=='en') {
+                  $this->dispatchBrowserEvent('noty', ['msg' => 'Add new Product!']);
+              }else{
+              $this->dispatchBrowserEvent('noty', ['msg' => 'Producto nuevo agregado!']);
+
+              }
           }
+            
+            // $this->dispatchBrowserEvent('noty', ['msg' => 'Producto nuevo agregado!']);
+  
+          
         
          
           

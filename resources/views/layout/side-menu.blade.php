@@ -6,15 +6,16 @@
 
 @section('content')
     @include('../layout/components/mobile-menu')
+
     <div class="flex mt-[4.7rem] md:mt-0 overflow-hidden">
         <!-- BEGIN: Side Menu -->
         <nav class="side-nav">
             <a href="" class="intro-x flex flex-col items-center ">
                 <img alt="Besanaglobal.com" class="" src="{{ asset('img/besana.png') }}">
                 @if (Auth::user()->active==1)
-                    <span class=" text-bold text-lime-400 font-black uppercase text-xl ">Activo</span>
+                    <span class=" text-bold text-lime-400 font-black uppercase text-xl ">{{__('Active')}}</span>
                 @else
-                    <span class=" text-bold text-red-700 font-black uppercase text-xl ">Inactivo</span>
+                    <span class=" text-bold text-red-700 font-black uppercase text-xl ">{{__('Inactive')}}</span>
 
                 @endif
             </a>
@@ -35,7 +36,7 @@
                                     
                                     </div>
                                     <div class="side-menu__title">
-                                        {{ $menu['title'] }}
+                                        {{ __($menu['title']) }}
                                         @if (isset($menu['sub_menu']))
                                             <div class="side-menu__sub-icon {{ $first_level_active_index == $menuKey ? 'transform rotate-180' : '' }}">
                                                 <i data-lucide="chevron-down"></i>

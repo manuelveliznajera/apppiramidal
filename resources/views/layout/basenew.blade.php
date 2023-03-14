@@ -28,9 +28,9 @@
             <a href="" class="intro-x flex flex-col items-center ">
                 <img alt="Besanaglobal.com" class="" src="{{ asset('img/besana.png') }}">
                 @if (Auth::user()->active==1)
-                         <span class=" text-bold text-lime-400 font-black uppercase text-xl ">Activo</span>
+                         <span class=" text-bold text-lime-400 font-black uppercase text-xl ">{{__('Active')}}</span>
                 @else
-                    <span class=" text-bold text-red-700 font-black uppercase text-xl ">Inactivo</span>
+                    <span class=" text-bold text-red-700 font-black uppercase text-xl ">{{__('Inactive')}}</span>
                  @endif
             </a>
             <div class="side-nav__devider my-6">

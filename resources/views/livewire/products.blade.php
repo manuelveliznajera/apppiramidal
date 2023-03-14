@@ -1,72 +1,52 @@
 <div>
     
     @if ($total>0)
-        <div class="shadow shadow-green-600 shadow-2xl fixed flex inline " 
-        style="margin-top: 40px;
+        <div class="shadow shadow-green-600 shadow-2xl fixed flex  " 
+        style="margin-top: 30px;
         z-index: 500;
-        top: 10;
-        margin-right: 100px;
+        top: 5px;
+        margin-right: 500px;
         right: 0;"
                         > 
-                            <a href="{{route('cart-pay',$onzasfront,)}}" class="btn btn-outline-primary flex  " 
+                        <div class="flex">
+                            <a href="{{route('cart-pay',$onzasfront,)}}" class="btn btn-primary flex  " 
                         
                             >
-                            <i class="fa-solid fa-cart-shopping fs-4 mr-2"></i>
-                            <span class=" "  >
+                            <i class="fa-solid fa-cart-shopping fs-4 mr-2 bg-white"></i>
+                            <span class="flex  "  >
                             {{$total}}
-                            <img class="color-white-300 text-white " src="{{asset('img/cart.svg')}}" alt="" width="20px">
+                            <img class="color-white-300 text-white bg-white ml-2" src="{{asset('img/cart.svg')}}" alt="" width="20px">
 
                             </span>
                             </a>
+                        </div>
+                           
             
-                            <button onclick="limpiar()""  class="btn btn-outline-danger ml-2"  >Clear cart</button>
+                            <button onclick="limpiar()""  class="btn btn-outline-danger ml-2"  >{{__('Clear')}}</button>
 
         </div>
     @endif
-    <h2 class="intro-y text-lg font-medium mt-10">Product Grid</h2>
+
    
     @if(session('success'))
     <div class="bg-green-400 p-4 rounded-b-lg ">{{ session('success') }}</div>
+    @endif
+    @if(session('error'))
+    <div class="bg-red-400 p-4 rounded-b-lg text-white">{{ session('error') }}</div>
     @endif
     <div class="grid grid-cols-3 gap-4 mt-5">
        
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
            
             
-            <button class="btn btn-primary shadow-md mr-2">Onzas total:{{$onzasfront}}</button>
-            <button class="btn btn-primary shadow-md mr-2">Shipping $:{{$shippingfront}}</button>
+       
 
 
             <span class="intro-x text-primary">
          
             </span>
-            <div class="dropdown">
-                <button class="dropdown-toggle btn px-2 box" aria-expanded="false" data-tw-toggle="dropdown">
-                    <span class="w-5 h-5 flex items-center justify-center">
-                        <i class="w-4 h-4" data-lucide="plus"></i>
-                    </span>
-                </button>
-                <div class="dropdown-menu w-40">
-                    <ul class="dropdown-content">
-                        <li>
-                            <a href="" class="dropdown-item">
-                                <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Print
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="dropdown-item">
-                                <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export to Excel
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="dropdown-item">
-                                <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export to PDF
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="hidden md:block mx-auto text-slate-500">Showing 1 to 10 of 150 entries</div>
+           
+            
             <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
                 
             </div>
@@ -98,11 +78,11 @@
                         ">
                             <div class="flex flex-col items-center  p-2 text-dark">
                                 <h1 class="block font-medium text-base">{{$pro->name}}</h1>
-                                 Price: ${{ $pro->price }}
-                                 <span class="font-black">Puntos a Recibir:</span>
-                                 <span class="font-black ">{{$pro->puntos}} Puntos</span>
+                                 {{__('Price')}}: ${{ $pro->price }}
+                                 <span class="font-black">{{__('Points to Receive')}}:</span>
+                                 <span class="font-black ">{{$pro->puntos}} {{__('Points')}}</span>
                                  <button class="btn btn-primary btn-sm " wire:click="addCart({{$key}})">
-                                     Add Cart
+                                     {{__('Add cart')}}
                                 </button>
 
                             </div>
@@ -120,7 +100,7 @@
 </div>
 <script>
     function fireModal(action = 1) {
-console.log("click")
+
         if (action == 1) {
             document.querySelector('.modal').classList.add('show')
             document.querySelector('.modal').style.display = 'block'
