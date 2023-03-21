@@ -20,7 +20,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
-<body class="py-5 md:py-0 bg-black/[0.15] dark:bg-transparent">
+<body class="py-5 md:py-0 bg-black/[0.15] dark:bg-transparent overflow-auto">
     @include('../layout/components/mobile-menu')
     <div class="flex mt-[4.7rem] md:mt-0 overflow-hidden">
         <!-- BEGIN: Side Menu -->

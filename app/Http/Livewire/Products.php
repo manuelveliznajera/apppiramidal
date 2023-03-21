@@ -15,13 +15,13 @@ class Products extends Component
     public $total;
     public $taxes = 0;
     public $shipping = 0;
-  public $shippingfront = 0;
+    public $shippingfront = 0;
 
     public $onzas=0;
-  public $onzasfront = 0;
-  public $registrado = 0;
-  public $puntosTemporal=0;
-  public $state;
+    public $onzasfront = 0;
+    public $registrado = 0;
+    public $puntosTemporal=0;
+    public $state;
     public function render()
     {
       

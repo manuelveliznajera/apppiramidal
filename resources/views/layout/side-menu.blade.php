@@ -11,7 +11,7 @@
         <!-- BEGIN: Side Menu -->
         <nav class="side-nav">
             <a href="" class="intro-x flex flex-col items-center ">
-                <img alt="Besanaglobal.com" class="" src="{{ asset('img/besana.png') }}">
+                <img alt="Besanaglobal.com" class=" w-16 md:w-auto" src="{{ asset('img/besana.png') }}">
                 @if (Auth::user()->active==1)
                     <span class=" text-bold text-lime-400 font-black uppercase text-xl ">{{__('Active')}}</span>
                 @else

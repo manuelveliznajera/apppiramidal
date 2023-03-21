@@ -32,7 +32,7 @@
     <!-- END: CSS Assets-->
 </head>
 <!-- END: Head -->
-<body>
+<body >
 @yield('body')
     
  @stack('javas')

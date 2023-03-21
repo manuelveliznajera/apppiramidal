@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Affiliate;
 use Illuminate\Http\Request;
 use DataTables;
+use DB;
 
 
 class ListUserController extends Controller
@@ -60,7 +61,12 @@ class ListUserController extends Controller
      */
     public function edit($id)
     {
-        return view('afiliados.edit');
+        $Af= DB::select('CALL SpConsultarAfiliados(?,?)', array(
+            "SELECT",
+            $id
+       ));
+        // dd($Af);
+        return view('afiliados.edit',['Af'=>$Af]);
     }
 
     /**

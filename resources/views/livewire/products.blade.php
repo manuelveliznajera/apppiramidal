@@ -1,5 +1,4 @@
 <div>
-    
     @if ($total>0)
         <div class="shadow shadow-green-600 shadow-2xl fixed flex  " 
         style="margin-top: 30px;
@@ -21,7 +20,6 @@
                             </a>
                         </div>
                            
-            
                             <button onclick="limpiar()""  class="btn btn-outline-danger ml-2"  >{{__('Clear')}}</button>
 
         </div>
@@ -53,7 +51,7 @@
         </div>
     </div>
         <!-- BEGIN: Users Layout -->
-        <div class="intro-y grid grid-cols-3 gap-4 mt-3">
+        <div class="intro-y grid gap-2 grid-cols-1 sm:grid-cols-3 md:gap-4 mt-3">
         @forelse ($products as $key => $pro)
             
                 <div class="col-span-1 box shadow rounded rounded-lg border-double border-4 border-gray-400

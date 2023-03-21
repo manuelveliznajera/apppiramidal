@@ -26,7 +26,7 @@ class SocioActivo extends Component
     public $Name='';
     public $LastName='';
     public $AlternativePhone;
-    public $Workphone='000000000';
+    public $Workphone;
     public $DateBirth;
     public $Email='';
     
@@ -36,7 +36,7 @@ class SocioActivo extends Component
     public $State='';
     public $City='';
     public $ZipCode='';
-    public $WorkPhone='00000000';
+    public $WorkPhone;
     public $Latitude;
     public $Longitude;
     public $userName='';

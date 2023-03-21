@@ -1,32 +1,4 @@
-// const d = document;
 
-//  const partners = d.getElementById('tree').dataset.tree;
-// const $container = d.getElementById('tree');
-
-// function filterData () {
-
-//     let data = JSON.parse(partners)
-// console.log(data);
-//     data.forEach(el => {
-
-//         if(el.nivel === 'Grandchild'){
-            
-//             delete  el.email
-//             delete el.phone
-//         }
-
-//     });
-
-//     return data;
-// }
-
-
-
-
-// d.addEventListener('DOMContentLoaded',()=>{
-
-    
-    
     window.onload = function () {
     // let parsed = filterData()//contiene la data ya eliminado el grandchild items
 
@@ -289,11 +261,11 @@
       OrgChart.toolbarUI.layoutIcon = layoutIcon;  
     
         var chart = new OrgChart(document.getElementById("tree"), {
-          template: "myTemplate",
+          template: "diva",
           toolbar: {
                   layout: true,
                   zoom: true,
-                //  fit: true,
+                  fit: true,
                   expandAll: true
               },
           nodeBinding: {
@@ -348,68 +320,44 @@
          
       });
       
-      const partners = document.getElementById("tree").dataset.tree;
-      console.log('partners:')
-      console.log(partners)
-    //   var dat =JSON.parse(partners);
-    //   console.log(dat)
+    const partners = document.getElementById("tree").dataset.tree;
     var dat =JSON.parse(partners);
-    console.log('dat desde php')
-      console.log(dat)
-
+   
+    console.log(dat)
     var datos=[];
 
-   var  idtemp=0;
-    dat.forEach(element => {
-        if (idtemp==element.idRel) {
-            return;
-        }
-        if (element.idRel==1) {
-           let dat ={
-                'id':element.idRel,
-                'name':'BESANA GLOBAL',
-                'img'  : "img/logonew.png",
-                'email':element.email
-            }
-            datos.push(dat)
-            dat={};
-            idtemp=element.idRel;
-            return;
-        } else {
+      
+
+      
+        var nodeFather = dat.pop();
+        console.log("eliminado el ultimo")
+        console.log(nodeFather)
+        datos.push({
+          'id':nodeFather.idFhater,
+          'name':nodeFather.username,
+          'img'  : "img/logonew.png",
+        })
+        dat.forEach(element => {
+
+          let elementonew={
+            'id':element.idSon,
+            'pid':element.idFhater,
+            'name':element.username,
+            'img'  : "img/logonew.png",
+          };
+          datos.push(elementonew);
+      });
+      
     
-          let  dat ={
-                'id':element.idRel,
-                'pid':element.pid,
-                'name':element.name,
-                'img'  : "img/logonew.png",
-                'email':element.email
     
-            }
-        datos.push(dat)
-        idtemp=element.idRel;
-        return;
-        }
-    });
+    
     console.log('datos: ')
       console.log(datos)
 
-     let set                 = new Set( datos.map( JSON.stringify ) )
-     let arrSinDuplicaciones = Array.from( set ).map( JSON.parse );
-     console.log('arrsinduplicar: ')
-     console.log(arrSinDuplicaciones)
     
-      nodes = [
-              { id: 1, tags: ["green"], name: "Denny Curtis", title: "CEO" },
-              { id: 2, tags: ["yellow"], pid: 1, name: "Ashley Barnett", title: "HR Manager" },
-              
-              { id: 3, pid: 1, name: "Caden Ellison", title: "Dev Manager" },
-              { id: 4, pid: 2, name: "Elliot Patel" },
-              { id: 5, pid: 2, tags: ["green"], name: "Lynn Hussain" },
-              { id: 6, pid: 3, name: "Tanner May" },
-              { id: 7, pid: 3, tags: ["green"], name: "Fran Parsons" }
-          ];
     
-          chart.load(dat);
+    
+          chart.load(datos);
         }
   
 // })

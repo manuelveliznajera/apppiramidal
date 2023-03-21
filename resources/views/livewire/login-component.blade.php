@@ -1,9 +1,8 @@
 <div>
-    @include('../layout/change')
+    <div class="container">
+        @include('../layout/change')
 
-    <div class="container sm:px-10">
-
-        <div class="block xl:grid grid-cols-2 gap-4">
+        <div class="block xl:grid grid-cols-2 gap-4 p-1 md:p-0">
             <!-- BEGIN: Login Info -->
             <div class="hidden xl:flex flex-col min-h-screen">
                 <a href="" class="-intro-x flex items-center pt-5">
@@ -11,12 +10,12 @@
                 </a>
                 <div class="my-auto">
                     <img alt="Icewall Tailwind HTML Admin Template" class="-intro-x w-1/2 -mt-16" src="{{ asset('img/illustration.svg') }}">
-                    <div class="-intro-x text-white font-medium text-3xl leading-tight mt-10">{{__('A few more clicks to start')}} <br> {{__('login to your account')}}.</div>
+                    <div class="-intro-x text-white font-medium text-3xl leading-tight mt-10">{{__('A few more clicks to')}} <br> {{__('login to your account')}}.</div>
                 </div>
             </div>
             <!-- END: Login Info -->
             <!-- BEGIN: Login Form -->
-            <div class="h-screen xl:h-auto flex xl:py-0 my-10 xl:my-0">
+            <div class=" xl:h-auto flex xl:py-0 xl:my-0 sm:my-0 ">
                 <div class="my-auto mx-auto xl:ml-20 bg-white dark:bg-darkmode-600 xl:bg-transparent px-5 sm:px-8  xl:p-0 rounded-md shadow-md xl:shadow-none w-full sm:w-3/4 lg:w-2/4 xl:w-auto">
                     <img src="{{asset('img/logologin.jpeg')}}" alt="" height="200px" width="300px">
                     
@@ -35,18 +34,20 @@
                             <input id="password" type="password" class="intro-x login__input form-control py-3 px-4 block mt-4"  wire:model="password">
                             <div id="error-password" class="login__input-error text-danger mt-2"></div>    
                     </div>
-                    <div class="intro-x flex text-slate-600 dark:text-slate-500 text-xs sm:text-sm mt-4">
+                    <div class="intro-x flex flex-col  md:p-0 md:flex-row text-slate-600 dark:text-slate-500 text-xs sm:text-sm mt-4">
                         <div class="flex items-center mr-auto">
                             <input id="remember-me" type="checkbox" class="form-check-input border mr-2">
                             <label class="cursor-pointer select-none" for="remember-me">{{__('Remember')}}</label>
                         </div>
-                        <a href="">{{__('Did you forget your password')}}?</a>
+                        <div class="mt-2 md:mt-0">
+                            <a href="">{{__('Did you forget your password')}}?</a>
+                        </div>
                     </div>
                     <div class="intro-x mt-5 xl:mt-8 text-center xl:text-left">
                         <button 
                         {{-- id="btn-login" --}}
                        
-                        class="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top">{{__('Logged in')}}</button>
+                        class="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top">{{__('Login')}}</button>
                     </form>
                         <a href="{{route('login.register')}}" class="btn btn-outline-secondary py-3 px-4 w-full xl:w-32 mt-3 xl:mt-0 align-top">{{__('Register')}}</a>
                     </div>

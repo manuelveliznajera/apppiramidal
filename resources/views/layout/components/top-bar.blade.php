@@ -2,7 +2,8 @@
 @php
 use App\Models\Affiliate;
     
-$afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+
+$user=Auth()->user()->userName;
 
 @endphp
 <div class="top-bar -mx-4 px-4 md:mx-0 md:px-0">
@@ -54,7 +55,9 @@ $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
         <div class="dropdown-menu w-56">
             <ul class="dropdown-content bg-primary text-white">
                 <li class="p-2">
-                    <div class="font-medium uppercase"> {{ $afiliado->Name}} </div>
+                   
+                    <div class="font-medium uppercase"> {{ $user}} </div>
+
                     <div class="text-xs text-white/70 mt-0.5 dark:text-slate-500">"Nivel Bronce"</div>
                 </li>
                 <li><hr class="dropdown-divider border-white/[0.08]"></li>

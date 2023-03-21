@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\Data;
 use App\Models\Affiliate;
+use App\Models\Arbol;
 use App\Models\RelSponsor;
 use App\Models\User;
 use DB;
@@ -16,48 +17,34 @@ class PartnersController extends Controller
     {
         try {
             $id = Auth()->user()->idUser;
+            // dd($id);
 
-           $newdata= DB::select('CALL sp_consultararbol(?)', array(
+         if ($id==1) {
+            $newdata= DB::select('CALL sp_queryAdminTree()');
+            
+         }else{
+            $newdata= DB::select('CALL sp_consultararbol(?)', array(
                 $id
-                // Convertir a nulo si es una cadena vacía
             ));
-            // dd($newdata);
-            $user = User::all();
-            $relsponsor = RelSponsor::all();
 
-            $pp = [];
-            $dat = [
-                'id' => $id,
-                'name' => Auth()->user()->userName,
-                'rank' => 'oro'
-            ];
-            array_push($pp, $dat);
-            foreach ($newdata as  $value) {
-                
-                    $dat = [
-                        'id' => $value->idAffiliated,
-                        'pid'=>$id,
-                        'name' =>$value->userName,
-                        'rank' => 'oro'
-                    ];
-                    array_push($pp, $dat);
+            // dd(count($newdata));
+         }
 
-                }
-               
+         
+            $fhater=array(
+                'idFhater'=>$id,
+                'username'=>Auth()->user()->userName
+            );
 
-            
-            //  dd($pp);
+          
+            array_push($newdata,$fhater);
+         
+             $datos = json_encode($newdata);
+           
 
-            // $data =  json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL TreeAff ('{$id}',5)")),true);
-
-
-            // $prueba = Data::getData();
-            $datos = json_encode($pp);
-
-
-            // dd($relsponsor);
-            
-            return view('pages.partner-tree',['data'=> $datos]);
+           
+          
+             return view('pages.partner-tree',['data'=> $datos]);
 
         } catch (\Exception $e) {
             
