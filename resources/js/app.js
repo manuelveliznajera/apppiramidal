@@ -6,6 +6,7 @@
  | Import Midone built-in components.
  |
  */
+// <reference path="OrgChart.d.ts" />
 import "./bootstrap";
 import "@left4code/tw-starter/dist/js/svg-loader";
 import "@left4code/tw-starter/dist/js/accordion";
