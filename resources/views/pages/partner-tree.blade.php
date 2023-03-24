@@ -40,7 +40,7 @@
 
 
 
-<script type="module" src="{{asset('js/balkan/prueba.js')}}" ></script>
+<script src="{{asset('js/balkan/prueba.js')}}" ></script>
 
 
 @endsection
