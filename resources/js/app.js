@@ -36,7 +36,7 @@ import "./zoom";
 import "./notification";
 import "./tabulator";
 import "./calendar";
-import "./orgchart"
+import "./orgchart";
 
 /*
  |--------------------------------------------------------------------------
@@ -58,6 +58,7 @@ import "./side-menu";
 import "./mobile-menu";
 import "./side-menu-tooltip";
 import "./dark-mode-switcher";
+import "./orgchart.d.ts";
 
 
 
