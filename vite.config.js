@@ -25,6 +25,7 @@ export default defineConfig({
                 "resources/js/ckeditor-balloon.js",
                 "resources/js/ckeditor-balloon-block.js",
                 "resources/js/ckeditor-document.js",
+
             ],
             refresh: true,
         }),

@@ -10,7 +10,12 @@
                             <div class=" w-full  alert alert-success">
                                 {{ session('mensaje') }}
                             </div>
-                        @endif
+                    @endif
+                    @if (session()->has('error'))
+                    <div class=" w-full  alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                    @endif
                             <span class=" font-bold uppercase text-lg ">
                                     {{__('personal information')}}:
                             </span>
@@ -71,7 +76,7 @@
                                 <div class="w-full">
                                         <label class="text-gray-600 font-bold" for="Invitedby"> {{__('Invited by')}}:</label>
                                         <input id="Invitedby" class="-intro-x login__input form-control py-3" type="text"
-                                            wire:model="invitedby"  :value="old('DateBirth')" required />
+                                            wire:model="invitedby" readonly  :value="old('invitedby')" required />
                                 </div>                          
                                 <div class="w-full mt-2 lg:mt-0">
                                     <div class="col-1">
@@ -120,13 +125,13 @@
                                     <input type="checkbox" class="-intro-x bg-primary " style=" input:checked {
                                         background-color:green;
                                     }" wire:model="asignarSocio">
-
+<h1>{{$asignacionSocio}}</h1>
                                     <span>{{__('Do you want to make a placement')}}? </span>
                                     @if ($asignarSocio)
                                         <div wire:ignore>
                                             <select class="form-control" id="select2-dropdown" wire:model='asignacionSocio'>
                                                 <option value="">{{__('Select Partner')}}</option>
-                                                @foreach($webseries as $item)
+                                                @foreach($SonAfiliate as $item)
                                                 <option value="{{ $item->idAffiliated }}">{{ $item->userName}}</option>
                                                 @endforeach
                                             </select>

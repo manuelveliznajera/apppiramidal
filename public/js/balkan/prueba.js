@@ -1,7 +1,8 @@
 
-    window.onload = function () {
-    // let parsed = filterData()//contiene la data ya eliminado el grandchild items
 
+    window.onload = function () {
+ /// <reference path="OrgChart.d.ts" />
+   
         var expandAllIcon = 
         '<svg class="shadow" width="64" height="64" fill="#9b0000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"' +
           'viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">' +
@@ -356,8 +357,10 @@
 
     
     
-    
-          chart.load(datos);
+    setTimeout(() => {
+      chart.load(datos);
+    }, 3000);
+          
         }
   
 // })

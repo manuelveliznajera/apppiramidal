@@ -5,6 +5,7 @@
         "build": "vite build"
     },
     "dependencies": {
+        "@balkangraph/orgchart.js": "^8.10.2",
         "@ckeditor/ckeditor5-build-balloon": "^29.1.0",
         "@ckeditor/ckeditor5-build-balloon-block": "^29.1.0",
         "@ckeditor/ckeditor5-build-classic": "^29.1.0",

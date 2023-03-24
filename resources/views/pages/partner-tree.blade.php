@@ -38,8 +38,9 @@
   
 </div>
 
-{{-- <script src="{{asset('js/balkan/orgChart.js')}}" ></script> --}}
-<script src="{{asset('js/balkan/prueba.js')}}" ></script>
+
+
+<script type="module" src="{{asset('js/balkan/prueba.js')}}" ></script>
 
 
 @endsection

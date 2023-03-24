@@ -3,7 +3,6 @@
 declare class OrgChart extends OrgChartBase {
     nodes: { [key in any]: OrgChart.node };
     isVisible: boolean;
-    visibleNodeIds: Array<number | string>;
 
     /**
      * @param element HTML element or string selector for example '#tree'
@@ -32,7 +31,7 @@ declare class OrgChart extends OrgChartBase {
      * Gets node data.
      * @param id identification number of the node
      */
-    get(id: string | number): OrgChart.node;
+    get(id: string | number): object;
     /**
      * If specified node has assistant/s or partner/s as children will return false.
      * @param id identification number of the node
@@ -143,7 +142,7 @@ declare class OrgChart extends OrgChartBase {
     /**
      * Centers specified node on the screen.
      * @param nodeId the id of the node
-     * @param options parentState: OrgChart.COLLAPSE_PARENT_NEIGHBORS, childrenState: OrgChart.COLLAPSE_SUB_CHILDRENS, rippleId: rippleId, vertical: false, horizontal: false
+     * @param options { parentState: OrgChart.COLLAPSE_PARENT_NEIGHBORS, childrenState: OrgChart.COLLAPSE_SUB_CHILDRENS, rippleId: rippleId, vertical: false, horizontal: false });
      * @param callback called when the animation completes
      */
     center(nodeId: string | number, options?: {
@@ -191,11 +190,11 @@ declare class OrgChart extends OrgChartBase {
     /**
      * Search in the chart.
      * @param value search for value
-     * @param searchInFields search in field names
+     * @param searchInFileds search in field names
      * @param retrieveFields retrive data for fields
      * {@link https://balkan.app/OrgChartJS/Docs/Search | See doc...}            
      */
-    search(value: string, searchInFields?: Array<string>, retrieveFields?: Array<string>): Array<{
+    search(value: string, searchInFileds?: Array<string>, retrieveFields?: Array<string>): Array<{
         id: number | string,
         name: string,
         __score: number,
@@ -278,23 +277,10 @@ declare class OrgChart extends OrgChartBase {
     exportPNGProfile(options: OrgChart.exportOptions, callback?: () => void): void;
     /**
      * Exports to CSV
-     * @param filename The name of the exported file
+     * @param id if not defained exports all nodes if defined exports childrens
      * {@link https://balkan.app/OrgChartJS/Docs/Exporting | See doc...}            
      */
-    exportCSV(filename: string): void;
-    /**
-     * Exports to XML   
-     * @param filename The name of the exported file
-     * {@link https://balkan.app/OrgChartJS/Docs/Exporting | See doc...}            
-     */
-    exportXML(filename: string): void;
-    /**
-     * Exports to JSON   
-     * @param filename The name of the exported file
-     * {@link https://balkan.app/OrgChartJS/Docs/Exporting | See doc...}            
-     */
-     exportJSON(filename: string): void;
-
+    exportCSV(id?: string | number): void;
     /**
      * Shares node data, uses build-in  device sharing functionallity.
      * @param id node id 
@@ -331,14 +317,7 @@ declare class OrgChart extends OrgChartBase {
      * Imports XML file.
      * {@link https://balkan.app/OrgChartJS/Docs/Importing | See doc...}       
      */    
-    importXML(): void;
-
-    /**
-     * Imports JSON file.
-     * {@link https://balkan.app/OrgChartJS/Docs/Importing | See doc...}       
-     */    
-    importJSON(): void;
-
+    importXML(filename?: string): void;
     /**
      * Zoom out or zoom in the chart.
      * @param delta true for zoom in, false for zoom out or scale number, if scale is > 1 it will zoom in and scale < 1 zoom out.
@@ -369,7 +348,7 @@ declare class OrgChart extends OrgChartBase {
      * @category Event Listeners
      * @param listener 
      */
-    onField(listener: (this: OrgChart, args: { 
+    onField(listener: (args: { 
         /**
          * the node
          */
@@ -403,7 +382,7 @@ declare class OrgChart extends OrgChartBase {
      * @category Event Listeners
      * @param listener 
      */
-    onInit(listener: (this: OrgChart) => void): OrgChart;
+    onInit(listener: () => void): OrgChart;
     
 
 
@@ -418,7 +397,7 @@ declare class OrgChart extends OrgChartBase {
      * @category Event Listeners
      * @param listener 
      */        
-    onRedraw(listener: (this: OrgChart) => void): OrgChart;
+    onRedraw(listener: () => void): OrgChart;
 
     /**
      * The onExpandCollpaseButtonClick event occurs when the chart is redrawed.
@@ -432,7 +411,7 @@ declare class OrgChart extends OrgChartBase {
      * @category Event Listeners
      * @param listener 
      */         
-    onExpandCollpaseButtonClick(listener: (this: OrgChart, args: {
+    onExpandCollpaseButtonClick(listener: (args: {
         /**
          * Indicates id the operation is collaps or expand
          */
@@ -459,7 +438,7 @@ declare class OrgChart extends OrgChartBase {
      * @category Event Listeners
      * @param listener 
      */             
-    onExportStart(listener: (this: OrgChart, args: 
+    onExportStart(listener: (args: 
         {
         /**
          * the content to be exported
@@ -516,7 +495,7 @@ declare class OrgChart extends OrgChartBase {
      * @category Event Listeners
      * @param listener 
      */         
-    onExportEnd(listener: (this: OrgChart, args: 
+    onExportEnd(listener: (args: 
         /**
          * for PDF/PNG
          */
@@ -576,7 +555,7 @@ declare class OrgChart extends OrgChartBase {
      * @category Event Listeners
      * @param listener 
      */   
-    onNodeClick(listener: (this: OrgChart, args: {
+    onNodeClick(listener: (args: {
         /**
          * node JSON object
          */
@@ -598,7 +577,7 @@ declare class OrgChart extends OrgChartBase {
      * @category Event Listeners
      * @param listener 
      */       
-    onNodeDoubleClick(listener: (this: OrgChart, args: {
+    onNodeDoubleClick(listener: (args: {
         /**
          * clicked node data
          */
@@ -614,7 +593,7 @@ declare class OrgChart extends OrgChartBase {
     toolbarUI: OrgChart.toolbarUI;    
     config: OrgChart.options
 
-    static fileUploadDialog(args: Object, callback: (file: any) => void): void;
+    static fileUploadDialog(callback: (file: any) => void): void;
     static isMobile(): boolean;
     /**
      * Checks if the used libraris is licnsed or not
@@ -626,10 +605,8 @@ declare class OrgChart extends OrgChartBase {
      * @param node 
      * @param count 
      */
-    static childrenCount(chart: OrgChart, node: OrgChart.node): number;
-    static childrenTotalCount(chart: OrgChart, node: OrgChart.node): number;
-    static collapsedChildrenCount(chart: OrgChart, node: OrgChart.node): number;
-    static collapsedChildrenTotalCount(chart: OrgChart, node: OrgChart.node): number;
+    static childrenCount(chart: OrgChart, node: OrgChart.node, count?: number): number;
+    static collapsedChildrenCount(chart: OrgChart, node: OrgChart.node, count?: number): number;
     static getRootOf(node: OrgChart.node): OrgChart.node;
 
     /**
@@ -638,8 +615,7 @@ declare class OrgChart extends OrgChartBase {
      */
     static isNEU(val: any): boolean;
     static gradientCircleForDefs(id: string | number, colors: Array<string> | string, r: number, strokeWidth: number): string;
-    static convertCsvToNodes(text: string) : Array<Object>;
-    static convertNodesToCsv(nodes: Array<Object>) : string;
+    static convertCsvToNodes(text: string) : Array<OrgChart.node>;
     static wrapText(text: string, field: Object): string;
     /**
      * Shows/hides lloading image. Usefull when export large data to pdf. You can override and show your own loading image.
@@ -729,18 +705,9 @@ declare class OrgChart extends OrgChartBase {
     */
     static STRING_TAGS: boolean;
     /**
-     * Search placeholder
-     */
+    * @ignore
+    */
     static SEARCH_PLACEHOLDER: string;
-    /**
-     * Search help symbol. 
-     */
-    static SEARCH_HELP_SYMBOL: string;
-
-    /**
-     * Close search result list by click outside list and clean search input 
-     */
-    static SEARCH_CLOSE_RESULT_ON_ESCAPE_OR_CLICKOUTSIDE: boolean;
     /**
     * @ignore
     */
@@ -803,26 +770,6 @@ declare class OrgChart extends OrgChartBase {
      * Hides the Edit Form when the chart is moved with pan
      */
     static HIDE_EDIT_FORM_ON_PAN: boolean;
-    static ARRAY_FIELDS: Array<string>;
-
-    /**
-     * Csv import and export delimiter/separator
-     */
-    static CSV_DELIMITER: string;
-
-    /**
-     * 
-     */
-    static EDITFORM_CLOSE_BTN: string;
-    /**
-     * Escape HTML to prevent Cross-site scripting (also known as XSS) attacks 
-     */
-    static ESCAPE_HTML: boolean;
-
-    /**
-     * Align children of assistant vertically 
-     */
-    static VERTICAL_CHILDREN_ASSISTANT: boolean;
 
     /**
     * @ignore
@@ -836,7 +783,6 @@ declare class OrgChart extends OrgChartBase {
     static elements: any;
 
     static expcollOpenTag: any;
-    static upOpenTag: any;
     static grCloseTag: any;
 }
 
@@ -1030,7 +976,7 @@ declare namespace OrgChart {
          * @param detailsMode If true the edit form is in read only mode
          * @param dontAnim 
          */
-        show(id: string | number, detailsMode?: boolean, dontAnim?: boolean): void;
+        show(id: string | number, detailsMode: boolean, dontAnim?: boolean): void;
         /**
          * Hides the edit form
          */
@@ -1062,23 +1008,12 @@ declare namespace OrgChart {
          */
         find(value: string): void;
         createItem(img: string, id: string | number, first: string, second: string): string;
-        helpView(): string;
-        addMatchTag(id: string | number) : boolean;
     }
 
     
     interface filterUI {
         init(instance: OrgChart): void;   
         update(): void;
-        /**
-         * Opens filter Tab 
-         * @param filterTabName the name of the filter tab
-         */
-        show(filterTabName: string): void;
-        /**
-         * Hides the filter tabs
-         */
-        hide(): void;
         addFilterTag(data: object): boolean;
     }
 
@@ -1127,7 +1062,7 @@ declare namespace OrgChart {
          * @param nodeId 
          * @param menu 
          */
-        show(nodeId: string | number, menu?: { [key: string]: menu }): void;
+        show(nodeId: string | number, menu: { [key: string]: menu }): void;
         /**
          * Hides circle menu 
          */
@@ -1139,13 +1074,6 @@ declare namespace OrgChart {
          * @param listener The object that receives a notification when an event of the specified type occurs. This must be a JavaScript function. 
          */        
         on(type: "click" | "show" | "drag" | "drop" | "mouseenter" | "mouseout", listener: (sender: circleMenuUI, args: any, args1: any, args2: any) => void | boolean): circleMenuUI;
-    }
-
-    interface keyNavigation {
-        /**
-         * Set focus to specified id on initial load
-         */
-        focusId: number | string
     }
 
     interface toolbarUI {
@@ -1173,25 +1101,6 @@ declare namespace OrgChart {
         fullScreen?: boolean
     }
 
-    interface miniMap  {
-        colors?: Array<string>,
-        selectorBackgroundColor?: string,
-        backgroundColor?: string,
-        focusStroke?: string,
-        opacity?: Number,
-        border?: string,
-        width?: Number,
-        height?: Number,
-        padding?: Number,
-        position?: OrgChart.position,
-    }
-
-    interface position  {
-        top?: string,
-        left?: string,
-        right?: string,
-        bottom?: string
-    }
 
     interface exportOptions  {
         margin?: Array<number>,
@@ -1374,15 +1283,12 @@ declare namespace OrgChart {
          * Enable keyboard navigation. Use "f" for find, arrows and space to navigate in the chart. Default value - *false*.
          * ```typescript     
          * var chart = new OrgChart('#tree', {
-         *      keyNavigation: true
-         * });
-         * var chart = new OrgChart('#tree', {
-         *      keyNavigation: { focusId: 5 }
+         *      enableKeyNavigation: true
          * });
          * ```
          * {@link https://balkan.app/OrgChartJS/Docs/KeyNavigation | See doc...}
          */
-         keyNavigation?: boolean | OrgChart.keyNavigation,
+        enableKeyNavigation?: boolean,
         /**
          * Shows mini map over the expanded tree. Default value - *false*.
          * ```typescript     
@@ -1685,19 +1591,6 @@ declare namespace OrgChart {
          * {@link https://balkan.app/OrgChartJS/Docs/Search | See doc...}
          */
         searchFieldsWeight?: { [key: string]: number },
-    	/**
-         * Search in field with abbreviation.
-         * ```typescript     
-         * var chart = new OrgChart('#tree', {
-         *   searchFieldsAbbreviation: {
-         *       "n": "name", 
-         *       "a": "My Address" 
-         *   }
-         * });
-         * ```
-         * {@link https://balkan.app/OrgChartJS/Docs/Search | See doc...}
-         */
-         searchFieldsAbbreviation?: { [key: string]: string },
         /**
          * Array of node data JSON objects. nodes option is the data source of the chart. Node JSON objects could have unlimited number of properties, id, pid, ppid, stpid and tags are reserved node properties.
          * - id - unique identifier, it clould be integer or string
@@ -1914,7 +1807,7 @@ declare namespace OrgChart {
           * ```    
           * ```typescript       
           * var chart = new OrgChart('#tree', {
-          *   orderBy: {field: "orderId", desc: true},
+          *   orderBy: [field: "orderId", desc: true],
           *   nodes: [
           *       { id: 10, pid: 1, orderId: 2 },
           *       { id: 11, pid: 1, orderId: 1 }
@@ -1935,19 +1828,8 @@ declare namespace OrgChart {
           *   filterBy: ['country', 'title']
           * });
           * ```      
-          * ```typescript       
-          * var chart = new OrgChart('#tree', {
-          *   filterBy: {
-          *         name: { 'name 2': { checked: false, text: 'My text 2'} },
-          *         title: {}
-          *   }
-          * });
-          * ```      
           */
-        filterBy?: string | Array<string> | {[key: string]: { [key: string] : {
-            checked: boolean,
-            text?: string
-        } }},
+        filterBy?: string | Array<string> | boolean,
         /**
           * @ignore
           */

@@ -25,6 +25,7 @@ class SocioActivo extends Component
     public $SSN='';
     public $Name='';
     public $LastName='';
+    public $fhater;
     public $AlternativePhone;
     public $Workphone;
     public $DateBirth;
@@ -47,7 +48,7 @@ class SocioActivo extends Component
     public $confirmation_code;
     public $password_confirmation;
 public $asignarSocio=false;
-public $webseries = [];    
+public $SonAfiliate = [];    
     public function mount(String $id='besana'){
         $this->invitedby = $id;
         $this->lenguaje='spanish';
@@ -58,10 +59,11 @@ public $webseries = [];
     public function render()
     {
         $idafiliado=Auth()->user()->idAffiliated;
-        $this->webseries= DB::select('CALL sp_consultarhijos(?)', array(
+        $this->SonAfiliate= DB::select('CALL sp_consultarhijos(?)', array(
              $idafiliado
         ));
         
+        $this->invitedby=Auth()->user()->userName;
 
         
         return view('livewire.socio-activo')
@@ -98,7 +100,7 @@ public $webseries = [];
         
     ];
     public function create(){
-        // dd('create');
+       
        $confirmation_code =Str::random(25);
        $datos = $this->validate();
        $datos['confirmation_code'] = $confirmation_code;
@@ -113,9 +115,13 @@ public $webseries = [];
        //User::where('userName', $datos['invitedby'])->first();
         if (User::where('userName', $datos['invitedby'])->first()) {
                 $user=User::where('userName', $datos['invitedby'])->first();
-
-
+                $fhater=$user->idAffiliated;
+                if ($this->asignarSocio) {
+                    $fhater=intval($this->asignacionSocio);
+                }
+                
             try {
+                
 
 
                 $this->data = json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL SpAffiliated (
@@ -146,7 +152,9 @@ public $webseries = [];
                 '{$user->idAffiliated}',
                 '{$website}',
                 '{$confirmation_code}',
-                3)")), true);
+                3,
+                {$fhater}
+                )")), true);
 
                
                 $this->reset('SSN', 'Name', 'LastName', 'AlternativePhone', 'Workphone', 'DateBirth', 'Email', 'Address', 'Country', 'State', 'City', 'ZipCode',  'userName', 'confirmEmail','invitedby','asignacionSocio');
@@ -155,11 +163,12 @@ public $webseries = [];
                 return;
                 
             } catch (\Throwable $th) {
-                $this->dispatchBrowserEvent('noty', ['msg' => 'error de transaccion en base de datos: ' . $th]);
+                session()->flash('error', 'Errro en Base de Dato'.$th);
                 return;
             }
         }else{
-            $this->dispatchBrowserEvent('noty', ['msg' => 'Usuario no existe ']);
+            session()->flash('error', 'Usuario no Existe');
+
             return;
         }
 

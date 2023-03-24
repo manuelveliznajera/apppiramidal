@@ -247,10 +247,7 @@
                             <input type="text" class="form-control sm:w-56 box pl-10" placeholder="Filter by city">
                         </div>
                     </div>
-                    <div class="intro-y box p-5 mt-12 sm:mt-5">
-                        <div>250 Official stores in 21 countries, click the marker to see location details.</div>
-                        <div class="report-maps mt-5 bg-slate-200 rounded-md" data-center="-6.2425342, 106.8626478" data-sources="/build/assets/json/location.json"></div>
-                    </div>
+                    
                 </div>
                 <!-- END: Official Store -->
                 <!-- BEGIN: Weekly Best Sellers -->
