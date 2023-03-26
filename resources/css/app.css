@@ -154,11 +154,11 @@
 height: 50rem;
 }
 
-[data-n-id='1'] rect {
+[data-n-tags='socioactivo'] rect {
    fill: #e71a1a;
 }
-[data-n-id='2'] rect {
-   fill: #2d07c3;
+[data-n-idRank='4'] rect {
+   fill: #cd520b;
 }
 [data-n-id='3'] rect {
    fill: #2d07c3;
@@ -176,6 +176,35 @@ height: 50rem;
 [data-n-id='7'] rect {
    fill: #07c326;
 }
+.socioactivo rect{
+   fill: #cd520b;
+}
+.director rect{
+   fill: #01dfee;
+}
+.DIRECTOR .field_0{
+   fill: white;
+}
+.DIRECTOR .field_1{
+   fill: white;
+}
+.besana rect{
+   fill: gold;
+}
+.besana .field_0{
+   fill: black;
+}
+.besana .field_1{
+   fill: black;
+}
+.besana image{
+   x: 2;
+    y: 3;
+    width: 45px;
+    height: 45px;
+}
 
-
-
+.socioactivo image{
+   width: 45px;
+   height: 45px;
+}

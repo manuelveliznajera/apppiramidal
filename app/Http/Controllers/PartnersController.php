@@ -16,34 +16,32 @@ class PartnersController extends Controller
     public function index()
     {
         try {
-            $id = Auth()->user()->idUser;
-            // dd($id);
+                $id = Auth()->user()->idUser;
+                $Email= DB::table('affiliates')
+                ->select('Email')->where('idAffiliated',$id)
+                ->get();
+                // dd($Email[0]);
+                $newdata=array();
+                $fhater[]=array(
+                    'idFhater'=>$id,
+                    'Email'=>$Email[0],
+                    'username'=>Auth()->user()->userName,
 
-         if ($id==1) {
-            $newdata= DB::select('CALL sp_queryAdminTree()');
-            
-         }else{
-            $newdata= DB::select('CALL sp_consultararbol(?)', array(
-                $id
-            ));
-
-            // dd(count($newdata));
-         }
-
+                );
+                if ($id==1) {
+                    
+                    $query= DB::select('CALL sp_queryAdminTree()');
+                    
+                }else{
+                    $query= DB::select('CALL sp_consultararbol(?)', array(
+                        $id
+                    ));
+                   
+                }
+                $newdata=array_merge($fhater, $query);
          
-            $fhater=array(
-                'idFhater'=>$id,
-                'username'=>Auth()->user()->userName
-            );
+                $datos = json_encode($newdata);
 
-          
-            array_push($newdata,$fhater);
-         
-             $datos = json_encode($newdata);
-           
-
-           
-          
              return view('pages.partner-tree',['data'=> $datos]);
 
         } catch (\Exception $e) {
