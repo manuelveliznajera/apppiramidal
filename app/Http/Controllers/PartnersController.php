@@ -36,12 +36,15 @@ class PartnersController extends Controller
                     $query= DB::select('CALL sp_consultararbol(?)', array(
                         $id
                     ));
+
+             
                    
                 }
                 $newdata=array_merge($fhater, $query);
          
                 $datos = json_encode($newdata);
-
+                
+                // dd($datos);
              return view('pages.partner-tree',['data'=> $datos]);
 
         } catch (\Exception $e) {

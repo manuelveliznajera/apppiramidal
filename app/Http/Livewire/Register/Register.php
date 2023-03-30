@@ -53,7 +53,7 @@ class Register extends Component
     public function render()
     {
         return view('livewire.register.register')
-                ->extends('layout.top-menu')
+                ->extends('layout.login')
                 ->section('content');
     }
     protected $rules=[

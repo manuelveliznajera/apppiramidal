@@ -336,7 +336,7 @@
 
       
        nodo=dat.shift()
-       console.log(nodo.Email.Email)
+       console.log(nodo)
         datos.push({
           'id':nodo.idFhater,
           tags: ["besana"],
@@ -344,7 +344,8 @@
           'email':nodo.Email.Email,
           'img'  : "img/logonew.png",
         })
-
+        console.log("datos de dat")
+        console.log(dat)
         dat.forEach(element => {
           var elementonew={};
           switch (element.RankName) {
@@ -354,7 +355,7 @@
                     'pid':element.idFhater,
                     tags: ["socioactivo"],
                     
-                    'User':element.username,
+                    'User':element.userName,
                     'img'  : "img/ranks/socioactivo.png",
                   };
               break;
@@ -365,20 +366,19 @@
                     'pid':element.idFhater,
                     tags: ["director"],
                     
-                    'User':element.username,
+                    'User':element.userName,
                     'img'  : "img/ranks/DIRECTOR.png",
                     'idRank':'4'
                   };
               break;
-          
-            default:
-              break;
+
           }
     
           
           datos.push(elementonew);
       });
-      
+      console.log("nuevos datos")
+      console.log(datos)
    
       chart.load(datos);
           
