@@ -19,9 +19,9 @@ class AfiliadoMiddleware
     {
       $user=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
       $activo=Auth()->user()->active;
-            if ($user->firstBuy && $activo===1) {
+            if ($user->firstBuy && $activo==1) {
               
-                return $next($request);
+                return redirect()->route('addproduct');
             }
         return redirect()->route('addpackage');
     }

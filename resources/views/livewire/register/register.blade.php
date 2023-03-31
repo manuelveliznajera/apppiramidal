@@ -1,7 +1,7 @@
 <div class="grid grid-cols-1  ">
 <div class="flex flex-col md:flex-row justify-center text-center ">
     <div class="flex justify-center p-2 text-center">
-        <img src=" {{asset('img/logologin.jpeg')}}" class="-intro-x  h-16 w-16 " alt="besanaglobal">
+        <img src=" {{asset('img/LogoWhite.png')}}" class="-intro-x object-fit h-32 w-64 " alt="besanaglobal">
 
     </div>
     <div class="w-full text-center md:mt-4">
@@ -12,7 +12,7 @@
  
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-1 h-screen  overflow-y-scroll p-3 ">
-    <div class=" bg-gray-500 bg-opacity-50 p-4">
+    <div class="bg-slate-700 bg-opacity-70 p-4">
         
         <form method="POST" wire:submit.prevent="create" >
             @csrf
@@ -38,12 +38,12 @@
                 />
             </div>
         </div>
-        <div class=" -intro-x grid grid-cols-1 md:grid-cols-2 mt-3"> 
-                    <div class="flex flex-col ">
+        <div class=" -intro-x grid grid-cols-1 md:grid-cols-2 gap-2 mt-3"> 
+                    <div class="flex flex-col">
                         <label class="text-white" for="DateBirth">
                             {{__('Birthday')}}
                         </label>
-                        <input id="DateBirth" class="-intro-x login__input form-control py-3" type="date" wire:model="DateBirth" :value="old('DateBirth')" required /> 
+                        <input id="DateBirth" class="-intro-x  form-control py-3" type="date" wire:model="DateBirth" :value="old('DateBirth')" required /> 
                     </div>                                
                     <div class="flex flex-col md:ml-3">
                         <label class="text-white" for="SSN">
@@ -63,7 +63,7 @@
         <div class=" -intro-x grid grid-cols-1 md:grid-cols-2 gap-2"> 
             <div class="flex flex-col">
                 <label class="text-white" for="Invitedby"> {{__('Invited by')}}:</label>
-                <input id="Invitedby" class="-intro-x login__input form-control py-3" type="text"
+                <input id="Invitedby" class="-intro-x  form-control py-3" type="text"
                 wire:model="invitedby"  :value="old('invitedby')" required />
                    
             </div>                          
@@ -103,7 +103,7 @@
             </div>   
         </div>
     </div>
-    <div class= "bg-gray-800 bg-opacity-50 p-4">
+    <div class= "bg-slate-800 bg-opacity-70 p-4">
         
         <span class="-intro-x  text-white font-bold uppercase text-lg">{{__('CONTACT INFORMATION')}}:</span>  
         <div class="-intro-x grid grid-cols-1 md:grid-cols-2 gap-2">

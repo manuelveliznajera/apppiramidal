@@ -40,7 +40,7 @@
                             <label class="cursor-pointer select-none" for="remember-me">{{__('Remember')}}</label>
                         </div>
                         <div class="mt-2 md:mt-0">
-                            <a href="">{{__('Did you forget your password')}}?</a>
+                            <a href="{{route('change-password')}}">{{__('Did you forget your password')}}?</a>
                         </div>
                     </div>
                     <div class="intro-x mt-5 xl:mt-8 text-center xl:text-left">

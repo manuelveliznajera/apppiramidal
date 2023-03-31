@@ -8,6 +8,8 @@ use Livewire\Component;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Models\User;
+
 use Illuminate\Support\Str;
 
 
@@ -58,6 +60,7 @@ class Register extends Component
     }
     protected $rules=[
         'SSN' => 'required|unique:affiliates',
+        'invitedby'=>'required',
         'Email' => 'required|unique:affiliates',
         'confirmEmail' => 'required|same:Email', 
         'userName'=>'required|unique:users',  
@@ -85,9 +88,9 @@ class Register extends Component
         
     ];
     public function create(){
-        
        $confirmation_code =Str::random(25);
        $datos = $this->validate();
+
        $datos['confirmation_code'] = $confirmation_code;
        $mytime = Carbon::now();
        $null='nulll';
@@ -97,7 +100,39 @@ class Register extends Component
        $website='https://www.besanaglobal.com/'.$datos['userName'];
        $pass=Hash::make($datos['Password']);
             try {
-            $this->data = json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL SpAffiliated ('NEW',0,'{$datos['SSN']}','{$datos['Name']}','{$datos['LastName']}',{$datos['Workphone']},{$datos['Phone']},'{$datos['DateBirth']}','{$datos['Email']}',null,'{$datos['Address']}','{$datos['Country']}','{$datos['State']}','{$datos['City']}',{$datos['ZipCode']},'333.333','12.345545','-12.34566','$datecreated',null,null,1,'{$datos['userName']}','{$pass}',1,'{$website}','{$confirmation_code}')")),true);
+                $user=User::where('userName', $datos['invitedby'])->first();
+                $fhater=$user->idAffiliated;
+            $this->data = json_decode(json_encode(\Illuminate\Support\Facades\DB::select("CALL SpAffiliated (
+                'NEW',
+                0,
+                '{$datos['SSN']}',
+                '{$datos['Name']}',
+                '{$datos['LastName']}',
+                {$datos['Workphone']},
+                {$datos['Phone']},
+                '{$datos['DateBirth']}',
+                '{$datos['Email']}',
+                null,
+                '{$datos['Address']}',
+                '{$datos['Country']}',
+                '{$datos['State']}',
+                '{$datos['City']}',
+                {$datos['ZipCode']},
+                '333.333',
+                '12.345545',
+                '-12.34566',
+                '$datecreated',
+                null,
+                null,
+                1,
+                '{$datos['userName']}',
+                '{$pass}',
+                1,
+                '{$website}',
+                '{$confirmation_code}',
+                3,
+                {$fhater}
+                )")),true);
 
                 Mail::send('livewire.register.confirmation_code', $datos, function($message) use ($datos) {
                     $message->to($datos['Email'], $datos['Name'])->subject('Por favor confirma tu correo');

@@ -37,55 +37,48 @@ class PagePay extends Component
     }
     public function render()
     {
-      // $this->activo=Auth()->user()->active;
-      // dd(Auth()->user());
-      // $usuario = User::where('idUser' ,Auth()->user()->idUser)->first();
-      // dd($usuario);
+    
       $this->cantidadProductos=\Cart::session(Auth()->user()->idUser)->getContent();
       $this->subtotal=\Cart::session(Auth()->user()->idUser)->getSubTotal();
-      
-
       $this->cantidadinterna=count($this->cantidadProductos);
-
       if ($this->cantidadinterna>0) {
-
-        $totalonzas=0;
-        foreach ($this->cantidadProductos as $key => $value) {
-          $totalonzas+=$value->attributes->onzas*$value->quantity;
-         
-        }
-        $this->onzasblade=$totalonzas;
-        if ($totalonzas < 32 ) {
-          $this->shipping = 7;
-        }else{
-          $shippinadd=intval($totalonzas-31);
-          $this->shipping = intval($shippinadd+7);
-         
-        }
-        $STRIPE_KEY = config('services.stripe.STRIPE_KEY');
-        $variable = config('services.stripe.STRIPE_SECRET');
-        $this->user=Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
-        $this->total= \Cart::session(Auth()->user()->idUser)->getTotal();
-        // dd($this->user->Email);
-          $items = [];
-          $state=$this->user->State;
-
-          switch (strtoupper($state)) {
-            case 'NEVADA':
-                $this->taxes=8.375;
-                
-              break;
-            default:
-                $this->taxes=0;
-              break;
+            $totalonzas=0;
+            foreach ($this->cantidadProductos as $key => $value) {
+              $totalonzas+=$value->attributes->onzas*$value->quantity;
+        
             }
-        //  dd($this->taxes);
-          $this->stripe = new \Stripe\StripeClient($variable);
-          $b = $this->user;
-          
-        return view('livewire.page-pay',compact('b','STRIPE_KEY',))
-          ->extends('layout.side-menu')
-          ->section('subcontent');
+            $this->onzasblade=$totalonzas;
+            if ($totalonzas < 32 ) {
+              $this->shipping = 7;
+            }else{
+              $shippinadd=intval($totalonzas-31);
+              $this->shipping = intval($shippinadd+7);
+            
+            }
+              $STRIPE_KEY = config('services.stripe.STRIPE_KEY');
+              $variable = config('services.stripe.STRIPE_SECRET');
+              $this->user=Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
+              $this->total= \Cart::session(Auth()->user()->idUser)->getTotal();
+              // dd($this->user->Email);
+                $items = [];
+                $state=$this->user->State;
+
+                switch (strtoupper($state)) {
+                  case 'NEVADA':
+                      $this->taxes=8.375;
+                      
+                    break;
+                  default:
+                      $this->taxes=0;
+                    break;
+                  }
+              //  dd($this->taxes);
+                $this->stripe = new \Stripe\StripeClient($variable);
+                $b = $this->user;
+                
+              return view('livewire.page-pay',compact('b','STRIPE_KEY',))
+                ->extends('layout.side-menu')
+                ->section('subcontent');
       }else{
         return view('pages/dashboard-overview-1')
             ->extends('layout.side-menu')

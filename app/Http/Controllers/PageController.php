@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Affiliate;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
 
 class PageController extends Controller
 {
@@ -506,7 +511,25 @@ class PageController extends Controller
      */
     public function changePassword()
     {
-        return view('pages/change-password');
+        return view('login/forget-password');
+    }
+
+    public function sendEmailPassword(Request $request){
+        $e=$request->email;
+        $email = Affiliate::where('Email',$e)->first();
+        if ($email) {
+            $password = Str::random(10);
+            $user = User::where('idAffiliated',$email->idAffiliated)->first();
+            $user->Password = Hash::make($password);
+            $user->save();
+            dd($password);
+        }else{
+            return redirect()
+            ->back()
+            ->withErrors([
+                'message' => 'Email no Existe!',
+            ]);
+        }
     }
 
     /**

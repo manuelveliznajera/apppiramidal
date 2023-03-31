@@ -53,7 +53,7 @@ Route::get('ListUsers', [ListUserController::class, 'index'])->middleware(['auth
 Route::get('afiliado/{id}', [ListUserController::class, 'edit'])->middleware(['auth','afiliado'])->name('afiliado');
 
 //productos
-Route::get('/addproduct',[ProductController::class,'index'])->middleware(['auth','afiliado'])->name('addproduct');
+Route::get('/addproduct',[ProductController::class,'index'])->middleware(['auth'])->name('addproduct');
 
 
 Route::get('register/{id}',Register::class)->name('login.register.afiliate');
@@ -61,17 +61,20 @@ Route::get('/register/verify/{code}', [Register::class, 'verify']);
 Route::get('/dash',[PageController::class,'dashboardOverview1'] )->middleware(['auth','afiliado'])->name('dash');
 Route::get('/socioactivo', SocioActivo::class)->middleware(['auth','afiliado'])->name('socioactivo');
 Route::get('/partner-tree',[PartnersController::class,'index'] )->middleware(['auth','afiliado'])->name('partnertree');
-Route::get('/products',Products::class )->middleware(['auth','afiliado'])->name('products');
+Route::get('/products',Products::class )->middleware(['auth'])->name('products');
 Route::post('/addproduct',[ProductController::class,'store'])->middleware(['auth','afiliado'])->name('addproduct.create');
 
-Route::get('/addpackage',NextregisterComponent::class )->middleware(['auth','afiliado'])->name('addpackage');
+Route::get('/addpackage',NextregisterComponent::class )->middleware(['auth'])->name('addpackage');
 Route::get('/', [PageController::class,'dashboardOverview1'])->middleware(['auth','afiliado'])->name('dashboard');
 
-Route::get('shop',[PageController::class,'productGrid'])->middleware(['auth','afiliado'])->name('shop');
+Route::get('shop',[PageController::class,'productGrid'])->middleware(['auth'])->name('shop');
 Route::get('payment', PayComponent::class)->middleware('auth')->name('payment');
 Route::get('cart-pay', PagePay::class)->middleware('auth')->name('cart-pay');
 Route::get('profile', [PageController::class,'updateProfile'])->middleware('auth')->name('profile');
 Route::get('modal', [PageController::class,'modal'])->name('modal');
+
+Route::get('change-password',[PageController::class,'changePassword'])->name('change-password');
+Route::post('change-password',[PageController::class,'sendEmailPassword'])->name('sendEmailPassword');
 
 
 
@@ -131,7 +134,6 @@ Route::middleware('auth')->group(function() {
         Route::get('register-page', 'register')->name('register');
         Route::get('error-page-page', 'errorPage')->name('error-page');
         Route::get('update-profile-page', 'updateProfile')->name('update-profile');
-        Route::get('change-password-page', 'changePassword')->name('change-password');
         Route::get('regular-table-page', 'regularTable')->name('regular-table');
         Route::get('tabulator-page', 'tabulator')->name('tabulator');
         Route::get('modal-page', 'modal')->name('modal');

@@ -36,7 +36,7 @@
     <div class="d-flex f-colum j-c-center a-i-center">
 
         <div>
-            <img src="{{asset('img/logologin.jpeg')}}" alt="logo Besana" height="100">
+            <img style="margin-right: 8px" src="https://besanaglobalcolombia.com/img/logologin.jpeg" alt="logo Besana" height="100">
         </div>
 
         <h2 class="c-blue">Hola {{$Name}}, Bienvenido a la familia Besana Global, estamos felices que te hayas registrado con nosotros. Por favor confirma tu correo electrónico.
