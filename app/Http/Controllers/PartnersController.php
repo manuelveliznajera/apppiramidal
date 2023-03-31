@@ -17,35 +17,95 @@ class PartnersController extends Controller
     {
         try {
                 $id = Auth()->user()->idUser;
+              
                 $Email= DB::table('affiliates')
                 ->select('Email')->where('idAffiliated',$id)
                 ->get();
-                // dd($Email[0]);
-                $newdata=array();
+              
                 $fhater[]=array(
-                    'idFhater'=>$id,
-                    'Email'=>$Email[0],
+                    'id'=>$id,
+                    'Email'=>$Email[0]->Email,
+                    'img'=>"img/LogoWhite.png",
+                    'tags'=> ["socioactivo"],
+                    'User'=>Auth()->user()->userName,
                     'username'=>Auth()->user()->userName,
 
                 );
                 if ($id==1) {
-                    
                     $query= DB::select('CALL sp_queryAdminTree()');
-                    
+                    //  dd($query);
+                    $admin=[];
+                    $admin[]=array(
+                        'id'=>$id,
+                        'Email'=>$Email[0]->Email,
+                        'img'=>"img/LogoWhite.png",
+                        'tags'=> ["socioactivo"],
+                        'User'=>Auth()->user()->userName,
+                        'username'=>Auth()->user()->userName,
+    
+                    );
+                    foreach ($query as  $value) {
+                        switch ($value->RankName) {
+                            case 'SOCIO ACTIVO':
+                                array_push($admin, [
+                                    'id'=>$value->idSon,
+                                    'pid'=>$value->idFhater,
+                                     'tags'=> ["socioactivo"],             
+                                   'User'=>$value->userName,
+                                 'img'=>"img/ranks/socioactivo.png",
+                                ]);
+                            break;
+                            case 'DIRECTOR':
+                                array_push($admin, [
+                                    'id'=>$value->idSon,
+                                    'pid'=>$value->idFhater,
+                                     'tags'=> ["director"],             
+                                   'User'=>$value->userName,
+                                 'img'=>"img/ranks/director.png",
+                                ]);
+                            break;
+                        }
+                    }
+                    //  dd($admin);
+                    sleep(2);
+                    $datos = json_encode($admin);
+                    return view('pages.partner-tree',['data'=> $datos]);
                 }else{
                     $query= DB::select('CALL sp_consultararbol(?)', array(
                         $id
                     ));
+                    $cantidad=count($query);
+                    if ($cantidad >=1) {
+                        foreach ($query as  $value) {
+                            switch ($value->RankName) {
+                                case 'SOCIO ACTIVO':
+                                    array_push($fhater, [
+                                        'id'=>$value->idSon,
+                                        'pid'=>$value->idFhater,
+                                         'tags'=> ["socioactivo"],             
+                                       'User'=>$value->userName,
+                                     'img'=>"img/ranks/socioactivo.png",
+                                    ]);
+                                break;
+                            }
+                        }
+
+                    }
+                        // dd($fhater);
+                        $datos = json_encode($fhater);
+                        return view('pages.partner-tree',['data'=> $datos]);
+                    
+                    
 
              
                    
                 }
-                $newdata=array_merge($fhater, $query);
+            //     $newdata=array_merge($fhater, $query);
          
-                $datos = json_encode($newdata);
+            //     $datos = json_encode($newdata);
                 
-                // dd($datos);
-             return view('pages.partner-tree',['data'=> $datos]);
+            //     dd($query);
+            //  return view('pages.partner-tree',['data'=> $datos]);
 
         } catch (\Exception $e) {
             

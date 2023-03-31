@@ -328,59 +328,52 @@
       
     const partners = document.getElementById("tree").dataset.tree;
     var dat =JSON.parse(partners);
-   
- 
-    
-    var datos=[];
 
-
-      
-       nodo=dat.shift()
-       console.log(nodo)
-        datos.push({
-          'id':nodo.idFhater,
-          tags: ["besana"],
-          'User':nodo.username,
-          'email':nodo.Email.Email,
-          'img'  : "img/logonew.png",
-        })
-        console.log("datos de dat")
-        console.log(dat)
-        dat.forEach(element => {
-          var elementonew={};
-          switch (element.RankName) {
-            case 'SOCIO ACTIVO':
-                  elementonew={
-                    'id':element.idSon,
-                    'pid':element.idFhater,
-                    tags: ["socioactivo"],
-                    
-                    'User':element.userName,
-                    'img'  : "img/ranks/socioactivo.png",
-                  };
-              break;
+    // var datos=[];
+    //    nodo=dat.shift()
+    //    console.log(nodo)
+    //     datos.push({
+    //       'id':nodo.idFhater,
+    //       tags: ["besana"],
+    //       'User':nodo.username,
+    //       'email':nodo.Email.Email,
+    //       'img'  : "img/logonew.png",
+    //     })
+    //     console.log("datos de dat")
+    //     console.log(dat)
+    //     dat.forEach(element => {
+    //       var elementonew={};
+    //       switch (element.RankName) {
+    //         case 'SOCIO ACTIVO':
+    //               elementonew={
+    //                 'id':element.idSon,
+    //                 'pid':element.idFhater,
+    //                 tags: ["socioactivo"],             
+    //                 'User':element.userName,
+    //                 'img'  : "img/ranks/socioactivo.png",
+    //               };
+    //           break;
             
-              case 'DIRECTOR':
-                  elementonew={
-                    'id':element.idSon,
-                    'pid':element.idFhater,
-                    tags: ["director"],
-                    
-                    'User':element.userName,
-                    'img'  : "img/ranks/DIRECTOR.png",
-                    'idRank':'4'
-                  };
-              break;
+    //           case 'DIRECTOR':
+    //               elementonew={
+    //                 'id':element.idSon,
+    //                 'pid':element.idFhater,
+    //                 tags: ["director"],
+    //                 'User':element.userName,
+    //                 'img'  : "img/ranks/DIRECTOR.png",
+    //                 'idRank':'4'
+    //               };
+    //           break;
 
-          }
+    //       }
     
           
-          datos.push(elementonew);
-      });
-      console.log("nuevos datos")
-      console.log(datos)
-   
-      chart.load(datos);
+    //       datos.push(elementonew);
+    //   });
+      // console.log("nuevos datos")
+      // console.log(datos)
+   console.log(dat);
+      chart.load(dat);
           
         }
   
