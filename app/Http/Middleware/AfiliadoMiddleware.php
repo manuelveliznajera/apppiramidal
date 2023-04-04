@@ -17,11 +17,11 @@ class AfiliadoMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-      $user=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+      $user=Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
       $activo=Auth()->user()->active;
-            if ($user->firstBuy && $activo==1) {
+            if ($user->firstBuy && $activo) {
               
-                return redirect()->route('addproduct');
+                return $next($request);
             }
         return redirect()->route('addpackage');
     }

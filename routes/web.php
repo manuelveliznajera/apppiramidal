@@ -59,7 +59,7 @@ Route::get('/addproduct',[ProductController::class,'index'])->middleware(['auth'
 Route::get('register/{id}',Register::class)->name('login.register.afiliate');
 Route::get('/register/verify/{code}', [Register::class, 'verify']);
 Route::get('/dash',[PageController::class,'dashboardOverview1'] )->middleware(['auth'])->name('dash');
-Route::get('/socioactivo', SocioActivo::class)->middleware(['auth'])->name('socioactivo');
+Route::get('/socioactivo', SocioActivo::class)->middleware(['auth','afiliado'])->name('socioactivo');
 Route::get('/partner-tree',[PartnersController::class,'index'] )->middleware(['auth'])->name('partnertree');
 Route::get('/products',Products::class )->middleware(['auth'])->name('products');
 Route::post('/addproduct',[ProductController::class,'store'])->middleware(['auth'])->name('addproduct.create');

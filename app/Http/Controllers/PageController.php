@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+
 
 
 class PageController extends Controller
@@ -231,6 +233,8 @@ class PageController extends Controller
      */
     public function crudDataList()
     {
+        dd('crud');
+        
         return view('pages/crud-data-list');
     }
 
@@ -520,9 +524,15 @@ class PageController extends Controller
         if ($email) {
             $password = Str::random(10);
             $user = User::where('idAffiliated',$email->idAffiliated)->first();
+            $name=$user->userName;
             $user->Password = Hash::make($password);
             $user->save();
-            dd($password);
+            $datos=['Email'=>$request->email,'Name'=>$name, 'password'=>$password];
+            // dd($datos);
+            Mail::send('livewire.register.sendEmailPassword',$datos, function($message) use ($datos) {
+                $message->to($datos['Email'], $datos['Name'])->subject('Nueva Contraseña-Besana');
+            });
+            
         }else{
             return redirect()
             ->back()

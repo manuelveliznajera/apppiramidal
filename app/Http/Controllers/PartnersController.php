@@ -16,7 +16,8 @@ class PartnersController extends Controller
     public function index()
     {
         try {
-                $id = Auth()->user()->idUser;
+                $id = Auth()->user()->idAffiliated;
+                
               
                 $Email= DB::table('affiliates')
                 ->select('Email')->where('idAffiliated',$id)
@@ -75,6 +76,7 @@ class PartnersController extends Controller
                         $id
                     ));
                     $cantidad=count($query);
+                   
                     if ($cantidad >=1) {
                         foreach ($query as  $value) {
                             switch ($value->RankName) {
@@ -91,6 +93,8 @@ class PartnersController extends Controller
                         }
 
                     }
+
+
                         // dd($fhater);
                         $datos = json_encode($fhater);
                         return view('pages.partner-tree',['data'=> $datos]);
