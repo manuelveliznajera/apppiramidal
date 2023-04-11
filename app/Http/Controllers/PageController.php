@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Affiliate;
 use App\Models\User;
+use App\Models\WalletWeek;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -23,8 +24,19 @@ class PageController extends Controller
     public function dashboardOverview1()
     {
         $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
-        // dd($afiliado);
-        return view('pages/dashboard-overview-1',compact('afiliado'));
+        $walletWeek=WalletWeek::where('estado','pendiente')->orwhere('estado','solicitado')->where('id_user',Auth()->user()->idAffiliated)->get();
+        
+        return view('pages/dashboard-overview-1',compact('afiliado','walletWeek'));
+    }
+
+    public function solicitaWeek(Request $request){
+        $wallet=WalletWeek::findOrFail($request->id);
+        $wallet->estado='solicitado';
+        $wallet->save();
+        session()->flash('success', '¡La información se ha procesado correctamente!');
+
+            // Regresar a la misma vista con el mensaje de éxito
+            return back();
     }
 
     /**

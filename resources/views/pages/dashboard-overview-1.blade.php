@@ -13,11 +13,22 @@
                 <div class="col-span-12 mt-8">
                     <div class="intro-y flex items-center h-10">
                         <h2 class="text-lg font-medium truncate mr-5">Informe General</h2>
-                        <a href="" class="ml-auto flex items-center text-primary">
-                            <i data-lucide="refresh-ccw" class="w-4 h-4 mr-3"></i> Reload Data
-                        </a>
+                        @if (session('success'))
+                            <div class="alert alert-success text-white">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if (session('danger'))
+                            <div class="alert alert-danger text-white">
+                                {{ session('danger') }}
+                            </div>
+                        @endif
+                        @if ($afiliado->idAffiliated==1)
+                            <a href="{{route('walletRequest')}}" class="btn btn-sm btn-primary"> {{__('Request')}}</a>
+                        @endif
                     </div>
                     <div class="grid grid-cols-12 gap-6 mt-5">
+                       
                         <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                             <div class="report-box zoom-in">
                                 <div class="box p-5">
@@ -81,9 +92,48 @@
                                                 22% <i data-lucide="chevron-up" class="w-4 h-4 ml-0.5"></i>
                                             </div>
                                         </div>
+                                        
                                     </div>
-                                    <div class="text-3xl font-medium leading-8 mt-6">$ 4,000.50</div>
-                                    <div class="text-base text-slate-500 mt-1">Cartera</div>
+                                   
+                                    @if (count($walletWeek)>0)
+                                        <div class="grid grid-cols-3 grid-rows-2 gap-0 place-items-center mt-2">
+                                            <div class=" uppercase bg-gray-800 text-white p-2"><span>{{__('Week')}}</span></div>
+                                            <div class="font-bold  ">$. {{$walletWeek[0]->total}}</div>
+                                            <div class="">
+                                                @if ($walletWeek[0]->estado=='solicitado')
+                                                    <span class="bg-yellow-500 p-2 ">{{__('processing')}}</span>
+                                                @else
+                                                <form action="{{route('solicitaWeek')}}" method="POST" >
+                                                    @csrf
+                                                   
+                                                    <input type="hidden" name="id" value="{{$walletWeek[0]->id}}">
+                                                    <button class="bg-green-800 hover:bg-green-400 text-white font-bold py-1 px-2 rounded">
+                                                        {{__('Claim')}}
+                                                    </button>
+                                                </form>
+                                                @endif
+                                            </div>
+                                            <div class=" uppercase bg-gray-800 text-white p-2"><span>{{__('Month')}}</span></div>
+                                            <div class="font-bold  ">$. {{$walletWeek[0]->total}}</div>
+                                            <div class=""> 
+                                                @if ($walletWeek[0]->estado=='solicitado')
+                                                    <span class="bg-yellow-500 p-2 ">{{__('processing')}}</span>
+                                                @else
+                                                    <form action="{{route('solicitaWeek')}}" method="POST" >
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{$walletWeek[0]->id}}">
+                                                        <button class="bg-green-800 hover:bg-green-400 text-white font-bold py-1 px-2 rounded">
+                                                            {{__('Claim')}}
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="mt-4">
+                                            <span class="uppercase font-extrabold text-lg bg-red-400 text-white p-2 mt-2">{{__('Not Wallet')}}</span>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

@@ -12,110 +12,113 @@ class SideMenu
      */
     public static function menu()
     {
-        return [
-            'dashboard' => [
-                    'icon' => 'home',
-                    'title' => 'Home',
-                    'route_name' => 'dash',
-                    'params' => [
-                        'layout' => 'side-menu'
+       
+            return [
+                'dashboard' => [
+                        'icon' => 'home',
+                        'title' => 'Home',
+                        'route_name' => 'dash',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+    
                     ],
-
-                ],
-                'devider',
-                'Shop' => [
-                    'icon' => 'shopping-cart',
-                    'route_name' => 'products',
-                    'params' => [
-                        'layout' => 'side-menu'
+                    'devider',
+                    'Shop' => [
+                        'icon' => 'shopping-cart',
+                        'route_name' => 'products',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Shop'
                     ],
-                    'title' => 'Shop'
-                ],
-                'Compras' => [
-                    'icon' => 'shopping-cart',
-                    'route_name' => 'myshops',
-                    'params' => [
-                        'layout' => 'side-menu'
+                    'Compras' => [
+                        'icon' => 'shopping-cart',
+                        'route_name' => 'myshops',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'My shopping'
                     ],
-                    'title' => 'My shopping'
-                ],
-                'devider',
-                'Agregar-afiliado' => [
-                    'icon' => 'plus-circle',
-                    'route_name' => 'socioactivo',
-                    'params' => [
-                        'layout' => 'side-menu'
+                    'devider',
+                    'Agregar-afiliado' => [
+                        'icon' => 'plus-circle',
+                        'route_name' => 'socioactivo',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Add affiliate'
                     ],
-                    'title' => 'Add affiliate'
-                ],
-                'Socios-Activos' => [
-                    'icon' => 'users',
-                    'route_name' => 'crud-data-list',
-                    'params' => [
-                        'layout' => 'side-menu'
+                    'Socios-Activos' => [
+                        'icon' => 'users',
+                        'route_name' => 'crud-data-list',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Active Member'
                     ],
-                    'title' => 'Active Member'
-                ],
-                'Socios-Promotores' => [
-                    'icon' => 'user-check',
-                    'route_name' => 'sociospromotores',
-                    'params' => [
-                        'layout' => 'side-menu'
+                    'Socios-Promotores' => [
+                        'icon' => 'user-check',
+                        'route_name' => 'sociospromotores',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Promoter Partner'
                     ],
-                    'title' => 'Promoter Partner'
-                ],
-              
-                'Clientes' => [
-                    'icon' => 'user-plus',
-                    'route_name' => 'users-layout-2',
-                    'params' => [
-                        'layout' => 'side-menu'
+                  
+                    'Clientes' => [
+                        'icon' => 'user-plus',
+                        'route_name' => 'users-layout-2',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Customers'
                     ],
-                    'title' => 'Customers'
-                ],
-                'Prospectos' => [
-                    'icon' => 'user-plus',
-                    'route_name' => 'users-layout-3',
-                    'params' => [
-                        'layout' => 'side-menu'
+                    'Prospectos' => [
+                        'icon' => 'user-plus',
+                        'route_name' => 'users-layout-3',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Prospects'
                     ],
-                    'title' => 'Prospects'
-                ],
-                'devider',
-                'Wallet' => [
-                    'icon' => 'dollar-sign',
-                    'route_name' => 'dash',
-                    'params' => [
-                        'layout' => 'side-menu'
+                    'devider',
+                    'Wallet' => [
+                        'icon' => 'dollar-sign',
+                        'route_name' => 'dash',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Wallet'
                     ],
-                    'title' => 'Wallet'
-                ],
-                'devider',
-                'Centroderecursos' => [
-                    'icon' => 'database',
-                    'route_name' => 'file-manager',
-                    'params' => [
-                        'layout' => 'side-menu'
+                    'devider',
+                    'Centroderecursos' => [
+                        'icon' => 'database',
+                        'route_name' => 'file-manager',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Resource Center'
                     ],
-                    'title' => 'Resource Center'
-                ],
-                'Listar-afiliados' => [
-                    'icon' => 'list',
-                    'route_name' => 'ListUsers',
-                    'params' => [
-                        'layout' => 'side-menu'
+                    'Listar-afiliados' => [
+                        'icon' => 'list',
+                        'route_name' => 'ListUsers',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Affiliate List'
                     ],
-                    'title' => 'Affiliate List'
-                ],
-                'Tree' => [
-                    'icon' => 'user',
-                    'route_name' => 'partnertree',
-                    'params' => [
-                        'layout' => 'side-menu'
+                    'Tree' => [
+                        'icon' => 'user',
+                        'route_name' => 'partnertree',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Genealogy'
                     ],
-                    'title' => 'Genealogy'
-                ],
-                'devider',
-        ];
+                    'devider',
+            ];
+       
+        
     }
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\DarkModeController;
 use App\Http\Controllers\ColorSchemeController;
 use App\Http\Controllers\PartnersController;
+use App\Http\Controllers\WalletController;
 use App\Http\Livewire\LoginComponent;
 use App\Http\Livewire\NextregisterComponent;
 use App\Http\Livewire\PayComponent;
@@ -33,9 +34,23 @@ Route::get('lenguage/{locale}',function ($locale) {
     
 })->name('changelanguage');
 
+
 Route::get('dark-mode-switcher', [DarkModeController::class, 'switch'])->name('dark-mode-switcher');
 Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class, 'switch'])->name('color-scheme-switcher');
 Route::get('login', LoginComponent::class)->name('login');
+
+//wallet
+Route::get('wallet/{id}',[WalletController::class,'edit'])->name('wallet.edit');
+Route::post('week',[WalletController::class,'Week'])->name('wallet.week');
+Route::post('month',[WalletController::class,'Month'])->name('wallet.month');
+Route::post('solicitaWeek', [PageController::class,'solicitaWeek'])->middleware('auth')->name('solicitaWeek');
+Route::get('WeekList', [WalletController::class,'WeekList'])->middleware('auth')->name('weeklist');
+Route::post('btnAprobarWeek', [WalletController::class,'btnAprobarWeek'])->name('btnAprobarWeek');
+
+
+
+
+
 
 
 Route::controller(AuthController::class)->middleware('loggedin')->group(function() {
@@ -54,6 +69,10 @@ Route::get('afiliado/{id}', [ListUserController::class, 'edit'])->middleware(['a
 
 //productos
 Route::get('/addproduct',[ProductController::class,'index'])->middleware(['auth'])->name('addproduct');
+
+//Wallets
+Route::get('/walletRequest',[WalletController::class,'walletRequest'])->middleware(['auth'])->name('walletRequest');
+
 
 
 Route::get('register/{id}',Register::class)->name('login.register.afiliate');
@@ -75,6 +94,7 @@ Route::get('modal', [PageController::class,'modal'])->name('modal');
 
 Route::get('change-password',[PageController::class,'changePassword'])->name('change-password');
 Route::post('change-password',[PageController::class,'sendEmailPassword'])->name('sendEmailPassword');
+
 
 
 

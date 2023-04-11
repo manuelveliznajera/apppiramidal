@@ -31,6 +31,11 @@ class User extends Authenticatable
 
     ];
 
+    public function walletweek()
+    {
+        return $this->hasMany(WalletWeek::class, 'id_user');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
