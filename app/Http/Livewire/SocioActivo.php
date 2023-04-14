@@ -63,7 +63,7 @@ public $SonAfiliate = [];
              $idafiliado
         ));
         
-        $this->invitedby=Auth()->user()->userName;
+        // $this->invitedby=Auth()->user()->userName;
 
         
         return view('livewire.socio-activo')
