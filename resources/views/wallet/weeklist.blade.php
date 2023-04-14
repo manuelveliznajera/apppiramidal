@@ -54,21 +54,23 @@
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 @if ($w->estado=='eliminado'||$w->estado=='aprobado')
-                  <span>{{__('No action')}}</span>
-                @endif
-                  <div class="flex justify-center px-4 py-2">
-                    <form action="{{route('btnAprobarWeek')}}" method="post">
-                      @csrf
-                      <input type="hidden" name="id" value="{{$w->id}}">
-                      <button type="submit"  class="text-white bg-green-700 hover:bg-green-800 rounded-md px-4 py-2">
-                        {{_('Pay')}}
+                    <span class="text-black bg-yellow-200 hover:bg-green-800 rounded-md px-4 py-2">{{__('No action')}}</span>
+                @else
+                    <div class="flex justify-center px-4 py-2">
+                      <form action="{{route('btnAprobarWeek')}}" method="post">
+                        @csrf
+                        <input type="hidden" name="id" value="{{$w->id}}">
+                        <button type="submit"  class="text-white bg-green-700  rounded-md px-4 py-2">
+                          {{_('Pay')}}
+                        </button>
+                      </form>
+                      
+                      <button class="text-white bg-red-500 hover:bg-red-700 rounded-md px-4 py-2 ml-3">
+                        {{__('Cancel')}}
                       </button>
-                    </form>
-                    
-                    <button class="text-white bg-red-500 hover:bg-red-700 rounded-md px-4 py-2 ml-3">
-                      {{__('Cancel')}}
-                    </button>
-                  </div>
+                    </div>
+                @endif
+                  
               </td>
             </tr>
             @endforeach

@@ -9,7 +9,7 @@ class WalletMonth extends Model
 {
     use HasFactory;
 
-    protected $table ='WalletWeek';
+    protected $table ='WalletMonth';
     public $timestamps = false;
     protected $fillable = [
       

@@ -76,7 +76,7 @@
                                 <div class="w-full">
                                         <label class="text-gray-600 font-bold" for="Invitedby"> {{__('Invited by')}}:</label>
                                         <input id="Invitedby" class="-intro-x login__input form-control py-3" type="text"
-                                            wire:model="invitedby" readonly  :value="old('invitedby')" required />
+                                            wire:model="invitedby"   :value="old('invitedby')" required />
                                 </div>                          
                                 <div class="w-full mt-2 lg:mt-0">
                                     <div class="col-1">

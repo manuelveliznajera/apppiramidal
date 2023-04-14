@@ -41,7 +41,7 @@ class LoginComponent extends Component
                             return redirect()->route('addpackage'); 
                             // return redirect()->route('products');
                         }else{
-                            return redirect()->route('products');
+                            return redirect()->route('dash');
                         }
 
 

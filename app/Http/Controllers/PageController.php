@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Affiliate;
 use App\Models\User;
+use App\Models\WalletMonth;
 use App\Models\WalletWeek;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -23,10 +24,23 @@ class PageController extends Controller
      */
     public function dashboardOverview1()
     {
+        $idLog=Auth()->user()->idUser;
+        $id=User::where('idUser',$idLog)->first();
+        // dd($id->idAffiliated);
+
         $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
-        $walletWeek=WalletWeek::where('estado','pendiente')->orwhere('estado','solicitado')->where('id_user',Auth()->user()->idAffiliated)->get();
+        $walletWeek=WalletWeek::where(
+            'id_user','=',  $id->idAffiliated,
+        )->get();
+        // dd($walletWeek);
+        $walletMonth=WalletMonth::where([
+            ['id_user', '=', $id->idAffiliated],
+        ])->get();
+
         
-        return view('pages/dashboard-overview-1',compact('afiliado','walletWeek'));
+        // dd($walletMonth);
+        
+        return view('pages/dashboard-overview-1',compact('afiliado','walletWeek','walletMonth'));
     }
 
     public function solicitaWeek(Request $request){

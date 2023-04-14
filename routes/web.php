@@ -20,7 +20,9 @@ use App\Http\Livewire\Products;
 use App\Http\Livewire\Register\Register;
 use Illuminate\Support\Facades\Auth;
 
-
+Route::get('/home',function(){
+return view('inicio');
+})->name('home');
 Route::get('lenguage/{locale}',function ($locale) {
    
     if (!in_array($locale, ['en', 'es'])) {
@@ -84,7 +86,7 @@ Route::get('/products',Products::class )->middleware(['auth'])->name('products')
 Route::post('/addproduct',[ProductController::class,'store'])->middleware(['auth'])->name('addproduct.create');
 
 Route::get('/addpackage',NextregisterComponent::class )->middleware(['auth'])->name('addpackage');
-Route::get('/', [PageController::class,'dashboardOverview1'])->middleware(['auth'])->name('dashboard');
+// Route::get('/', [PageController::class,'dashboardOverview1'])->middleware(['auth'])->name('dashboard');
 
 Route::get('shop',[PageController::class,'productGrid'])->middleware(['auth'])->name('shop');
 Route::get('payment', PayComponent::class)->middleware('auth')->name('payment');

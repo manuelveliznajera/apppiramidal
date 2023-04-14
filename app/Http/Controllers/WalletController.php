@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Affiliate;
+use App\Models\User;
 use App\Models\WalletMonth;
 use App\Models\WalletWeek;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ class WalletController extends Controller
     public function index(){
         $data = Affiliate::select(['idAffiliated', 'Name'])->get();
         
+        
         return view('afiliados.listar',compact('data'));
 
     }
@@ -20,9 +22,9 @@ class WalletController extends Controller
     public function edit($id)
     {
         $data = Affiliate::select(['idAffiliated', 'Name'])->where('idAffiliated',$id)->get();
-
-        
-        return view('wallet.index',['data'=>$data]);
+        $username=User::where('idAffiliated',$id)->get();
+        // dd($username);
+        return view('wallet.index',['data'=>$data,'username'=>$username]);
     }
 
     public function Week(Request $request){
@@ -38,10 +40,10 @@ class WalletController extends Controller
             'cantidad.required'=>'Ingrese una cantidad',
         ]);
 
-        // dd($request);
+        // dd($request->idaw);
 
         $walletW = new WalletWeek();
-        $walletW->id_user=$request->id;
+        $walletW->id_user=$request->idaw;
         $walletW->fechaInicio=$request->start;
         $walletW->FechaFin=$request->end;
         $walletW->total=$request->cantidad;
@@ -49,7 +51,7 @@ class WalletController extends Controller
         $walletW->save();
 
         // Almacenar un mensaje de sesión de éxito
-            session()->flash('success', '¡La información se ha procesado correctamente!');
+            session()->flash('success', '¡Pago de Wallet de la semana agregado!');
 
             // Regresar a la misma vista con el mensaje de éxito
             return back();
@@ -66,14 +68,14 @@ class WalletController extends Controller
             'cantidadM.required'=>'Ingrese una cantidad',
         ]);
         $walletM = new WalletMonth();
-        $walletM->id_user=$request->id;
-        $walletM->fechaInicio=$request->start;
-        $walletM->FechaFin=$request->end;
-        $walletM->total=$request->cantidad;
+        $walletM->id_user=$request->idam;
+        $walletM->fechaInicio=$request->startM;
+        $walletM->FechaFin=$request->endM;
+        $walletM->total=$request->cantidadM;
         $walletM->estado='pendiente';
         $walletM->save();
 
-        session()->flash('success', '¡La información se ha procesado correctamente!');
+        session()->flash('success', '¡Pago de Wallet del Mes agregado!');
 
         // Regresar a la misma vista con el mensaje de éxito
         return back();

@@ -23,11 +23,11 @@
                                 {{ session('danger') }}
                             </div>
                         @endif
-                        @if ($afiliado->idAffiliated==1)
+                        {{-- @if ($afiliado->idAffiliated==1)
                             <a href="{{route('walletRequest')}}" class="btn btn-sm btn-primary"> {{__('Request')}}</a>
-                        @endif
+                        @endif --}}
                     </div>
-                    <div class="grid grid-cols-12 gap-6 mt-5">
+                    <div class="grid grid-cols-12 gap-1 mt-5">
                        
                         <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                             <div class="report-box zoom-in">
@@ -83,55 +83,66 @@
                         </div>
                         <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                             <div class="report-box zoom-in">
-                                <div class="box p-5">
-                                    <div class="flex">
+                                <div class="box p-2">
+                                    <div class="flex justify-around">
                                         <img src="{{asset('svg/wallet.svg')}}" alt="wallet" class="object-contain w-10 h-10">
-                                          
-                                        <div class="ml-auto">
-                                            <div class="report-box__indicator bg-success tooltip cursor-pointer" title="22% Higher than last month">
-                                                22% <i data-lucide="chevron-up" class="w-4 h-4 ml-0.5"></i>
-                                            </div>
-                                        </div>
+                                          <span class="uppercase font-extrabold text-lg "'>{{__('Wallet')}}</span>
+                                      
                                         
                                     </div>
                                    
                                     @if (count($walletWeek)>0)
-                                        <div class="grid grid-cols-3 grid-rows-2 gap-0 place-items-center mt-2">
-                                            <div class=" uppercase bg-gray-800 text-white p-2"><span>{{__('Week')}}</span></div>
-                                            <div class="font-bold  ">$. {{$walletWeek[0]->total}}</div>
-                                            <div class="">
+                                        <div class="flex justify-between mt-2 ">
                                                 @if ($walletWeek[0]->estado=='solicitado')
                                                     <span class="bg-yellow-500 p-2 ">{{__('processing')}}</span>
-                                                @else
-                                                <form action="{{route('solicitaWeek')}}" method="POST" >
-                                                    @csrf
-                                                   
-                                                    <input type="hidden" name="id" value="{{$walletWeek[0]->id}}">
-                                                    <button class="bg-green-800 hover:bg-green-400 text-white font-bold py-1 px-2 rounded">
-                                                        {{__('Claim')}}
-                                                    </button>
-                                                </form>
+                                                @elseif ($walletWeek[0]->estado=='aprobado')
+                                                    <span class="bg-yellow-500 p-2 ">{{__('Transfer sent')}}</span>
+                                                @elseif($walletWeek[0]->estado=='pendiente')
+                                                    <table class="table-auto table-sm">
+                                                            <thead>
+                                                                <tr>
+                                                                <th class="px-2 py-2 bg-primary text-white">Periodo</th>
+                                                                <th class="px-2 py-2 bg-primary text-white">Cantidad</th>
+                                                                <th class="px-2 py-2 bg-primary text-white">Acciones</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                <td class="border  p-2 "> <span class="bg-orange-600 text-white  px-3">{{__('Week')}}</span></td>
+                                                                <td class="border text-center py-2">  <span class="font-bold text-orange-600  ">$ {{round($walletWeek[0]->total, 2)}}</span></td>
+                                                                <td class="border text-center p-2">                                                    
+                                                                  
+                                                                    <form action="{{route('solicitaWeek')}}" method="POST" >
+                                                                            @csrf
+                                                                            <input type="hidden" name="id" value="{{$walletWeek[0]->id}}">
+                                                                            <button class="bg-orange-600 hover:bg-orange-400 text-white font-bold py-1 px-2 rounded">
+                                                                            {{__('Claim')}}
+                                                                            </button>
+                                                                    </form>
+                                                                    
+                                                                </td>
+                                                                </tr>
+                                                                {{-- MENSUAL --}}
+                                                                <tr>
+                                                                <td class="border  p-2"><span class="bg-green-700 text-white  px-3">{{__('Month')}}</span></td>
+                                                                <td class="border  py-2">PENDIENTE</td>
+                                                                <td class="border   p-2"><form action="{{route('solicitaWeek')}}" method="POST" >
+                                                                            @csrf
+                                                                            <input type="hidden" name="id" value="{{$walletWeek[0]->id}}">
+                                                                            <button class="bg-green-700 hover:bg-green-400 text-white font-bold py-1 px-2 rounded">
+                                                                            {{__('Claim')}}
+                                                                            </button>
+                                                                    </form></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+
+
                                                 @endif
-                                            </div>
-                                            <div class=" uppercase bg-gray-800 text-white p-2"><span>{{__('Month')}}</span></div>
-                                            <div class="font-bold  ">$. {{$walletWeek[0]->total}}</div>
-                                            <div class=""> 
-                                                @if ($walletWeek[0]->estado=='solicitado')
-                                                    <span class="bg-yellow-500 p-2 ">{{__('processing')}}</span>
-                                                @else
-                                                    <form action="{{route('solicitaWeek')}}" method="POST" >
-                                                        @csrf
-                                                        <input type="hidden" name="id" value="{{$walletWeek[0]->id}}">
-                                                        <button class="bg-green-800 hover:bg-green-400 text-white font-bold py-1 px-2 rounded">
-                                                            {{__('Claim')}}
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            </div>
                                         </div>
                                     @else
-                                        <div class="mt-4">
-                                            <span class="uppercase font-extrabold text-lg bg-red-400 text-white p-2 mt-2">{{__('Not Wallet')}}</span>
+                                        <div class="flex justify-center">
+                                            <span class="text-center uppercase font-extrabold text-lg bg-red-400 text-white p-2 mt-2">{{__('Not Wallet')}}</span>
                                         </div>
                                     @endif
                                 </div>
