@@ -119,8 +119,9 @@
 
                                                                 @if (count($walletWeek)>0)
                                                                     <td class="border text-center py-2">  <span class="font-bold text-orange-600  ">$ {{round($walletWeek[0]->total, 2)}}</span></td>
-                                                                    <td class="border text-center p-2">                                                    
-                                                                        @if ($walletMonth[0]->estado=='pendiente')
+                                                                    <td class="border text-center p-2">    
+                                                                        {{-- {{$walletMonth[0]->estado}}                                                 --}}
+                                                                        @if ($walletMonth[0]->estado=='solicitados')
                                                                             <span class="text-lg font-extrabold">{{__('Request')}}</span>  
                                                                         @else
                                                                             <form action="{{route('solicitaWeek')}}" method="POST" >
