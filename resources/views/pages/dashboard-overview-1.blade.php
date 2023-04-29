@@ -118,11 +118,21 @@
                                                                 <td class="border  p-2 "> <span class="bg-orange-600 text-white  px-3">{{__('Week')}}</span></td>
 
                                                                 @if (count($walletWeek)>0)
-                                                                    <td class="border text-center py-2">  <span class="font-bold text-orange-600  ">$ {{round($walletWeek[0]->total, 2)}}</span></td>
+                                                                    <td class="border text-center py-2">  <span class="font-bold text-orange-600  ">$ 
+                                                                        @if ($walletWeek[0]->estado=='aprobado')
+                                                                            0
+                                                                        @else
+                                                                            {{round($walletWeek[0]->total, 2)}}
+                                                                            
+                                                                        @endif
+                                                                    </span></td>
                                                                     <td class="border text-center p-2">    
                                                                         {{-- {{$walletMonth[0]->estado}}                                                 --}}
                                                                         @if ($walletWeek[0]->estado=='solicitado')
                                                                             <span class="text-lg font-extrabold">{{__('Transaction in progress')}}</span>  
+                                                                        @elseif ($walletWeek[0]->estado=='aprobado')
+                                                                            <span class="text-lg font-extrabold">{{__('Approved')}}</span>  
+
                                                                         @else
                                                                             <form action="{{route('solicitaWeek')}}" method="POST" >
                                                                             @csrf
