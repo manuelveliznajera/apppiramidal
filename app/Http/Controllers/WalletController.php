@@ -93,6 +93,12 @@ class WalletController extends Controller
         return view('wallet.weeklist', compact('walletWeek'));
 
     }
+    public function MonthList(){
+        $walletMonth=WalletMonth::all();
+        // dd($walletMonth);
+        return view('wallet.monthlist', compact('walletMonth'));
+
+    }
 
     public function btnAprobarWeek(Request $request){
         $wallet=WalletWeek::findOrFail($request->id);

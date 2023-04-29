@@ -17,8 +17,15 @@ class ListUserController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Affiliate::all();
-        return view('afiliados.listar',compact('data'));
+        // dd(Auth()->user()->idUser);
+        if (Auth()->user()->idUser==1) {
+            $data = Affiliate::all();
+            return view('afiliados.listar',compact('data'));
+        } else {
+            return redirect()->route('dash');
+       }
+        
+        
     }
 
     /**

@@ -46,7 +46,11 @@ Route::get('wallet/{id}',[WalletController::class,'edit'])->name('wallet.edit');
 Route::post('week',[WalletController::class,'Week'])->name('wallet.week');
 Route::post('month',[WalletController::class,'Month'])->name('wallet.month');
 Route::post('solicitaWeek', [PageController::class,'solicitaWeek'])->middleware('auth')->name('solicitaWeek');
+Route::post('solicitaMonth', [PageController::class,'solicitaMonth'])->middleware('auth')->name('solicitaMonth');
+
 Route::get('WeekList', [WalletController::class,'WeekList'])->middleware('auth')->name('weeklist');
+Route::get('WeekMonth', [WalletController::class,'MonthList'])->middleware('auth')->name('monthlist');
+
 Route::post('btnAprobarWeek', [WalletController::class,'btnAprobarWeek'])->name('btnAprobarWeek');
 
 

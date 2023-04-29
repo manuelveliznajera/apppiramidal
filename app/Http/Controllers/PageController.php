@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use DB;
 
 
 
@@ -24,6 +25,8 @@ class PageController extends Controller
      */
     public function dashboardOverview1()
     {
+        
+        
         $idLog=Auth()->user()->idUser;
         $id=User::where('idUser',$idLog)->first();
         // dd($id->idAffiliated);
@@ -37,10 +40,14 @@ class PageController extends Controller
             ['id_user', '=', $id->idAffiliated],
         ])->get();
 
-        
+        $puntos= DB::select('CALL sp_punstoByAfiliado(?)', array(
+            $id->idAffiliated
+       ));
+
+        // dd($puntos);
         // dd($walletMonth);
         
-        return view('pages/dashboard-overview-1',compact('afiliado','walletWeek','walletMonth'));
+        return view('pages/dashboard-overview-1',compact('afiliado','walletWeek','walletMonth','puntos'));
     }
 
     public function solicitaWeek(Request $request){
@@ -51,6 +58,16 @@ class PageController extends Controller
 
             // Regresar a la misma vista con el mensaje de éxito
             return back();
+    }
+
+    public function solicitaMonth(Request $request){
+        $wallet=WalletMonth::findOrFail($request->id);
+        $wallet->estado='solicitado';
+        $wallet->save();
+        session()->flash('success', '¡Se ha solicitado el pago Mensual!');
+        return back();
+
+
     }
 
     /**

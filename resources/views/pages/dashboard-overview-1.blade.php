@@ -23,9 +23,9 @@
                                 {{ session('danger') }}
                             </div>
                         @endif
-                        {{-- @if ($afiliado->idAffiliated==1)
+                        @if ($afiliado->idAffiliated==1)
                             <a href="{{route('walletRequest')}}" class="btn btn-sm btn-primary"> {{__('Request')}}</a>
-                        @endif --}}
+                        @endif
                     </div>
                     <div class="grid grid-cols-12 gap-1 mt-5">
                        
@@ -42,7 +42,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-medium leading-8 mt-2">4,710</div>
+                                    <div class="text-3xl font-medium leading-8 mt-2">
+                                        @if ($puntos[0]->TotalPuntos>0)
+                                            {{$puntos[0]->TotalPuntos}}
+                                        @else
+                                            0 
+                                        @endif
+                                        
+                                    </div>
                                     <div class="text-base text-slate-500 mt-1">Volumen de Socios Activos</div>
                                 </div>
                             </div>
@@ -91,13 +98,13 @@
                                         
                                     </div>
                                    
-                                    @if (count($walletWeek)>0)
+                                    
                                         <div class="flex justify-between mt-2 ">
-                                                @if ($walletWeek[0]->estado=='solicitado')
+                                                {{-- @if ($walletWeek[0]->estado=='solicitado')
                                                     <span class="bg-yellow-500 p-2 ">{{__('processing')}}</span>
                                                 @elseif ($walletWeek[0]->estado=='aprobado')
                                                     <span class="bg-yellow-500 p-2 ">{{__('Transfer sent')}}</span>
-                                                @elseif($walletWeek[0]->estado=='pendiente')
+                                                @elseif($walletWeek[0]->estado=='pendiente') --}}
                                                     <table class="table-auto table-sm">
                                                             <thead>
                                                                 <tr>
@@ -106,45 +113,63 @@
                                                                 <th class="px-2 py-2 bg-primary text-white">Acciones</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody>
+                                                            <tbody class="">
                                                                 <tr>
                                                                 <td class="border  p-2 "> <span class="bg-orange-600 text-white  px-3">{{__('Week')}}</span></td>
-                                                                <td class="border text-center py-2">  <span class="font-bold text-orange-600  ">$ {{round($walletWeek[0]->total, 2)}}</span></td>
-                                                                <td class="border text-center p-2">                                                    
-                                                                  
-                                                                    <form action="{{route('solicitaWeek')}}" method="POST" >
+
+                                                                @if (count($walletWeek)>0)
+                                                                    <td class="border text-center py-2">  <span class="font-bold text-orange-600  ">$ {{round($walletWeek[0]->total, 2)}}</span></td>
+                                                                    <td class="border text-center p-2">                                                    
+                                                                        @if ($walletMonth[0]->estado=='solicitado'||$walletMonth[0]->estado=='pendiente')
+                                                                            <span class="text-lg font-extrabold">{{__('Request')}}</span>  
+                                                                        @else
+                                                                            <form action="{{route('solicitaWeek')}}" method="POST" >
                                                                             @csrf
                                                                             <input type="hidden" name="id" value="{{$walletWeek[0]->id}}">
                                                                             <button class="bg-orange-600 hover:bg-orange-400 text-white font-bold py-1 px-2 rounded">
                                                                             {{__('Claim')}}
                                                                             </button>
-                                                                    </form>
+                                                                            </form>
+                                                                        @endif
+                                                                        
+                                                                    </td>
+                                                                @else
+                                                                    <td class="col-span-2">{{__('No Wallet')}}</td>
+                                                                @endif
+                                                                
+                                                                    </tr>
+                                                                    {{-- MENSUAL --}}
+                                                                    <tr>
+                                                                    <td class="border  p-2"><span class="bg-green-700 text-white  px-3">{{__('Month')}}</span></td>
+                                                                    @if (count($walletMonth)>0)
+                                                                            <td class="border text-center py-2">  <span class="font-bold text-orange-600  ">$ {{round($walletMonth[0]->total, 2)}}</span></td>
+                                                                            <td class="border text-center p-2">                                                    
+                                                                                @if ($walletMonth[0]->estado=='solicitado'||$walletMonth[0]->estado=='pendiente')
+                                                                                  <span class="text-lg font-extrabold">{{__('Request')}}</span>  
+                                                                                @else
+                                                                                    <form action="{{route('solicitaMonth')}}" method="POST" >
+                                                                                    @csrf
+                                                                                    <input type="hidden" name="id" value="{{$walletMonth[0]->id}}">
+                                                                                    <button class="bg-orange-600 hover:bg-orange-400 text-white font-bold py-1 px-2 rounded">
+                                                                                    {{__('Claim')}}
+                                                                                    </button>
+                                                                                    </form>
+                                                                                @endif
+                                                                                
+                                                                            </td>
+                                                                        @else
+                                                                            <td class="col-span-2">{{__('No Wallet')}}</td>
+                                                                        @endif
                                                                     
-                                                                </td>
-                                                                </tr>
-                                                                {{-- MENSUAL --}}
-                                                                <tr>
-                                                                <td class="border  p-2"><span class="bg-green-700 text-white  px-3">{{__('Month')}}</span></td>
-                                                                <td class="border  py-2">PENDIENTE</td>
-                                                                <td class="border   p-2"><form action="{{route('solicitaWeek')}}" method="POST" >
-                                                                            @csrf
-                                                                            <input type="hidden" name="id" value="{{$walletWeek[0]->id}}">
-                                                                            <button class="bg-green-700 hover:bg-green-400 text-white font-bold py-1 px-2 rounded">
-                                                                            {{__('Claim')}}
-                                                                            </button>
-                                                                    </form></td>
-                                                                </tr>
                                                             </tbody>
                                                         </table>
 
 
-                                                @endif
+                                                {{-- @endif --}}
                                         </div>
-                                    @else
-                                        <div class="flex justify-center">
-                                            <span class="text-center uppercase font-extrabold text-lg bg-red-400 text-white p-2 mt-2">{{__('Not Wallet')}}</span>
-                                        </div>
-                                    @endif
+                                    
+                                       
+                                    
                                 </div>
                             </div>
                         </div>
@@ -261,452 +286,10 @@
                 </div>
                 <!-- END: Sales Report -->
              
-                <!-- BEGIN: Weekly Best Sellers -->
-                <div class="col-span-12 xl:col-span-4 mt-6">
-                    <div class="intro-y flex items-center h-10">
-                        <h2 class="text-lg font-medium truncate mr-5">Weekly Best Sellers</h2>
-                    </div>
-                    <div class="mt-5">
-                        @foreach (array_slice($fakers, 0, 4) as $faker)
-                            <div class="intro-y">
-                                <div class="box px-4 py-4 mb-3 flex items-center zoom-in">
-                                    <div class="w-10 h-10 flex-none image-fit rounded-md overflow-hidden">
-                                        <img alt="Midone - HTML Admin Template" src="{{ asset('face.jpeg') }}">
-                                    </div>
-                                    <div class="ml-4 mr-auto">
-                                        <div class="font-medium">{{ $afiliado->Name }}</div>
-                                        <div class="text-slate-500 text-xs mt-0.5">{{ $faker['dates'][0] }}</div>
-                                    </div>
-                                    <div class="py-1 px-2 rounded-full text-xs bg-success text-white cursor-pointer font-medium">137 Sales</div>
-                                </div>
-                            </div>
-                        @endforeach
-                        <a href="" class="intro-y w-full block text-center rounded-md py-4 border border-dotted border-slate-400 dark:border-darkmode-300 text-slate-500">View More</a>
-                    </div>
-                </div>
-                <!-- END: Weekly Best Sellers -->
-                <!-- BEGIN: General Report -->
-                <div class="col-span-12 grid grid-cols-12 gap-6 mt-8">
-                    <div class="col-span-12 sm:col-span-6 2xl:col-span-3 intro-y">
-                        <div class="box p-5 zoom-in">
-                            <div class="flex items-center">
-                                <div class="w-2/4 flex-none">
-                                    <div class="text-lg font-medium truncate">Target Sales</div>
-                                    <div class="text-slate-500 mt-1">300 Sales</div>
-                                </div>
-                                <div class="flex-none ml-auto relative">
-                                    <div class="w-[90px] h-[90px]">
-                                        <canvas id="report-donut-chart-1"></canvas>
-                                    </div>
-                                    <div class="font-medium absolute w-full h-full flex items-center justify-center top-0 left-0">20%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-span-12 sm:col-span-6 2xl:col-span-3 intro-y">
-                        <div class="box p-5 zoom-in">
-                            <div class="flex">
-                                <div class="text-lg font-medium truncate mr-3">Social Media</div>
-                                <div class="py-1 px-2 flex items-center rounded-full text-xs bg-slate-100 dark:bg-darkmode-400 text-slate-500 cursor-pointer ml-auto truncate">320 Followers</div>
-                            </div>
-                            <div class="mt-1">
-                                <div class="h-[58px]">
-                                    <canvas class="simple-line-chart-1 -ml-1"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-span-12 sm:col-span-6 2xl:col-span-3 intro-y">
-                        <div class="box p-5 zoom-in">
-                            <div class="flex items-center">
-                                <div class="w-2/4 flex-none">
-                                    <div class="text-lg font-medium truncate">New Products</div>
-                                    <div class="text-slate-500 mt-1">1450 Products</div>
-                                </div>
-                                <div class="flex-none ml-auto relative">
-                                    <div class="w-[90px] h-[90px]">
-                                        <canvas id="report-donut-chart-2"></canvas>
-                                    </div>
-                                    <div class="font-medium absolute w-full h-full flex items-center justify-center top-0 left-0">45%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-span-12 sm:col-span-6 2xl:col-span-3 intro-y">
-                        <div class="box p-5 zoom-in">
-                            <div class="flex">
-                                <div class="text-lg font-medium truncate mr-3">Posted Ads</div>
-                                <div class="py-1 px-2 flex items-center rounded-full text-xs bg-slate-100 dark:bg-darkmode-400 text-slate-500 cursor-pointer ml-auto truncate">180 Campaign</div>
-                            </div>
-                            <div class="mt-1">
-                                <div class="h-[58px]">
-                                    <canvas class="simple-line-chart-1 -ml-1"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- END: General Report -->
-                <!-- BEGIN: Weekly Top Products -->
-                <div class="col-span-12 mt-6">
-                    <div class="intro-y block sm:flex items-center h-10">
-                        <h2 class="text-lg font-medium truncate mr-5">Weekly Top Products</h2>
-                        <div class="flex items-center sm:ml-auto mt-3 sm:mt-0">
-                            <button class="btn box flex items-center text-slate-600 dark:text-slate-300">
-                                <i data-lucide="file-text" class="hidden sm:block w-4 h-4 mr-2"></i> Export to Excel
-                            </button>
-                            <button class="ml-3 btn box flex items-center text-slate-600 dark:text-slate-300">
-                                <i data-lucide="file-text" class="hidden sm:block w-4 h-4 mr-2"></i> Export to PDF
-                            </button>
-                        </div>
-                    </div>
-                    <div class="intro-y overflow-auto lg:overflow-visible mt-8 sm:mt-0">
-                        <table class="table table-report sm:mt-2">
-                            <thead>
-                                <tr>
-                                    <th class="whitespace-nowrap">IMAGES</th>
-                                    <th class="whitespace-nowrap">PRODUCT NAME</th>
-                                    <th class="text-center whitespace-nowrap">STOCK</th>
-                                    <th class="text-center whitespace-nowrap">STATUS</th>
-                                    <th class="text-center whitespace-nowrap">ACTIONS</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (array_slice($fakers, 0, 4) as $faker)
-                                    <tr class="intro-x">
-                                        <td class="w-40">
-                                            <div class="flex">
-                                                <div class="w-10 h-10 image-fit zoom-in">
-                                                    <img alt="Midone - HTML Admin Template" class="tooltip rounded-full" src="{{ asset('build/assets/images/' . $faker['images'][0]) }}" title="Uploaded at {{ $faker['dates'][0] }}">
-                                                </div>
-                                                <div class="w-10 h-10 image-fit zoom-in -ml-5">
-                                                    <img alt="Midone - HTML Admin Template" class="tooltip rounded-full" src="{{ asset('build/assets/images/' . $faker['images'][1]) }}" title="Uploaded at {{ $faker['dates'][1] }}">
-                                                </div>
-                                                <div class="w-10 h-10 image-fit zoom-in -ml-5">
-                                                    <img alt="Midone - HTML Admin Template" class="tooltip rounded-full" src="{{ asset('build/assets/images/' . $faker['images'][2]) }}" title="Uploaded at {{ $faker['dates'][2] }}">
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <a href="" class="font-medium whitespace-nowrap">{{ $faker['products'][0]['name'] }}</a>
-                                            <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">{{ $faker['products'][0]['category'] }}</div>
-                                        </td>
-                                        <td class="text-center">{{ $faker['stocks'][0] }}</td>
-                                        <td class="w-40">
-                                            <div class="flex items-center justify-center {{ $faker['true_false'][0] ? 'text-success' : 'text-danger' }}">
-                                                <i data-lucide="check-square" class="w-4 h-4 mr-2"></i> {{ $faker['true_false'][0] ? 'Active' : 'Inactive' }}
-                                            </div>
-                                        </td>
-                                        <td class="table-report__action w-56">
-                                            <div class="flex justify-center items-center">
-                                                <a class="flex items-center mr-3" href="">
-                                                    <i data-lucide="check-square" class="w-4 h-4 mr-1"></i> Edit
-                                                </a>
-                                                <a class="flex items-center text-danger" href="">
-                                                    <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="intro-y flex flex-wrap sm:flex-row sm:flex-nowrap items-center mt-3">
-                        <nav class="w-full sm:w-auto sm:mr-auto">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        <i class="w-4 h-4" data-lucide="chevrons-left"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        <i class="w-4 h-4" data-lucide="chevron-left"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">...</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">1</a>
-                                </li>
-                                <li class="page-item active">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">3</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">...</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        <i class="w-4 h-4" data-lucide="chevron-right"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        <i class="w-4 h-4" data-lucide="chevrons-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                        <select class="w-20 form-select box mt-3 sm:mt-0">
-                            <option>10</option>
-                            <option>25</option>
-                            <option>35</option>
-                            <option>50</option>
-                        </select>
-                    </div>
-                </div>
-                <!-- END: Weekly Top Products -->
+              
+          
             </div>
         </div>
-        <div class="col-span-12 2xl:col-span-3">
-            <div class="2xl:border-l -mb-10 pb-10">
-                <div class="2xl:pl-6 grid grid-cols-12 gap-x-6 2xl:gap-x-0 gap-y-6">
-                    <!-- BEGIN: Transactions -->
-                    <div class="col-span-12 md:col-span-6 xl:col-span-4 2xl:col-span-12 mt-3 2xl:mt-8">
-                        <div class="intro-x flex items-center h-10">
-                            <h2 class="text-lg font-medium truncate mr-5">Socios Activos</h2>
-                        </div>
-                        <div class="mt-5">
-                            @foreach (array_slice($fakers, 0, 5) as $faker)
-                                <div class="intro-x">
-                                    <div class="box px-5 py-3 mb-3 flex items-center zoom-in">
-                                        <div class="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
-                                            <img alt="Midone - HTML Admin Template" src="{{ asset('face.jpeg') }}">
-                                        </div>
-                                        <div class="ml-4 mr-auto">
-                                            <div class="font-medium">{{ $faker['users'][0]['name'] }}</div>
-                                            <div class="text-slate-500 text-xs mt-0.5">{{ $faker['dates'][0] }}</div>
-                                        </div>
-                                        <div class="{{ $faker['true_false'][0] ? 'text-success' : 'text-danger' }}">{{ $faker['true_false'][0] ? '+' : '-' }}${{ $faker['totals'][0] }}</div>
-                                    </div>
-                                </div>
-                            @endforeach
-                            <a href="" class="intro-x w-full block text-center rounded-md py-3 border border-dotted border-slate-400 dark:border-darkmode-300 text-slate-500">View More</a>
-                        </div>
-                    </div>
-                    <!-- END: Transactions -->
-                    <!-- BEGIN: Recent Activities -->
-                    <div class="col-span-12 md:col-span-6 xl:col-span-4 2xl:col-span-12 mt-3">
-                        <div class="intro-x flex items-center h-10">
-                            <h2 class="text-lg font-medium truncate mr-5">Recent Activities</h2>
-                            <a href="" class="ml-auto text-primary truncate">Show More</a>
-                        </div>
-                        <div class="mt-5 relative before:block before:absolute before:w-px before:h-[85%] before:bg-slate-200 before:dark:bg-darkmode-400 before:ml-5 before:mt-5">
-                            <div class="intro-x relative flex items-center mb-3">
-                                <div class="before:block before:absolute before:w-20 before:h-px before:bg-slate-200 before:dark:bg-darkmode-400 before:mt-5 before:ml-5">
-                                    <div class="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
-                                        <img alt="Midone - HTML Admin Template" src="{{ asset('build/assets/images/' . $fakers[9]['photos'][0]) }}">
-                                    </div>
-                                </div>
-                                <div class="box px-5 py-3 ml-4 flex-1 zoom-in">
-                                    <div class="flex items-center">
-                                        <div class="font-medium">{{ $fakers[9]['users'][0]['name'] }}</div>
-                                        <div class="text-xs text-slate-500 ml-auto">07:00 PM</div>
-                                    </div>
-                                    <div class="text-slate-500 mt-1">Has joined the team</div>
-                                </div>
-                            </div>
-                            <div class="intro-x relative flex items-center mb-3">
-                                <div class="before:block before:absolute before:w-20 before:h-px before:bg-slate-200 before:dark:bg-darkmode-400 before:mt-5 before:ml-5">
-                                    <div class="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
-                                        <img alt="Midone - HTML Admin Template" src="{{ asset('build/assets/images/' . $fakers[8]['photos'][0]) }}">
-                                    </div>
-                                </div>
-                                <div class="box px-5 py-3 ml-4 flex-1 zoom-in">
-                                    <div class="flex items-center">
-                                        <div class="font-medium">{{ $fakers[8]['users'][0]['name'] }}</div>
-                                        <div class="text-xs text-slate-500 ml-auto">07:00 PM</div>
-                                    </div>
-                                    <div class="text-slate-500">
-                                        <div class="mt-1">Added 3 new photos</div>
-                                        <div class="flex mt-2">
-                                            <div class="tooltip w-8 h-8 image-fit mr-1 zoom-in" title="{{ $fakers[0]['products'][0]['name'] }}">
-                                                <img alt="Midone - HTML Admin Template" class="rounded-md border border-white" src="{{ asset('build/assets/images/' . $fakers[8]['images'][0]) }}">
-                                            </div>
-                                            <div class="tooltip w-8 h-8 image-fit mr-1 zoom-in" title="{{ $fakers[1]['products'][0]['name'] }}">
-                                                <img alt="Midone - HTML Admin Template" class="rounded-md border border-white" src="{{ asset('build/assets/images/' . $fakers[8]['images'][1]) }}">
-                                            </div>
-                                            <div class="tooltip w-8 h-8 image-fit mr-1 zoom-in" title="{{ $fakers[2]['products'][0]['name'] }}">
-                                                <img alt="Midone - HTML Admin Template" class="rounded-md border border-white" src="{{ asset('build/assets/images/' . $fakers[8]['images'][2]) }}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="intro-x text-slate-500 text-xs text-center my-4">12 November</div>
-                            <div class="intro-x relative flex items-center mb-3">
-                                <div class="before:block before:absolute before:w-20 before:h-px before:bg-slate-200 before:dark:bg-darkmode-400 before:mt-5 before:ml-5">
-                                    <div class="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
-                                        <img alt="Midone - HTML Admin Template" src="{{ asset('build/assets/images/' . $fakers[7]['photos'][0]) }}">
-                                    </div>
-                                </div>
-                                <div class="box px-5 py-3 ml-4 flex-1 zoom-in">
-                                    <div class="flex items-center">
-                                        <div class="font-medium">{{ $fakers[7]['users'][0]['name'] }}</div>
-                                        <div class="text-xs text-slate-500 ml-auto">07:00 PM</div>
-                                    </div>
-                                    <div class="text-slate-500 mt-1">Has changed <a class="text-primary" href="">{{ $fakers[7]['products'][0]['name'] }}</a> price and description</div>
-                                </div>
-                            </div>
-                            <div class="intro-x relative flex items-center mb-3">
-                                <div class="before:block before:absolute before:w-20 before:h-px before:bg-slate-200 before:dark:bg-darkmode-400 before:mt-5 before:ml-5">
-                                    <div class="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
-                                        <img alt="Midone - HTML Admin Template" src="{{ asset('build/assets/images/' . $fakers[6]['photos'][0]) }}">
-                                    </div>
-                                </div>
-                                <div class="box px-5 py-3 ml-4 flex-1 zoom-in">
-                                    <div class="flex items-center">
-                                        <div class="font-medium">{{ $fakers[6]['users'][0]['name'] }}</div>
-                                        <div class="text-xs text-slate-500 ml-auto">07:00 PM</div>
-                                    </div>
-                                    <div class="text-slate-500 mt-1">Has changed <a class="text-primary" href="">{{ $fakers[6]['products'][0]['name'] }}</a> description</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END: Recent Activities -->
-                    <!-- BEGIN: Important Notes -->
-                    <div class="col-span-12 md:col-span-6 xl:col-span-12 xl:col-start-1 xl:row-start-1 2xl:col-start-auto 2xl:row-start-auto mt-3">
-                        <div class="intro-x flex items-center h-10">
-                            <h2 class="text-lg font-medium truncate mr-auto">Important Notes</h2>
-                            <button data-carousel="important-notes" data-target="prev" class="tiny-slider-navigator btn px-2 border-slate-300 text-slate-600 dark:text-slate-300 mr-2">
-                                <i data-lucide="chevron-left" class="w-4 h-4"></i>
-                            </button>
-                            <button data-carousel="important-notes" data-target="next" class="tiny-slider-navigator btn px-2 border-slate-300 text-slate-600 dark:text-slate-300 mr-2">
-                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                        <div class="mt-5 intro-x">
-                            <div class="box zoom-in">
-                                <div class="tiny-slider" id="important-notes">
-                                    <div class="p-5">
-                                        <div class="text-base font-medium truncate">Lorem Ipsum is simply dummy text</div>
-                                        <div class="text-slate-400 mt-1">20 Hours ago</div>
-                                        <div class="text-slate-500 text-justify mt-1">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                                        <div class="font-medium flex mt-5">
-                                            <button type="button" class="btn btn-secondary py-1 px-2">View Notes</button>
-                                            <button type="button" class="btn btn-outline-secondary py-1 px-2 ml-auto">Dismiss</button>
-                                        </div>
-                                    </div>
-                                    <div class="p-5">
-                                        <div class="text-base font-medium truncate">Lorem Ipsum is simply dummy text</div>
-                                        <div class="text-slate-400 mt-1">20 Hours ago</div>
-                                        <div class="text-slate-500 text-justify mt-1">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                                        <div class="font-medium flex mt-5">
-                                            <button type="button" class="btn btn-secondary py-1 px-2">View Notes</button>
-                                            <button type="button" class="btn btn-outline-secondary py-1 px-2 ml-auto">Dismiss</button>
-                                        </div>
-                                    </div>
-                                    <div class="p-5">
-                                        <div class="text-base font-medium truncate">Lorem Ipsum is simply dummy text</div>
-                                        <div class="text-slate-400 mt-1">20 Hours ago</div>
-                                        <div class="text-slate-500 text-justify mt-1">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-                                        <div class="font-medium flex mt-5">
-                                            <button type="button" class="btn btn-secondary py-1 px-2">View Notes</button>
-                                            <button type="button" class="btn btn-outline-secondary py-1 px-2 ml-auto">Dismiss</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END: Important Notes -->
-                    <!-- BEGIN: Schedules -->
-                    <div class="col-span-12 md:col-span-6 xl:col-span-4 2xl:col-span-12 xl:col-start-1 xl:row-start-2 2xl:col-start-auto 2xl:row-start-auto mt-3">
-                        <div class="intro-x flex items-center h-10">
-                            <h2 class="text-lg font-medium truncate mr-5">Schedules</h2>
-                            <a href="" class="ml-auto text-primary truncate flex items-center">
-                                <i data-lucide="plus" class="w-4 h-4 mr-1"></i> Add New Schedules
-                            </a>
-                        </div>
-                        <div class="mt-5">
-                            <div class="intro-x box">
-                                <div class="p-5">
-                                    <div class="flex">
-                                        <i data-lucide="chevron-left" class="w-5 h-5 text-slate-500"></i>
-                                        <div class="font-medium text-base mx-auto">April</div>
-                                        <i data-lucide="chevron-right" class="w-5 h-5 text-slate-500"></i>
-                                    </div>
-                                    <div class="grid grid-cols-7 gap-4 mt-5 text-center">
-                                        <div class="font-medium">Su</div>
-                                        <div class="font-medium">Mo</div>
-                                        <div class="font-medium">Tu</div>
-                                        <div class="font-medium">We</div>
-                                        <div class="font-medium">Th</div>
-                                        <div class="font-medium">Fr</div>
-                                        <div class="font-medium">Sa</div>
-                                        <div class="py-0.5 rounded relative text-slate-500">29</div>
-                                        <div class="py-0.5 rounded relative text-slate-500">30</div>
-                                        <div class="py-0.5 rounded relative text-slate-500">31</div>
-                                        <div class="py-0.5 rounded relative">1</div>
-                                        <div class="py-0.5 rounded relative">2</div>
-                                        <div class="py-0.5 rounded relative">3</div>
-                                        <div class="py-0.5 rounded relative">4</div>
-                                        <div class="py-0.5 rounded relative">5</div>
-                                        <div class="py-0.5 bg-success/20 dark:bg-success/30 rounded relative">6</div>
-                                        <div class="py-0.5 rounded relative">7</div>
-                                        <div class="py-0.5 bg-primary text-white rounded relative">8</div>
-                                        <div class="py-0.5 rounded relative">9</div>
-                                        <div class="py-0.5 rounded relative">10</div>
-                                        <div class="py-0.5 rounded relative">11</div>
-                                        <div class="py-0.5 rounded relative">12</div>
-                                        <div class="py-0.5 rounded relative">13</div>
-                                        <div class="py-0.5 rounded relative">14</div>
-                                        <div class="py-0.5 rounded relative">15</div>
-                                        <div class="py-0.5 rounded relative">16</div>
-                                        <div class="py-0.5 rounded relative">17</div>
-                                        <div class="py-0.5 rounded relative">18</div>
-                                        <div class="py-0.5 rounded relative">19</div>
-                                        <div class="py-0.5 rounded relative">20</div>
-                                        <div class="py-0.5 rounded relative">21</div>
-                                        <div class="py-0.5 rounded relative">22</div>
-                                        <div class="py-0.5 bg-pending/20 dark:bg-pending/30 rounded relative">23</div>
-                                        <div class="py-0.5 rounded relative">24</div>
-                                        <div class="py-0.5 rounded relative">25</div>
-                                        <div class="py-0.5 rounded relative">26</div>
-                                        <div class="py-0.5 bg-primary/10 dark:bg-primary/50 rounded relative">27</div>
-                                        <div class="py-0.5 rounded relative">28</div>
-                                        <div class="py-0.5 rounded relative">29</div>
-                                        <div class="py-0.5 rounded relative">30</div>
-                                        <div class="py-0.5 rounded relative text-slate-500">1</div>
-                                        <div class="py-0.5 rounded relative text-slate-500">2</div>
-                                        <div class="py-0.5 rounded relative text-slate-500">3</div>
-                                        <div class="py-0.5 rounded relative text-slate-500">4</div>
-                                        <div class="py-0.5 rounded relative text-slate-500">5</div>
-                                        <div class="py-0.5 rounded relative text-slate-500">6</div>
-                                        <div class="py-0.5 rounded relative text-slate-500">7</div>
-                                        <div class="py-0.5 rounded relative text-slate-500">8</div>
-                                        <div class="py-0.5 rounded relative text-slate-500">9</div>
-                                    </div>
-                                </div>
-                                <div class="border-t border-slate-200/60 p-5">
-                                    <div class="flex items-center">
-                                        <div class="w-2 h-2 bg-pending rounded-full mr-3"></div>
-                                        <span class="truncate">UI/UX Workshop</span>
-                                        <span class="font-medium xl:ml-auto">23th</span>
-                                    </div>
-                                    <div class="flex items-center mt-4">
-                                        <div class="w-2 h-2 bg-primary rounded-full mr-3"></div>
-                                        <span class="truncate">VueJs Frontend Development</span>
-                                        <span class="font-medium xl:ml-auto">10th</span>
-                                    </div>
-                                    <div class="flex items-center mt-4">
-                                        <div class="w-2 h-2 bg-warning rounded-full mr-3"></div>
-                                        <span class="truncate">Laravel Rest API</span>
-                                        <span class="font-medium xl:ml-auto">31th</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END: Schedules -->
-                </div>
-            </div>
-        </div>
+        
     </div>
 @endsection
