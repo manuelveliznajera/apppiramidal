@@ -81,9 +81,9 @@
     "You are already registered":"Ya estas registrado",
     "send Email":"Enviar Email",
     "Return":"Volver atras",
-    "Week":"Semanal",
+    "Weekly":"Semanal",
     "Send":"Enviar",
-    "Month":"Mensual",
+    "Monthly":"Mensual",
     "Claim":"Solicitar",
     "Pending payment":"Pendiente de pago",
     "processing":"procesando",
@@ -95,7 +95,9 @@
     "No action":"Sin acciones",
     "Transfer sent":"Transferencia enviada",
     "Transaction in progress":"Transacción en Progreso",
-    "Approved":"Aprobado"
+    "Approved":"Aprobado",
+    "Actions":"acciones",
+    "Payments":"Pagos"
 
     
 

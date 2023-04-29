@@ -108,9 +108,9 @@
                                                     <table class="table-auto table-sm">
                                                             <thead>
                                                                 <tr>
-                                                                <th class="px-2 py-2 bg-primary text-white">Periodo</th>
-                                                                <th class="px-2 py-2 bg-primary text-white">Cantidad</th>
-                                                                <th class="px-2 py-2 bg-primary text-white">Acciones</th>
+                                                                <th class="px-2 py-2 bg-primary text-white">{{__('Payments')}}</th>
+                                                                <th class="px-2 py-2 bg-primary text-white">{{__('Amount')}}</th>
+                                                                <th class="px-2 py-2 bg-primary text-white">{{__('Actions')}}</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody class="">
