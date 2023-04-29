@@ -121,14 +121,14 @@
                                                                     <td class="border text-center py-2">  <span class="font-bold text-orange-600  ">$ {{round($walletWeek[0]->total, 2)}}</span></td>
                                                                     <td class="border text-center p-2">    
                                                                         {{-- {{$walletMonth[0]->estado}}                                                 --}}
-                                                                        @if ($walletMonth[0]->estado=='solicitados')
-                                                                            <span class="text-lg font-extrabold">{{__('Request')}}</span>  
+                                                                        @if ($walletWeek[0]->estado=='solicitado')
+                                                                            <span class="text-lg font-extrabold">{{__('Transaction in progress')}}</span>  
                                                                         @else
                                                                             <form action="{{route('solicitaWeek')}}" method="POST" >
                                                                             @csrf
                                                                             <input type="hidden" name="id" value="{{$walletWeek[0]->id}}">
                                                                             <button class="bg-orange-600 hover:bg-orange-400 text-white font-bold py-1 px-2 rounded">
-                                                                            {{__('Claim')}}
+                                                                            {{__('Request')}}
                                                                             </button>
                                                                             </form>
                                                                         @endif

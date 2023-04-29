@@ -88,12 +88,14 @@
     "Pending payment":"Pendiente de pago",
     "processing":"procesando",
     "Choose payment method":"Elegir forma de pago",
-    "Request":"Solicitados",
+    "Request":"Solicitar",
     "select wallet":"Seleccione billetera",
     "Options":"Opciones",
     "Cancel":"Eliminar",
     "No action":"Sin acciones",
-    "Transfer sent":"Transferencia enviada"
+    "Transfer sent":"Transferencia enviada",
+    "Transaction in progress":"Transacción en Progreso"
+
     
 
 
