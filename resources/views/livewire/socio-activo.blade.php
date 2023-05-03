@@ -76,7 +76,13 @@
                                 <div class="w-full">
                                         <label class="text-gray-600 font-bold" for="Invitedby"> {{__('Invited by')}}:</label>
                                         <input id="Invitedby" class="-intro-x login__input form-control py-3" type="text"
-                                            wire:model="invitedby"   :value="old('invitedby')" required />
+                                            wire:model="invitedby" wire:change="datahijos"  :value="old('invitedby')" required />
+                                            @if ($nohijos)
+                                                <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                                                    <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">Socio No Existe</span>
+                                                </div>
+                                            @endif
+                                            
                                 </div>                          
                                 <div class="w-full mt-2 lg:mt-0">
                                     <div class="col-1">
@@ -132,7 +138,7 @@
                                             <select class="form-control" id="select2-dropdown" wire:model='asignacionSocio'>
                                                 <option value="">{{__('Select Partner')}}</option>
                                                 @foreach($SonAfiliate as $item)
-                                                <option value="{{ $item->idAffiliated }}">{{ $item->userName}}</option>
+                                                <option value="{{ $item['idAffiliated']}}">{{ $item['userName']}}</option>
                                                 @endforeach
                                             </select>
                                         </div>

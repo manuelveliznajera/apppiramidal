@@ -16,7 +16,8 @@ class SocioActivo extends Component
 {
   
 
-    public $pais;
+    public $nohijos=false;
+
     public $asignacionSocio;
     public $fechaingreso;
     public $terminos = false;
@@ -58,10 +59,10 @@ public $SonAfiliate = [];
 
     public function render()
     {
-        $idafiliado=Auth()->user()->idAffiliated;
-        $this->SonAfiliate= DB::select('CALL sp_consultarhijos(?)', array(
-             $idafiliado
-        ));
+        // $idafiliado=Auth()->user()->idAffiliated;
+        // $this->SonAfiliate= DB::select('CALL sp_consultarhijos(?)', array(
+        //      $idafiliado
+        // ));
         
         // $this->invitedby=Auth()->user()->userName;
 
@@ -69,6 +70,25 @@ public $SonAfiliate = [];
         return view('livewire.socio-activo')
         ->extends('layout.basenew')
                 ->section('subcontent');
+    }
+
+    public function datahijos(){
+        $idafiliado=User::select('idAffiliated')->where('userName','=',$this->invitedby)->first();
+        $this->SonAfiliate;
+        $this->asignarSocio=false;
+        if ($idafiliado) {
+            $this->nohijos = false;
+            $this->SonAfiliate = DB::select('CALL sp_consultarhijos(?)', array(
+                $idafiliado->idAffiliated
+            ));
+            sleep(1);
+           
+        }else{
+            $this->nohijos = true;
+        }
+        
+        
+        
     }
     protected $rules=[
         'SSN' => 'required|unique:affiliates',

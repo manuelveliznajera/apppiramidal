@@ -24,7 +24,7 @@ class WalletController extends Controller
         $data = Affiliate::select(['idAffiliated', 'Name'])->where('idAffiliated',$id)->get();
         $username=User::where('idAffiliated',$id)->get();
         // dd($username);
-        return view('wallet.index',['data'=>$data,'username'=>$username]);
+        return view('wallet.xindex',['data'=>$data,'username'=>$username]);
     }
 
     public function Week(Request $request){
