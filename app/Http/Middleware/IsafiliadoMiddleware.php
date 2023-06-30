@@ -19,7 +19,7 @@ class IsafiliadoMiddleware
     {
         $user=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
         $activo=Auth()->user()->active;
-            if ($user->firstBuy||$activo==1) {
+            if (Auth()->user()->active) {
                  return $next($request);
 
             }

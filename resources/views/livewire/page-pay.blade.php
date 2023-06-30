@@ -1,16 +1,11 @@
 
-
     <div class="container mx-auto">
         <div class="flex flex-wrap -mx-4">
           <div class="w-full md:w-1/3 px-4">
-            
-                           
                 <div class="">
-                
                 <h1 class="font-bold uppercase text-xl p-2 bg-gray-600 rounded mb-3 text-white text-center">{{__('Information')}}</h1>
                    
                 </div>
-                
                 <div class="input-group mb-3">
                     <span  class="input-group-text" id="basic-addon1">{{__('Name')}}</span>
                     <input id="name" value="{{$b->Name}}" type="text" class="form-control" placeholder="{{$b->Name}}" aria-label="notification" aria-describedby="basic-addon1">
@@ -48,10 +43,12 @@
                     <span class="input-group-text pr-2" id="basic-addon1">{{__('City')}}</span>
                     <input readonly type="text" class="form-control" placeholder="{{$b->City}}" aria-label="notification" aria-describedby="basic-addon1">
                 </div>
-    
           </div>
           <div class="w-full md:w-1/3 px-4">
                 <h1 class="font-bold uppercase text-xl p-2 bg-gray-600 rounded mb-3 text-white text-center">{{__('Purchase Detail')}}</h1>
+               <h2>Onzas Total: {{$onzasblade}}</h2>
+               <h2>tax estado: {{$taxes}}</h2>
+
                 <table class="table-responsive text-center w-full">
                     <thead>
                         <tr>                              
@@ -65,17 +62,27 @@
                     <tbody>
                         @forelse($cantidadProductos as $pro)
                         @php
-                            $taxunique=($pro->price*$taxes)/100;
+                            $taxunique=number_format(floatval(($pro->price*$this->taxes)/100),2);
                             $taxblade=$taxunique*$pro->quantity;
                             $taxtotal+=$taxblade;
-                            $totalblade=$total+$taxtotal;
+                         
                         @endphp
+                        @if ($pro->attributes->membresia > 0)
+                            <h1>{{$pro->attributes->membresia}}</h1>
+                            <tr class="border-4  border-b-gray-500">
+                                <td class="text-center"><span class="badge badge-info">{{1}}</span></td>
+                                <td class=" pr-5"> <span class="">Membresia </span></td>
+                                <td class=" text-right">$ 24.95</td>
+                                <td class=" text-right ">$ 0</td>                                       
+                                <td class="text-right">{{number_format(floatval(24.95),2)}}</td>                                           
+                            </tr>
+                        @endif
                         <tr class="border-4  border-b-gray-500">
                             <td class="text-center"><span class="badge badge-info">{{$pro->quantity}}</span></td>
                             <td class=" pr-5"> <span class=""> {{$pro->name}}</span></td>
                             <td class=" text-right">$ {{ number_format(floatval($pro->price),2) }}</td>
-                            <td class=" text-right ">$ {{number_format(floatval($taxblade),2)}}</td>                                       
-                            <td class="text-right">{{number_format(floatval(($pro->price*$pro->quantity)+$taxblade),2)}}</td>                                           
+                            <td class=" text-right ">$ {{$taxunique}}</td>                                       
+                            <td class="text-right">{{number_format(floatval(($pro->price+$taxunique)*$pro->quantity),2)}}</td>                                           
                         </tr>
                         @empty
                         <tr class="border-4 border-indigo-200 border-b-indigo-500">
@@ -90,7 +97,7 @@
                                 Subtotal:
                             </td>
                              <td></td>
-                            <td >  <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold "> {{number_format(floatval($totalblade),2)}}</h1></td>
+                            <td >  <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold "> {{number_format(floatval($subtotalweb),2)}}</h1></td>
                         </tr> 
                         <tr>
                             <td></td>
@@ -106,13 +113,12 @@
                             TOTAL: $.
                           </td>
                           <td></td>
-                            <td >  <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold "> {{number_format(floatval($totalblade+$shipping),2)}}</h1></td>
+                            <td >  <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold "> {{number_format(floatval($totalImpuestoShipping),2)}}</h1></td>
                         </tr>      
                     </tbody>
                 </table>
           </div>
           <div class="w-full md:w-1/3 px-4">
-            
                 <div class="">
                     <h1 class="font-bold uppercase text-xl p-2 bg-gray-600 rounded mb-3 text-white text-center">{{__('Payment method')}}</h1>     
                 </div>
@@ -120,21 +126,13 @@
                     <h1 class="fw-bold text-dark">Accepted Cards:</h1>    
                     <img src="{{asset('img/creditcard.png')}}" class="object-fill h-10 w-66" alt=""> 
                 </div>
-                
                 <div class="input-group mb-3">
-                   {{-- <span class="badge badge-success">TOTAL:</span> <h2 class="badge badge-success">{{$total}}</h2> --}}
                  </div>
-                
-                
-                  
                       <form id="payment-form" 
-                       {{-- wire:submit.prevent="pay"   --}}
                       >
-                      @csrf
-                     
-                          
+                      @csrf       
                           <label class="font-black uppercase text-base" for="">Total:</label>
-                          <input id="totalfull" type="text" value="{{number_format(floatval($totalblade+$shipping),2)}}" class="-intro-y form-control">
+                          <input id="totalfull" type="text" value="{{number_format(floatval($totalImpuestoShipping),2)}}" class="-intro-y form-control">
                           <label class="font-black uppercase text-base" for="nameCard">{{__('Name')}}:</label>
                          <input type="text" id="nameCard" class="-intro-x form-control" placeholder="Nombre del Titular">
                          <label class="font-black uppercase text-base" for="nameCard">{{__('Card Data')}}:</label>
@@ -232,6 +230,7 @@
             stripe.createToken(cardElement, { name: nameCard }).then(function(result) {
             if (result.error) {
                 console.log(result.error)
+
             } else {
                 // Enviar el token a tu servidor
                 var input = document.createElement('input');
@@ -240,6 +239,8 @@
                 //  form.submit();
                 console.log(result.token.id)
             }
+            cardButton.disabled = false;
+
             });
            
                 

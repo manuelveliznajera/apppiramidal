@@ -76,7 +76,11 @@
                         ">
                             <div class="flex flex-col items-center  p-2 text-dark">
                                 <h1 class="block font-medium text-base">{{$pro->name}}</h1>
-                                 {{__('Price')}}: ${{ $pro->price }}
+                                @php
+                                    $descuento = $pro->price*0.15;
+                                    $price=number_format(floatval($pro->price - $descuento),2);
+                                @endphp
+                                 {{__('Price')}}: ${{ $price }}
                                  <span class="font-black">{{__('Points to Receive')}}:</span>
                                  <span class="font-black ">{{$pro->puntos}} {{__('Points')}}</span>
                                  <button class="btn btn-primary btn-sm " wire:click="addCart({{$key}})">

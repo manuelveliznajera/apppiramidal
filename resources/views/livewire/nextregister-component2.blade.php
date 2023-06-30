@@ -10,8 +10,8 @@
     <div class="cel-imagen ">
       <img class="sm:hidden sm:object-fill" src="{{asset('img/paquetes/dospersonas.png')}}" alt="">
     </div>
-    <div class="imgenes max-sm:w-full max-xl:w-full w-3/4  mt-5 p-5">
-      <div class="cardsfull max-sm:m-0 max-sm:p-2 flex max-md:flex-col  gap-6 w-full max-md:ml-2  ml-5 ">
+    <div class="imgenes max-sm:w-full max-xl:w-full w-full  mt-5 pr-10">
+      <div class="cardsfull max-sm:m-0 max-sm:p-2 flex max-md:flex-col  gap-2 w-full max-md:ml-2  ml-5 ">
         
         {{-- MEMBERSHIP --}}
         <div class="max-w-sm:w-4/5 bg-gray-100 rounded-xl overflow-hidden shadow-2xl w-full md:w-1/5">
@@ -32,7 +32,7 @@
             <span class=" text-sm font-black text-gray-700 ">Plus shipping + tax</span>
           </div>
           <div class="flex flex-col justify-center items-center my-4">
-            <button class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center" onclick="addcartjs(1,'MEMBERSHIP',24.95,1,{{$cantidadProductos}})" >
+            <button class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center" onclick="addcartjs(1,'MEMBERSHIP',24.95,1,{{$cantidadProductos}},0)" >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
                 <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
               </svg>  
@@ -53,11 +53,11 @@
             <span class=" text-sm font-semibold text-gray-700 ">1 Eye Cream</span>
             <span class=" text-sm font-semibold text-gray-700 ">1 Serum Treatment</span>
             <span class=" text-sm font-black text-gray-700 ">Membership for 1 year</span>
-            <span class=" text-4xl font-black text-besana mt-2 ">$186.55</span>
+            <span class=" text-4xl font-black text-besana mt-2 ">$214.90</span>
             <span class=" text-sm font-black text-gray-700 ">Plus shipping + tax</span>
           </div>
           <div class="flex flex-col justify-center items-center my-4" >
-            <button class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center"  onclick="addcartjs(2,'BESANA PACKAGE',186.55,2,{{$cantidadProductos}})" >
+            <button class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center"  onclick="addcartjs(2,'BESANA PACKAGE',214.90,2,{{$cantidadProductos}},190)" >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
                 <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
               </svg>
@@ -77,11 +77,11 @@
             <span class=" text-sm font-semibold text-gray-700 ">CBN 3.3 MG</span>
             <span class=" text-sm font-semibold text-gray-700 ">CBC 3.3 MG</span>
             <span class=" text-sm font-black text-gray-700 ">Membership for 1 year</span>
-            <span class=" text-4xl font-black text-besana mt-2 ">$109.90</span>
+            <span class=" text-4xl font-black text-besana mt-2 ">$124.90</span>
             <span class=" text-sm font-black text-gray-700 ">Plus shipping + tax</span>
           </div>
           <div class="flex flex-col justify-center items-center my-4">
-            <button class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center" onclick="addcartjs(3,'CBG/5',109.90,2,{{$cantidadProductos}})" >
+            <button class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center" onclick="addcartjs(3,'CBG/5',124.90,2,{{$cantidadProductos}},100)" >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
                 <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
               </svg>
@@ -103,11 +103,11 @@
             <span class=" text-sm font-semibold text-gray-700 mb-4">Stamina</span>
            
             <span class=" text-sm font-black text-gray-700 ">Membership for 1 year</span>
-            <span class=" text-4xl font-black text-besana mt-2 ">$84.95</span>
+            <span class=" text-4xl font-black text-besana mt-2 ">$94.90</span>
             <span class=" text-sm font-black text-gray-700 ">Plus shipping + tax</span>
           </div>
           <div class="flex flex-col justify-center items-center my-4">
-            <button class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center" onclick="addcartjs(4,'B-MAX',84.95,2,{{$cantidadProductos}})" >
+            <button class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center" onclick="addcartjs(4,'B-MAX',94.90,2,{{$cantidadProductos}},70)" >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
                 <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
               </svg>   
@@ -130,11 +130,11 @@
             <span class=" text-sm font-semibold text-gray-700 ">15% discount on all personal purchases</span>
             <span class=" text-sm font-semibold text-gray-700 ">1 Serum Treatment</span>
             <span class=" text-sm font-black text-gray-700 ">Membership for 1 year</span>
-            <span class=" text-4xl font-black text-besana mt-2 ">$330.95</span>
+            <span class=" text-4xl font-black text-besana mt-2 ">$355.90</span>
             <span class=" text-sm font-black text-gray-700 ">Plus shipping + tax</span>
           </div>
           <div class="flex flex-col justify-center items-center my-4">
-            <button class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center" onclick="addcartjs(5,'COMPLETE PACKAGE',330.95,3,{{$cantidadProductos}})" >
+            <button class="bg-besana h-16 w-16  rounded-full p-3 flex items-center justify-center" onclick="addcartjs(5,'COMPLETE PACKAGE',355.90,3,{{$cantidadProductos}},330)" >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
                 <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
               </svg>  
@@ -173,7 +173,7 @@
   
   
     
-    function addcartjs(id,paquete,price,onzas,cantidad) {
+    function addcartjs(id,paquete,price,onzas,cantidad,puntos) {
       if (cantidad>=1) {
         Swal.fire('', 'Ya existe un paquete Seleccionado')
         if (event.detail.action == 'close-modal') fireModal(0)
@@ -190,9 +190,10 @@
             cancelButtonColor: '#d33',
             confirmButtonText: 'Accept'
         }).then((result) => {
+          console.log('puntos: '+puntos)
             if (result.isConfirmed) {
                  Swal.fire(paquete, 'Your package is added.', 'success')
-                window.livewire.emit('addCart',id,paquete,price,onzas) // 1,2 ,3
+                window.livewire.emit('addCart',id,paquete,price,onzas,cantidad,puntos) // 1,2 ,3
                
             }
         })

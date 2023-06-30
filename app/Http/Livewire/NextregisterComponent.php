@@ -56,7 +56,7 @@ class NextregisterComponent extends Component
 
     
       protected $listeners = ['addCart' => 'addCart'];
-    public function addCart($id,$paquete, $price, $onzas){
+    public function addCart($id,$paquete, $price, $onzas,$cantidad,$puntos){
       $this->onzasPrice($onzas);
       $taxState = 0;
           switch ($this->state) {
@@ -73,19 +73,21 @@ class NextregisterComponent extends Component
             if($id!=1){
               $newprice = $price - 24.95;
 
-              $this->taxes = round($newprice * $taxState/100, 2);
-            $priceTax    = round($this->taxes + $price, 2);
-            $totalpago = $priceTax + $this->shipping;
+            //   $this->taxes = round($newprice * $taxState/100, 2);
+            // $priceTax    = round($this->taxes + $price, 2);
+            // $totalpago = $priceTax + $this->shipping;
 
             \Cart::session(Auth()->user()->idUser)->add(array(
               'id' => $id, // inique row ID
               'name' => $paquete ,
-              'price' => $totalpago,
+              'price' => $newprice,
               'attributes'=>array(
                 'producto'=>$newprice,
                 'tax'=>$this->taxes,
                 'shipping'=>$this->shipping,
-                'membresia'=>24.95
+                'membresia'=>24.95,
+                'puntos'=>$puntos,
+                'onzas'=>10
               ),
               'quantity' => 1,
           ));
@@ -100,7 +102,9 @@ class NextregisterComponent extends Component
                   'producto'=>$newprice,
                   'tax'=>0,
                   'shipping'=>0,
-                  'membresia'=>24.95
+                  'membresia'=>24.95,
+                  'puntos'=>0,
+                  'onzas'=>0
                 ),
                 'quantity' => 1,
             ));

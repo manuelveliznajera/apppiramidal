@@ -25,11 +25,12 @@ class Products extends Component
     public function render()
     {
       
-      $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
-    $this->state = $afiliado->State;
+        $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
+        $this->state = $afiliado->State;
       
         $this->total=\Cart::session(Auth()->user()->idUser)->getContent()->count();
-    $content = \Cart::session(Auth()->user()->idUser)->getContent();
+        $content = \Cart::session(Auth()->user()->idUser)->getContent();
+        // dd($content);
         if ($this->total>0) {
           foreach ($content as $value) {
             
@@ -41,7 +42,7 @@ class Products extends Component
         $lines=Line::all();
         $excludedIds = [5];
         $this->products=Product::whereNotIn('idLine',$excludedIds)->get();;
-      //  dd($this->products);
+      // dd($this->products);
         return view('livewire.products', compact('afiliado'))->extends('layout.side-menu')
                 ->section('subcontent');
     }
@@ -66,7 +67,7 @@ class Products extends Component
                 $this->onzas=3;
               break;
             case 1:
-                $this->onzas=24; 
+                $this->onzas=3; 
                 break;
             case 2:
                 $this->onzas=3;
@@ -89,43 +90,45 @@ class Products extends Component
         }
       }
     public function addCart($id, $cant=1 ){
-    
 
     $this->obtenerOnzas($id);
-    if ($this->onzas < 32 ) {
-        $this->shipping = 7;
-      }else{
-        $residual = intval($this->onzas - (31+$this->registrado));
-        $this->registrado += $residual;
-        $this->shipping += $residual;
-      }
-
-     
-     
-          switch (strtoupper($this->state)) {
-            case 'NEVADA':
-                $this->taxes+=number_format(floatval((8.375*$this->products[$id]['price'])/100),2);
-                
-              break;
-            default:
-                $this->taxes=0;
-              break;
-          
-          }
+    // if ($this->onzas < 32 ) {
+    //     $this->shipping = 7;
+    //   }else{
+    //     $residual = intval($this->onzas - (31+$this->registrado));
+    //     $this->registrado += $residual;
+    //     $this->shipping += $residual;
+    //   }
+        
 
    
     
          $cantTem=\Cart::session(Auth()->user()->idUser)->getContent()->count();
-          
+     
+     
+         $descuento = $this->products[$id]['price']*0.15;
+         $price=number_format(floatval($this->products[$id]['price'] - $descuento),2);
+
+         //tax
+         switch (strtoupper($this->state)) {
+          case 'NEVADA':
+              $this->taxes=number_format(floatval((8.375*$price)/100),2);
+              
+            break;
+          default:
+              $this->taxes=0;
+            break;
+        
+        }
          \Cart::session(Auth()->user()->idUser)->add(array(
             'id' => $this->products[$id]['idProd'], // inique row ID
             'name' => $this->products[$id]['name'],
-            'price' => $this->products[$id]['price'],
+            'price' => $price,
             'quantity' => $cant,
              'attributes'=>array(
                'img'=>$this->products[$id]['img'],
                'puntos'=>$this->products[$id]['puntos'],
-               'onzas'=>$this->onzas,
+               'onzas'=>number_format(floatval($this->onzas),2),
                'tax'=>$this->taxes
              ),
             
