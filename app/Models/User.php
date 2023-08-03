@@ -67,7 +67,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    public function getPhotoUrlAttribute()
+    public function getPhotoAttribute()
     {
         if ($this->foto !== null) {
             return url('media/user/' . $this->id . '/' . $this->foto);

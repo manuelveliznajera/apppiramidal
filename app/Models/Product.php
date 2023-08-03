@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -24,7 +25,13 @@ class Product extends Model
     ];
 
     public function linea()
-{
-    return $this->belongsTo(Line::class, 'idLine');
-}
+    {
+        return $this->belongsTo(Line::class, 'idLine');
+    }
+
+    public function saleProduct(): BelongsTo
+    {
+        return $this->belongsTo(Sale::class);
+    }
+
 }

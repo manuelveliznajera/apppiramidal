@@ -43,13 +43,11 @@
                                         </div>
                                     </div>
                                     <div class="text-3xl font-medium leading-8 mt-2">
-                                        @if ($puntos[0]->TotalPuntos>0)
-                                            {{$puntos[0]->TotalPuntos}}
-                                        @else
-                                            0 
-                                        @endif
+                                        <!-- Modifcar aquí sección de puntos-->
+                                        
                                         
                                     </div>
+                                    <div class="text-3xl font-medium leading-8 mt-2">{{number_format($totalPointsActive)}}  Pts.</div>
                                     <div class="text-base text-slate-500 mt-1">Volumen de Socios Activos</div>
                                 </div>
                             </div>
@@ -66,7 +64,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-medium leading-8 mt-2">3,721</div>
+                                    <div class="text-3xl font-medium leading-8 mt-2">{{number_format($totalPointsPromoters)}}  Pts.</div>
                                     <div class="text-base text-slate-500 mt-1">Volumen de Socios Promotores</div>
                                 </div>
                             </div>
@@ -83,7 +81,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-medium leading-8 mt-2">2,149 </div>
+                                    <div class="text-3xl font-medium leading-8 mt-2">{{number_format($totalPoints)}} Pts.</div>
                                     <div class="text-base text-slate-500 mt-1">Volumen de Clientes</div>
                                 </div>
                             </div>
