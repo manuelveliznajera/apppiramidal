@@ -54,22 +54,12 @@ class PageController extends Controller
 
         /** bloque de puntos obtenidos en la compra en la oficina de usuarios que son socios activos, 
          * solo usando el nombre de referencia. */
-        $totalPointsActive = $afiliado->getTotalPointsActive($id->idUser);
+        $totalPointsActive = $afiliado->getTotalPointsActive($id->idUser) + $afiliado->nivelThree($id->idUser);
         // dd($totalPointsActive);
-       
-        /** 
-            *bloque de hijos promotores activos 
-            *$totalChildPromoters = $afiliado->getTotalChildPromoters(2);
-            *dd($totalChildPromoters);
-            
-            *bloque de hijos de hijos promotores activos 
-            *$allGrandChildPromoters = $afiliado->getAllGrandChildPromoters(2);
-            *dd($allGrandChildPromoters);
-            
-            *bloque de hijos de hijos promotores no activos 
-            *$allGrandChildNotPromoters = $afiliado->getAllGrandChildNotPromoters(1);
-            *dd($allGrandChildNotPromoters);
-        */
+
+        /** Bloque de los puntos totales conseguidos por los clientes de mis hijos y nietos*/
+        // $totalPointsTree = $afiliado->nivelThree($id->idUser);
+        // dd($totalPointsTree);
         
         return view('pages/dashboard-overview-1',compact('afiliado','walletWeek','walletMonth', 'totalPoints', 'totalPointsPromoters', 'totalPointsActive'));
     }
