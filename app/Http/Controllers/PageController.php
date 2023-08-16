@@ -311,6 +311,35 @@ class PageController extends Controller
     {
         return view('pages/users-layout-1');
     }
+
+    public function activepartners()
+    {
+        $idLog=Auth()->user()->idUser;
+        $id=User::where('idUser',$idLog)->first();
+        $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+
+        /** bloque de puntos obtenidos en la compra en el web site y en la oficina de usuarios clientes, 
+         * solo usando el nombre de referencia. */
+        $totalPoints = $afiliado->getTotalGeneralPointsByClientsInTheWebsiteAndOffice($id->idUser);
+        //  dd($totalPoints);
+
+        /** bloque de puntos obtenidos en la compra en el web site de usuarios que son socios promotores, 
+         * solo usando el nombre de referencia. */
+         $totalPointsPromoters = $afiliado->getTotalPointsByPromotersInTheWebsiteBuy($id->idUser);
+        // dd($totalPointsPromoters);
+
+        /** bloque de puntos obtenidos en la compra en la oficina de usuarios que son socios activos, 
+         * solo usando el nombre de referencia. */
+        $totalPointsActive = $afiliado->getTotalPointsByActivePartners($id->idUser);
+        // dd($totalPointsActive);
+
+        $activePartners = $afiliado->getActivePartnersByAffiliated($id->idUser);
+        // dd($activePartners); 
+        
+        return view('pages.active-partners', compact('totalPoints', 'totalPointsPromoters', 'totalPointsActive', 'activePartners'));
+    }
+
+
     public function sociospromotor()
     {
         $idLog=Auth()->user()->idUser;

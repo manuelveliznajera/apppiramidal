@@ -1,7 +1,7 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>Mis clientes</title>
+    <title>Mis clientes | BesanaGlobal</title>
 @endsection
 
 @section('subcontent')

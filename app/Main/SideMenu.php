@@ -57,7 +57,7 @@ class SideMenu
                             ],
                             'Socios-Activos' => [
                                 'icon' => 'users',
-                                'route_name' => 'crud-data-list',
+                                'route_name' => 'active-partners',
                                 'params' => [
                                     'layout' => 'side-menu'
                                 ],
