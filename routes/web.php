@@ -20,23 +20,18 @@ use App\Http\Livewire\Products;
 use App\Http\Livewire\Register\Register;
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/home',function(){
-return view('inicio');
-})->name('home');
+Route::get('/home',function(){ return view('inicio'); })->name('home');
 Route::get('lenguage/{locale}',function ($locale) {
-   
     if (!in_array($locale, ['en', 'es'])) {
         abort(404);
-        
     } 
         session()->put('locale', $locale);
         App::setLocale(session()->get('locale'));
         return back();
-    
-    
 })->name('changelanguage');
 
 
+//components
 Route::get('dark-mode-switcher', [DarkModeController::class, 'switch'])->name('dark-mode-switcher');
 Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class, 'switch'])->name('color-scheme-switcher');
 Route::get('login', LoginComponent::class)->name('login');
@@ -45,18 +40,61 @@ Route::get('login', LoginComponent::class)->name('login');
 Route::get('wallet/{id}',[WalletController::class,'edit'])->name('wallet.edit');
 Route::post('week',[WalletController::class,'Week'])->name('wallet.week');
 Route::post('month',[WalletController::class,'Month'])->name('wallet.month');
+Route::get('WeekList', [WalletController::class,'WeekList'])->middleware('auth')->name('weeklist');
+Route::get('WeekMonth', [WalletController::class,'MonthList'])->middleware('auth')->name('monthlist');
+Route::post('btnAprobarWeek', [WalletController::class,'btnAprobarWeek'])->name('btnAprobarWeek');
 Route::post('solicitaWeek', [PageController::class,'solicitaWeek'])->middleware('auth')->name('solicitaWeek');
 Route::post('solicitaMonth', [PageController::class,'solicitaMonth'])->middleware('auth')->name('solicitaMonth');
 
-Route::get('WeekList', [WalletController::class,'WeekList'])->middleware('auth')->name('weeklist');
-Route::get('WeekMonth', [WalletController::class,'MonthList'])->middleware('auth')->name('monthlist');
+//my shopping
+// Route::get('myShops', MyShops::class )->middleware(['auth','afiliado'])->name('myshops');
+Route::get('myShops', MyShops::class )->middleware(['auth'])->name('myshops');
 
-Route::post('btnAprobarWeek', [WalletController::class,'btnAprobarWeek'])->name('btnAprobarWeek');
+//affiliates
+Route::get('ListUsers', [ListUserController::class, 'index'])->middleware(['auth'])->name('ListUsers');
+// Route::get('ListUsers', [ListUserController::class, 'index'])->middleware(['auth','afiliado'])->name('ListUsers');
+Route::get('afiliado/{id}', [ListUserController::class, 'edit'])->middleware(['auth','afiliado'])->name('afiliado');
 
+//products
+Route::get('/addproduct',[ProductController::class,'index'])->middleware(['auth'])->name('addproduct');
+Route::post('/addproduct',[ProductController::class,'store'])->middleware(['auth'])->name('addproduct.create');
+Route::get('/products',Products::class )->middleware(['auth','isafiliado'])->name('products');
 
+//Wallets
+Route::get('/walletRequest',[WalletController::class,'walletRequest'])->middleware(['auth'])->name('walletRequest');
 
+//registers
+Route::get('register/{id}',Register::class)->name('login.register.afiliate');
+Route::get('/register/verify/{code}', [Register::class, 'verify']);
+Route::get('register', Register::class)->name('login.register');
 
+//dashboard
+Route::get('/dash',[PageController::class,'dashboardOverview1'] )->middleware(['auth'])->name('dash');
+// Route::get('/dash',[PageController::class,'dashboardOverview1'] )->middleware(['auth','isafiliado'])->name('dash');
 
+//active partners register
+Route::get('/socioactivo', SocioActivo::class)->middleware(['auth','isafiliado'])->name('socioactivo');
+
+//partners tree
+// Route::get('/partner-tree',[PartnersController::class,'index'] )->middleware(['auth','isafiliado'])->name('partnertree');
+Route::get('/partner-tree',[PartnersController::class,'index'] )->middleware(['auth'])->name('partnertree');
+
+//packages
+Route::get('/addpackage',NextregisterComponent::class )->middleware(['auth'])->name('addpackage');
+// Route::get('/', [PageController::class,'dashboardOverview1'])->middleware(['auth'])->name('dashboard');
+
+//shopping
+Route::get('shop',[PageController::class,'productGrid'])->middleware(['auth','isafiliado'])->name('shop');
+Route::get('profile', [PageController::class,'updateProfile'])->middleware('auth')->name('profile');
+Route::get('modal', [PageController::class,'modal'])->name('modal');
+
+//payment gateway
+Route::get('payment', PayComponent::class)->middleware('auth','isafiliado')->name('payment');
+Route::get('cart-pay', PagePay::class)->middleware('auth')->name('cart-pay');
+
+//change password
+Route::get('change-password',[PageController::class,'changePassword'])->name('change-password');
+Route::post('change-password',[PageController::class,'sendEmailPassword'])->name('sendEmailPassword');
 
 
 Route::controller(AuthController::class)->middleware('loggedin')->group(function() {
@@ -64,59 +102,26 @@ Route::controller(AuthController::class)->middleware('loggedin')->group(function
     // Route::post('login', 'login')->name('login.check');
 });
 
-Route::get('register', Register::class)->name('login.register');
-
-//miscompras
-
-Route::get('myShops', MyShops::class )->middleware(['auth','afiliado'])->name('myshops');
-//afiliados
-Route::get('ListUsers', [ListUserController::class, 'index'])->middleware(['auth','afiliado'])->name('ListUsers');
-Route::get('afiliado/{id}', [ListUserController::class, 'edit'])->middleware(['auth','afiliado'])->name('afiliado');
-
-//productos
-Route::get('/addproduct',[ProductController::class,'index'])->middleware(['auth'])->name('addproduct');
-
-//Wallets
-Route::get('/walletRequest',[WalletController::class,'walletRequest'])->middleware(['auth'])->name('walletRequest');
-
-
-
-Route::get('register/{id}',Register::class)->name('login.register.afiliate');
-Route::get('/register/verify/{code}', [Register::class, 'verify']);
-Route::get('/dash',[PageController::class,'dashboardOverview1'] )->middleware(['auth','isafiliado'])->name('dash');
-Route::get('/socioactivo', SocioActivo::class)->middleware(['auth','isafiliado'])->name('socioactivo');
-Route::get('/partner-tree',[PartnersController::class,'index'] )->middleware(['auth','isafiliado'])->name('partnertree');
-Route::get('/products',Products::class )->middleware(['auth','isafiliado'])->name('products');
-Route::post('/addproduct',[ProductController::class,'store'])->middleware(['auth'])->name('addproduct.create');
-
-Route::get('/addpackage',NextregisterComponent::class )->middleware(['auth'])->name('addpackage');
-// Route::get('/', [PageController::class,'dashboardOverview1'])->middleware(['auth'])->name('dashboard');
-
-Route::get('shop',[PageController::class,'productGrid'])->middleware(['auth','isafiliado'])->name('shop');
-Route::get('payment', PayComponent::class)->middleware('auth','isafiliado')->name('payment');
-Route::get('cart-pay', PagePay::class)->middleware('auth')->name('cart-pay');
-Route::get('profile', [PageController::class,'updateProfile'])->middleware('auth')->name('profile');
-Route::get('modal', [PageController::class,'modal'])->name('modal');
-
-Route::get('change-password',[PageController::class,'changePassword'])->name('change-password');
-Route::post('change-password',[PageController::class,'sendEmailPassword'])->name('sendEmailPassword');
-
-
-
-
-
-
-
-
-
-
-
 Route::middleware('auth')->group(function() {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::controller(PageController::class)->group(function() {
+
+        //dashboard Page
+        Route::get('/', 'dashboardOverview1')->name('dashboard-overview-1');
+
+        // promoters Page
         Route::get('/socios-promotores', 'sociospromotor')->name('sociospromotores');
 
-        Route::get('/', 'dashboardOverview1')->name('dashboard-overview-1');
+        // customers Page
+        Route::get('users-layout-2-page', 'usersLayout2')->name('users-layout-2');
+
+        //active partners Page
+        Route::get('/active-partners', 'activePartners')->name('active-partners');
+
+
+
+
+        //OTHERS Page
         Route::get('dashboard-overview-2-page', 'dashboardOverview2')->name('dashboard-overview-2');
         Route::get('dashboard-overview-3-page', 'dashboardOverview3')->name('dashboard-overview-3');
         Route::get('dashboard-overview-4-page', 'dashboardOverview4')->name('dashboard-overview-4');
@@ -138,7 +143,6 @@ Route::middleware('auth')->group(function() {
         Route::get('crud-data-list-page', 'crudDataList')->name('crud-data-list');
         Route::get('crud-form-page', 'crudForm')->name('crud-form');
         Route::get('users-layout-1-page', 'usersLayout1')->name('users-layout-1');
-        Route::get('users-layout-2-page', 'usersLayout2')->name('users-layout-2');
         Route::get('users-layout-3-page', 'usersLayout3')->name('users-layout-3');
         Route::get('profile-overview-1-page', 'profileOverview1')->name('profile-overview-1');
         Route::get('profile-overview-2-page', 'profileOverview2')->name('profile-overview-2');

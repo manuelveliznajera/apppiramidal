@@ -26,28 +26,38 @@ class PageController extends Controller
     public function dashboardOverview1()
     {
         
-        
         $idLog=Auth()->user()->idUser;
         $id=User::where('idUser',$idLog)->first();
-        // dd($id->idAffiliated);
-
         $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+
         $walletWeek=WalletWeek::where(
             'id_user','=',  $id->idAffiliated,
         )->get();
-        // dd($walletWeek);
+    
         $walletMonth=WalletMonth::where([
             ['id_user', '=', $id->idAffiliated],
         ])->get();
 
-        $puntos= DB::select('CALL sp_punstoByAfiliado(?)', array(
-            $id->idAffiliated
-       ));
+        /** ver tablas de la bd */
+        // $tablas = $afiliado->verTablas();
+        // dd($tablas);
 
-        // dd($puntos);
-        // dd($walletMonth);
-        
-        return view('pages/dashboard-overview-1',compact('afiliado','walletWeek','walletMonth','puntos'));
+        /** bloque de puntos obtenidos en la compra en el web site y en la oficina de usuarios clientes, 
+         * solo usando el nombre de referencia. */
+         $totalPoints = $afiliado->getTotalGeneralPointsByClientsInTheWebsiteAndOffice($id->idUser);
+        //  dd($totalPoints);
+
+        /** bloque de puntos obtenidos en la compra en el web site de usuarios que son socios promotores, 
+         * solo usando el nombre de referencia. */
+         $totalPointsPromoters = $afiliado->getTotalPointsByPromotersInTheWebsiteBuy($id->idUser);
+        // dd($totalPointsPromoters);
+
+        /** bloque de puntos obtenidos en la compra en la oficina de usuarios que son socios activos, 
+         * solo usando el nombre de referencia. */
+        $totalPointsActive = $afiliado->getTotalPointsByActivePartners($id->idUser);
+        // dd($totalPointsActive);
+
+        return view('pages/dashboard-overview-1',compact('afiliado','walletWeek','walletMonth', 'totalPoints', 'totalPointsPromoters', 'totalPointsActive'));
     }
 
     public function solicitaWeek(Request $request){
@@ -56,8 +66,8 @@ class PageController extends Controller
         $wallet->save();
         session()->flash('success', '¡La información se ha procesado correctamente!');
 
-            // Regresar a la misma vista con el mensaje de éxito
-            return back();
+        // Regresar a la misma vista con el mensaje de éxito
+        return back();
     }
 
     public function solicitaMonth(Request $request){
@@ -66,7 +76,6 @@ class PageController extends Controller
         $wallet->save();
         session()->flash('success', '¡Se ha solicitado el pago Mensual!');
         return back();
-
 
     }
 
@@ -302,9 +311,61 @@ class PageController extends Controller
     {
         return view('pages/users-layout-1');
     }
+
+    public function activepartners()
+    {
+        $idLog=Auth()->user()->idUser;
+        $id=User::where('idUser',$idLog)->first();
+        $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+
+        /** bloque de puntos obtenidos en la compra en el web site y en la oficina de usuarios clientes, 
+         * solo usando el nombre de referencia. */
+        $totalPoints = $afiliado->getTotalGeneralPointsByClientsInTheWebsiteAndOffice($id->idUser);
+        //  dd($totalPoints);
+
+        /** bloque de puntos obtenidos en la compra en el web site de usuarios que son socios promotores, 
+         * solo usando el nombre de referencia. */
+         $totalPointsPromoters = $afiliado->getTotalPointsByPromotersInTheWebsiteBuy($id->idUser);
+        // dd($totalPointsPromoters);
+
+        /** bloque de puntos obtenidos en la compra en la oficina de usuarios que son socios activos, 
+         * solo usando el nombre de referencia. */
+        $totalPointsActive = $afiliado->getTotalPointsByActivePartners($id->idUser);
+        // dd($totalPointsActive);
+
+        $activePartners = $afiliado->getActivePartnersByAffiliated($id->idUser);
+        // dd($activePartners); 
+        
+        return view('pages.active-partners', compact('totalPoints', 'totalPointsPromoters', 'totalPointsActive', 'activePartners'));
+    }
+
+
     public function sociospromotor()
     {
-        return view('pages.sociospromotor');
+        $idLog=Auth()->user()->idUser;
+        $id=User::where('idUser',$idLog)->first();
+        $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+
+        /** bloque de puntos obtenidos en la compra en el web site y en la oficina de usuarios clientes, 
+         * solo usando el nombre de referencia. */
+        $totalPoints = $afiliado->getTotalGeneralPointsByClientsInTheWebsiteAndOffice($id->idUser);
+        //  dd($totalPoints);
+
+        /** bloque de puntos obtenidos en la compra en el web site de usuarios que son socios promotores, 
+         * solo usando el nombre de referencia. */
+         $totalPointsPromoters = $afiliado->getTotalPointsByPromotersInTheWebsiteBuy($id->idUser);
+        // dd($totalPointsPromoters);
+
+        /** bloque de puntos obtenidos en la compra en la oficina de usuarios que son socios activos, 
+         * solo usando el nombre de referencia. */
+        $totalPointsActive = $afiliado->getTotalPointsByActivePartners($id->idUser);
+        // dd($totalPointsActive);
+
+        $activePromoters = $afiliado->getActivePromotersByAffiliated($id->idUser);
+        // dd($activePromoters); 
+        
+
+        return view('pages.sociospromotor', compact('totalPoints', 'totalPointsPromoters', 'totalPointsActive', 'activePromoters'));
     }
     /**
      * Show specified view.
@@ -314,7 +375,17 @@ class PageController extends Controller
      */
     public function usersLayout2()
     {
-        return view('pages/users-layout-2');
+        $idLog=Auth()->user()->idUser;
+        $id=User::where('idUser',$idLog)->first();
+        $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+
+        $clients = $afiliado->getClientByAffiliatedInTheWebsite($id->idUser);
+        // dd($clients);
+
+        $office = $afiliado->getBuyAffiliatedInTheOffice(2);
+        // dd($office);
+
+        return view('pages/users-layout-2', compact('clients', 'office'));
     }
 
     /**

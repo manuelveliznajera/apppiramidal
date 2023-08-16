@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
         // Default credentials
         \App\Models\User::insert([
             [ 
+                
                 'name' => 'Left4code',
                 'email' => 'midone@left4code.com',
                 'email_verified_at' => now(),
@@ -25,6 +26,7 @@ class UserSeeder extends Seeder
                 'gender' => 'male',
                 'active' => 1,
                 'remember_token' => Str::random(10)
+                
             ]
         ]);
 

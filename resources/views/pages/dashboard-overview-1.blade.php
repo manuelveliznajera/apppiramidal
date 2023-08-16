@@ -5,9 +5,8 @@
 @endsection
 
 @section('subcontent')
-    <div class="grid grid-cols-12 gap-6">
-   
-        <div class="col-span-12 2xl:col-span-9">
+    <div class="grid grid-cols-10 gap-6">
+        <div class="col-span-12 2xl:col-span-10">
             <div class="grid grid-cols-12 gap-6">
                 <!-- BEGIN: General Report -->
                 <div class="col-span-12 mt-8">
@@ -28,28 +27,18 @@
                         @endif
                     </div>
                     <div class="grid grid-cols-12 gap-1 mt-5">
-                       
                         <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                             <div class="report-box zoom-in">
                                 <div class="box p-5">
                                     <div class="flex">
-                                        <img src="{{asset('svg/socioactivo.svg')}}" alt="cliente" class="object-fit w-14 h-10">
-                
-                
+                                        <img src="{{asset('svg/socioactivo.svg')}}" alt="cliente" class="object-fit w-14 h-14">
                                         <div class="ml-auto">
                                             <div class="report-box__indicator bg-success tooltip cursor-pointer" title="33% Higher than last month">
                                                 33% <i data-lucide="chevron-up" class="object-contain w-4 h-4 ml-0.5"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-medium leading-8 mt-2">
-                                        @if ($puntos[0]->TotalPuntos>0)
-                                            {{$puntos[0]->TotalPuntos}}
-                                        @else
-                                            0 
-                                        @endif
-                                        
-                                    </div>
+                                    <div class="text-3xl font-medium leading-8 mt-2">{{$totalPointsActive}}  Pts.</div>
                                     <div class="text-base text-slate-500 mt-1">Volumen de Socios Activos</div>
                                 </div>
                             </div>
@@ -66,7 +55,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-medium leading-8 mt-2">3,721</div>
+                                    <div class="text-3xl font-medium leading-8 mt-2">{{$totalPointsPromoters}}  Pts.</div>
                                     <div class="text-base text-slate-500 mt-1">Volumen de Socios Promotores</div>
                                 </div>
                             </div>
@@ -83,104 +72,97 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-medium leading-8 mt-2">2,149 </div>
+                                    <div class="text-3xl font-medium leading-8 mt-2">{{$totalPoints}} Pts.</div>
                                     <div class="text-base text-slate-500 mt-1">Volumen de Clientes</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
-                            <div class="report-box zoom-in">
-                                <div class="box p-2">
+                            <div class="report-box">
+                                <div class="box p-5">
                                     <div class="flex justify-around">
                                         <img src="{{asset('svg/wallet.svg')}}" alt="wallet" class="object-contain w-10 h-10">
-                                          <span class="uppercase font-extrabold text-lg "'>{{__('Wallet')}}</span>
-                                      
-                                        
+                                        <span class="uppercase font-extrabold text-lg py-2">{{__('Wallet')}}</span>
                                     </div>
-                                   
-                                    
-                                        <div class="flex justify-between mt-2 ">
-                                                {{-- @if ($walletWeek[0]->estado=='solicitado')
-                                                    <span class="bg-yellow-500 p-2 ">{{__('processing')}}</span>
-                                                @elseif ($walletWeek[0]->estado=='aprobado')
-                                                    <span class="bg-yellow-500 p-2 ">{{__('Transfer sent')}}</span>
-                                                @elseif($walletWeek[0]->estado=='pendiente') --}}
-                                                    <table class="table-auto table-sm">
-                                                            <thead>
-                                                                <tr>
-                                                                <th class="px-2 py-2 bg-primary text-white">{{__('Payments')}}</th>
-                                                                <th class="px-2 py-2 bg-primary text-white">{{__('Amount')}}</th>
-                                                                <th class="px-2 py-2 bg-primary text-white">{{__('Actions')}}</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody class="">
-                                                                <tr>
-                                                                <td class="border  p-2 "> <span class="bg-orange-600 text-white  px-3">{{__('Weekly')}}</span></td>
-
-                                                                @if (count($walletWeek)>0)
-                                                                    <td class="border text-center py-2">  <span class="font-bold text-orange-600  ">$ 
-                                                                        @if ($walletWeek[0]->estado=='aprobado')
-                                                                            0
-                                                                        @else
-                                                                            {{round($walletWeek[0]->total, 2)}}
-                                                                            
-                                                                        @endif
-                                                                    </span></td>
-                                                                    <td class="border text-center p-2">    
-                                                                        {{-- {{$walletMonth[0]->estado}}                                                 --}}
-                                                                        @if ($walletWeek[0]->estado=='solicitado')
-                                                                            <span class="text-lg font-extrabold">{{__('Transaction in progress')}}</span>  
-                                                                        @elseif ($walletWeek[0]->estado=='aprobado')
-                                                                            <span class="text-lg font-extrabold">{{__('Approved')}}</span>  
-
-                                                                        @else
-                                                                            <form action="{{route('solicitaWeek')}}" method="POST" >
-                                                                            @csrf
-                                                                            <input type="hidden" name="id" value="{{$walletWeek[0]->id}}">
-                                                                            <button class="bg-orange-600 hover:bg-orange-400 text-white font-bold py-1 px-2 rounded">
-                                                                            {{__('Request')}}
-                                                                            </button>
-                                                                            </form>
-                                                                        @endif
-                                                                        
-                                                                    </td>
+                                    <div class="justify-between">
+                                        {{-- @if ($walletWeek[0]->estado=='solicitado')
+                                            <span class="bg-yellow-500 p-2">{{__('processing')}}</span>
+                                        @elseif ($walletWeek[0]->estado=='aprobado')
+                                            <span class="bg-yellow-500 p-2">{{__('Transfer sent')}}</span>
+                                        @elseif($walletWeek[0]->estado=='pendiente') --}}
+                                            <table class="table table-sm table-borderless table-responsive">
+                                                <thead class="">
+                                                    <tr class="text-center">
+                                                    <th class="px-5 py-2 bg-primary text-white">{{__('Payments')}}</th>
+                                                    <th class="px-5 py-2 bg-primary text-white">{{__('Amount')}}</th>
+                                                    <th class="px-5 py-2 bg-primary text-white">{{__('Actions')}}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="">
+                                                    <tr>
+                                                        <td class="p-2">
+                                                            <span class="bg-orange-600 text-white  px-3">{{__('Weekly')}}</span>
+                                                        </td>
+                                                        @if (count($walletWeek)>0)
+                                                            <td class="text-center py-2">  
+                                                                <span class="font-bold text-orange-600  ">$ 
+                                                                    @if ($walletWeek[0]->estado=='aprobado')
+                                                                        0
+                                                                    @else
+                                                                        {{round($walletWeek[0]->total, 2)}}
+                                                                    @endif
+                                                                </span>
+                                                            </td>
+                                                            <td class="text-center p-2">    
+                                                                {{-- {{$walletMonth[0]->estado}}                                                 --}}
+                                                                @if ($walletWeek[0]->estado=='solicitado')
+                                                                    <span class="text-lg font-extrabold">{{__('Transaction in progress')}}</span>  
+                                                                @elseif ($walletWeek[0]->estado=='aprobado')
+                                                                    <span class="text-lg font-extrabold">{{__('Approved')}}</span>  
                                                                 @else
-                                                                    <td class="col-span-2">{{__('No Wallet')}}</td>
+                                                                    <form action="{{route('solicitaWeek')}}" method="POST" >
+                                                                        @csrf
+                                                                        <input type="hidden" name="id" value="{{$walletWeek[0]->id}}">
+                                                                        <button class="bg-orange-600 hover:bg-orange-400 text-white font-bold py-1 px-2 rounded">
+                                                                            {{__('Request')}}
+                                                                        </button>
+                                                                    </form>
                                                                 @endif
-                                                                
-                                                                    </tr>
-                                                                    {{-- MENSUAL --}}
-                                                                    <tr>
-                                                                    <td class="border  p-2"><span class="bg-green-700 text-white  px-3">{{__('Monthly')}}</span></td>
-                                                                    @if (count($walletMonth)>0)
-                                                                            <td class="border text-center py-2">  <span class="font-bold text-orange-600  ">$ {{round($walletMonth[0]->total, 2)}}</span></td>
-                                                                            <td class="border text-center p-2">                                                    
-                                                                                @if ($walletMonth[0]->estado=='solicitado'||$walletMonth[0]->estado=='pendiente')
-                                                                                  <span class="text-lg font-extrabold">{{__('Request')}}</span>  
-                                                                                @else
-                                                                                    <form action="{{route('solicitaMonth')}}" method="POST" >
-                                                                                    @csrf
-                                                                                    <input type="hidden" name="id" value="{{$walletMonth[0]->id}}">
-                                                                                    <button class="bg-orange-600 hover:bg-orange-400 text-white font-bold py-1 px-2 rounded">
-                                                                                    {{__('Claim')}}
-                                                                                    </button>
-                                                                                    </form>
-                                                                                @endif
-                                                                                
-                                                                            </td>
-                                                                        @else
-                                                                            <td class="col-span-2">{{__('No Wallet')}}</td>
-                                                                        @endif
-                                                                    
-                                                            </tbody>
-                                                        </table>
-
-
-                                                {{-- @endif --}}
-                                        </div>
-                                    
-                                       
-                                    
+                                                            </td>
+                                                        @else
+                                                            <td class="text-center">{{__('No Wallet')}}</td>
+                                                        @endif
+                                                    </tr>
+                                                    {{-- MENSUAL --}}
+                                                    <tr>
+                                                        <td class="p-2">
+                                                            <span class="bg-green-700 text-white  px-3">{{__('Monthly')}}</span>
+                                                        </td>
+                                                        @if(count($walletMonth)>0)
+                                                            <td class="border text-center py-2">
+                                                                <span class="font-bold text-orange-600 ">$ {{round($walletMonth[0]->total, 2)}}</span>
+                                                            </td>
+                                                            <td class="border text-center p-2">                                                    
+                                                                @if($walletMonth[0]->estado=='solicitado'||$walletMonth[0]->estado=='pendiente')
+                                                                    <span class="text-lg font-extrabold">{{__('Request')}}</span>  
+                                                                @else
+                                                                    <form action="{{route('solicitaMonth')}}" method="POST" >
+                                                                        csrf
+                                                                        <input type="hidden" name="id" value="{{$walletMonth[0]->id}}">
+                                                                        <button class="bg-orange-600 hover:bg-orange-400 text-white font-bold py-1 px-2 rounded">
+                                                                            {{__('Claim')}}
+                                                                        </button>
+                                                                    </form>
+                                                                @endif
+                                                            </td>
+                                                        @else
+                                                            <td class="text-center">{{__('No Wallet')}}</td>
+                                                        @endif
+                                                    </tr>       
+                                                </tbody>
+                                            </table>
+                                        {{-- @endif --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -296,11 +278,7 @@
                     </div>
                 </div>
                 <!-- END: Sales Report -->
-             
-              
-          
             </div>
         </div>
-        
     </div>
 @endsection

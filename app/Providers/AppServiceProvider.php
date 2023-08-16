@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Testing\RefreshDatabaseServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

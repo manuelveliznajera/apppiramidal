@@ -12,12 +12,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use DB;
+
 class SocioActivo extends Component
 {
   
-
     public $nohijos=false;
-
     public $asignacionSocio;
     public $fechaingreso;
     public $terminos = false;
@@ -31,7 +30,6 @@ class SocioActivo extends Component
     public $Workphone;
     public $DateBirth;
     public $Email='';
-    
     public $confirmEmail='';
     public $Address='';
     public $Country='';
@@ -48,13 +46,13 @@ class SocioActivo extends Component
     public $message='';
     public $confirmation_code;
     public $password_confirmation;
-public $asignarSocio=false;
-public $SonAfiliate = [];    
+    public $asignarSocio=false;
+    public $SonAfiliate = [];    
     public function mount(String $id='besana'){
+        
         $this->invitedby = $id;
         $this->lenguaje='spanish';
-       
-       
+
     }
 
     public function render()
@@ -67,9 +65,7 @@ public $SonAfiliate = [];
         // $this->invitedby=Auth()->user()->userName;
 
         
-        return view('livewire.socio-activo')
-        ->extends('layout.basenew')
-                ->section('subcontent');
+        return view('livewire.socio-activo')->extends('layout.basenew')->section('subcontent');
     }
 
     public function datahijos(){

@@ -5,6 +5,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -30,6 +31,11 @@ class User extends Authenticatable
         'idAffiliated'
 
     ];
+
+    public function affiliate(): BelongsTo
+    {
+        return $this->belongsTo(Affiliate::class);
+    }
 
     public function walletweek()
     {
@@ -67,7 +73,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    public function getPhotoUrlAttribute()
+    public function getPhotoAttribute()
     {
         if ($this->foto !== null) {
             return url('media/user/' . $this->id . '/' . $this->foto);
