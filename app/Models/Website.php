@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Website extends Model
 {
     use HasFactory;
-    protected $table ='websites';
+    protected $table ='webSites';
      public $timestamps = false;
      protected $primaryKey = 'idWebsite';
 
@@ -21,13 +21,13 @@ class Website extends Model
 
     ];
 
-    public function affiliateWebSite(): BelongsTo
+    public function affiliate(): BelongsTo
     {
         return $this->belongsTo(Affiliate::class);
     }
-
-    public function salesWebSite(): HasMany
+    public function sale(): BelongsTo
     {
-        return $this->hasMany(Sale::class);
+        return $this->belongsTo(Sale::class);
     }
+
 }

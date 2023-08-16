@@ -38,7 +38,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-medium leading-8 mt-2">{{number_format($totalPointsActive)}}  Pts.</div>
+                                    <div class="text-3xl font-medium leading-8 mt-2">{{$totalPointsActive}}  Pts.</div>
                                     <div class="text-base text-slate-500 mt-1">Volumen de Socios Activos</div>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-medium leading-8 mt-2">{{number_format($totalPointsPromoters)}}  Pts.</div>
+                                    <div class="text-3xl font-medium leading-8 mt-2">{{$totalPointsPromoters}}  Pts.</div>
                                     <div class="text-base text-slate-500 mt-1">Volumen de Socios Promotores</div>
                                 </div>
                             </div>
@@ -72,7 +72,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-3xl font-medium leading-8 mt-2">{{number_format($totalPoints)}} Pts.</div>
+                                    <div class="text-3xl font-medium leading-8 mt-2">{{$totalPoints}} Pts.</div>
                                     <div class="text-base text-slate-500 mt-1">Volumen de Clientes</div>
                                 </div>
                             </div>

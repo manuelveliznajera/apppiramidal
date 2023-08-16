@@ -127,11 +127,10 @@
                         <th class="text-center whitespace-nowrap">TELEFONO</th>
                         <th class="text-center whitespace-nowrap">VOLUMEN DE CLIENTE </th>
                         <th class="text-center whitespace-nowrap">ESTADO</th>
-                        {{-- <th class="text-center whitespace-nowrap">ACCIONES</th> --}}
                     </tr>
                 </thead>
                 <tbody>
-                    @if(count($activePromoters) < 1 )
+                    @if(count($activePromoters) < 1)
                         <tr class="intro-x">
                             <td class="w-40"> - </td>
                             <td> - </td>
@@ -141,16 +140,16 @@
                             <td class="text-center"> - </td>
                         </tr>
                     @else
-                        @foreach ($activePromoters as $promoter)
+                        @foreach ($activePromoters as $key => $value)
                             <tr class="intro-x">
                                 <td class="w-40">{{ $loop->iteration }}</td>
-                                <td>{{ $promoter->Name }}</td>
-                                <td class="text-center">{{ $promoter->Email }}</td>
-                                <td class="text-center">{{ $promoter->Phone }}</td>
-                                <td class="text-center">{{ number_format($promoter->volumen) }} Pts.</td>
+                                <td>{{ $key }}</td>
+                                <td>{{ $value['email'] }}</td>
+                                <td>{{ $value['phone'] }}</td>
+                                <td class="text-center">{{ $value['points'] }} Pts. Web</td>
                                 <td class="w-40">
-                                    <div class="flex items-center justify-center {{ $promoter->active == '1' ? 'text-success' : 'text-danger' }}">
-                                        <i data-lucide="check-square" class="w-4 h-4 mr-2"></i> {{ $promoter->active == '1'  ? 'Active' : 'Inactive' }}
+                                    <div class="flex items-center justify-center {{ $value['active'] == '1' ? 'text-success' : 'text-danger' }}">
+                                        <i data-lucide="check-square" class="w-4 h-4 mr-2"></i> {{ $value['active'] == '1'  ? 'Active' : 'Inactive' }}
                                     </div>
                                 </td>
                             </tr>

@@ -21,7 +21,12 @@ class Product extends Model
         'idLine',
         'price',
         'active',
-        'puntos'
+        'puntos',
+        'sku',
+        'directions',
+        'key_ingredients',
+        'ingredients',
+        'puntosWebsite'
     ];
 
     public function linea()
@@ -33,5 +38,10 @@ class Product extends Model
     {
         return $this->belongsTo(Sale::class);
     }
+
+    public function detailSale(): BelongsTo
+   {
+       return $this->belongsTo(DetailSale::class, 'id_product');
+   }
 
 }

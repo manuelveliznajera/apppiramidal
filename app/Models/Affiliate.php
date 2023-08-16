@@ -4,10 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use LDAP\Result;
 use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Sum;
+
+use App\Models\Sale;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Affiliate extends Model
 {
@@ -34,320 +40,400 @@ class Affiliate extends Model
         'Phone',
         'Latitude',
         'Longitude',
+		'CreatedAt',
+		'ModifiedAt',
         'firstBuy',
-        'StatusAff'
+        'StatusAff',
+		'confirmation_code',
+		'idRank'
     ];
 
-    public function webSiteUser(): HasOne{
-        return $this->hasOne(Website::class);
+    // public function webSite(): HasOne{
+    //     return $this->hasOne(Website::class);
+    // }
+
+	public function rank(): BelongsTo
+    {
+        return $this->belongsTo(Rank::class, 'idRank');
     }
 
-	/** ver tablas de una bd */
-	// Obtención de la lista de tablas
-	public function verTablas(){
-		$tables = DB::select('SHOW TABLES');
+	public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'idAffiliated');
+    }
 
-		$tables = DB::select('
-					SELECT table_name, column_name
-					FROM information_schema.columns
-					WHERE table_schema = ?
-					', ['BesanaGlobalNew']);
+	public function sales(): HasMany
+    {
+        return $this->hasMany(Sale::class, 'idAffiliated');
+    }
 
-		return $tables;
-	}
+	public function children(): HasMany
+    {
+        return $this->hasMany(Arbol::class, 'idFhater');
+    }
 
-	/** bloque de puntos obtenidos en la compra en el web site de usuarios clientes,
+	public function childrenByLevel($id, $level) {
+
+		$level1 = Affiliate::find($id)->children()->pluck('idSon');
+		$levels = collect();
+		$levels->push($level1);
+		for ($i = 1; $i <= 10; $i++) {
+			$levels[$i] = collect();
+			foreach ($levels[$i - 1] as $n) {
+				$levels[$i] = $levels[$i]->merge(Affiliate::find($n)->children()->pluck('idSon'));
+			}
+		}
+		return $levels[$level];
+
+	  }
+
+	  public function viewChildren($id){
+		$niveles = Affiliate::ver($id, 1);
+		return $niveles;
+
+	  }
+
+
+	//LISTO
+	/** bloque de puntos obtenidos en la compra en el web site y oficina de usuarios clientes,
 	 *  solo usando el nombre de referencia. */
-	public function getTotalPoints($id) {
-		$current_month = date("Y-m");
-		if ($id == 1) {
-			$oficinaQuery = DB::table('sales')
-			->join('detailsale', 'sales.idSale', '=', 'detailsale.id_sale')
-			->join('affiliates', 'sales.idAffiliated', '=', 'affiliates.idAffiliated')
-			->join('websites', 'affiliates.idAffiliated', '=', 'websites.idAffiliated')
-			->join('products', 'sales.idProd', '=', 'products.idProd')
-			->where('sales.webShop', '=', 'website')
-			->where('webSites.webSite', '=', 'oficina')
-			->where('affiliates.idAffiliated', '=', $id)
-			->where(DB::raw('DATE_FORMAT(sales.datetimeb, "%Y-%m")', '=', $current_month))
-			->select(DB::raw('sum(products.puntos) as puntosOficina'));
+	public function getTotalGeneralPointsByClientsInTheWebsiteAndOffice($id) {
+		// set_time_limit(20000);
 
-			$oficina = $oficinaQuery->first()->puntosOficina;
-
-			$webQuery = DB::table('sales')
-			->join('detailsale', 'sales.idSale', '=', 'detailsale.id_sale')
-			->join('affiliates', 'sales.idAffiliated', '=', 'affiliates.idAffiliated')
-			->join('websites', 'affiliates.idAffiliated', '=', 'websites.idAffiliated')
-			->join('products', 'sales.idProd', '=', 'products.idProd')
-			->where('sales.webShop', '=', 'website')
-			->where('webSites.webSite', '=', 'https://www.besanaglobal.com/BesanaMaster')
-			->where('affiliates.idAffiliated', '=', $id)
-			->where(DB::raw('DATE_FORMAT(sales.datetimeb, "%Y-%m")', '=', $current_month))
-			->select(DB::raw('SUM(detailsale.cantidad * products.puntosWebsite) AS puntosWeb'))
-			->get();
-
-			$web = $webQuery->first()->puntosWeb;
-			
-			$result = $oficina + $web;
-			return $result;
+		$office = Sale::where('webShop', 'oficina')
+		->where('idAffiliated', $id)
+		->whereMonth('datetimeb', now()->month)
+		->whereYear('datetimeb', now()->year)
+		->with('detailSales.product')
+		->get();
+		
+		$officePoints = collect();
+		foreach($office as $detail){
+			foreach($detail->detailSales as $dt){
+				$officePoints = $officePoints->merge($dt->cantidad * $dt->product->puntos);
+			}
 		}
 
-		$query = DB::table('sales')
-        ->join('detailsale', 'sales.idSale', '=', 'detailsale.id_sale')
-        ->join('affiliates', 'sales.idAffiliated', '=', 'affiliates.idAffiliated')
-        ->join('websites', 'affiliates.idAffiliated', '=', 'websites.idAffiliated')
-        ->join('products', 'sales.idProd', '=', 'products.idProd')
-        ->where('sales.webShop', '=', 'website')
-        ->where('websites.webSite', '<>', 'oficina')
-        ->where('affiliates.idAffiliated', '=', $id)
-		->where(DB::raw('DATE_FORMAT(sales.datetimeb, "%Y-%m")', '=', $current_month))
-        ->select(DB::raw('SUM(detailsale.cantidad * products.puntosWebsite) AS puntosWeb'))
+		$web = Sale::where('webShop', 'website')
+		->where('idAffiliated', $id)
+		->whereMonth('datetimeb', now()->month)
+		->whereYear('datetimeb', now()->year)
+		->with('detailSales.product')
 		->get();
+		
+		$webPoints = collect();
+		foreach($web as $detail){
+			foreach($detail->detailSales as $dt){
+				$webPoints = $webPoints->merge($dt->cantidad * $dt->product->puntosWebsite);
+			}
+		}
 
-		return $query->first() == null ? 0 : $query->first()->puntosWeb;
+		$points = $webPoints->sum() + $officePoints->sum();
+		// $result = $office + $web;
+		return $points;
 		
 	}
 
+	//LISTO
 	/** bloque de puntos obtenidos en la compra en el web site de usuarios que son socios promotores, 
 	* solo usando el nombre de referencia. */
-	public function getTotalPointsPromoters($id) {
-		$current_month = date("Y-m");
-		$query = DB::table('affiliates')
-		->join('ranks', 'affiliates.idRank', '=', 'ranks.idRank')
-		->join('arbol', 'affiliates.idAffiliated', '=', 'arbol.idSon')
-		->join('sales', 'sales.idaffiliated', '=', 'affiliates.idAffiliated')
-		->join('detailsale', 'detailsale.id_sale', '=', 'sales.idSale')
-		->join('products', 'products.idProd', '=', 'detailsale.id_product')
-		->where('ranks.RankName', '=', 'SOCIO PROMOTOR')
-		->where('sales.webShop', '=', 'website')
-		->where('arbol.idFhater', '=', $id)
-		->where(DB::raw('DATE_FORMAT(sales.datetimeb, "%Y-%m")', '=', $current_month))
-		->select(DB::raw('SUM(detailsale.cantidad * products.puntosWebsite) as puntosWeb'))
-		->get();
+	public function getTotalPointsByPromotersInTheWebsiteBuy($id) {
 
-		// if ($puntosWeb) {
-		// foreach ($puntosWeb as $puntoWeb) {
-		// 	echo $puntoWeb->puntosWeb;
-		// }
-		// } else {
-		// echo 'No hay puntos web para Socios Promotores.';
-		// }
+		$total_points = collect();
+		for($i = 0; $i <= 2; $i++){
 
-		return $query->first() == null? 0 : $query->first()->puntosWeb;
+			$level1 = Affiliate::childrenByLevel($id, $i);
+			$level1Points = collect();
 
-	}
+			foreach($level1 as $l1){
+				$level1Points = $level1Points->merge(Sale::with('detailSales.product')
+				->with(['affiliate.user' => function($query){
+					$query->where('active', 1);
+				}])
+				->whereHas('affiliate', function ($query) {
+					$query->where('idRank', 1);	
+				})
+				->with('affiliate')
+				->where('webShop', 'website')
+				->where('idAffiliated', $l1)
+				->whereMonth('datetimeb', now()->month)
+				->whereYear('datetimeb', now()->year)
+				->get());
+			}
 
-	/** bloque de puntos obtenidos en la compra en la oficina de usuarios que son socios activos, 
-	* solo usando el nombre de referencia. */
-	public function getTotalPointsActive($id) {
-		$current_month = date("Y-m");
-		$query = DB::table('affiliates')
-		->join('ranks', 'affiliates.idRank', '=', 'ranks.idRank')
-		->join('arbol', 'affiliates.idAffiliated', '=', 'arbol.idSon')
-		->join('Sales', 'affiliates.idAffiliated', '=', 'Sales.idAffiliated')
-		->join('webSites', 'Sales.idWebsite', '=', 'webSites.idWebsite')
-		->join('products', 'Sales.idProd', '=', 'products.idProd')
-		->where('ranks.RankName', '<>', 'SOCIO PROMOTOR')
-		->where('arbol.idFhater', $id)
-		->where(DB::raw('DATE_FORMAT(sales.datetimeb, "%Y-%m")', '=', $current_month))
-		->groupBy('arbol.idFhater', 'arbol.idSon', 'webSites.webSite', 'affiliates.Name', 'ranks.RankName')
-		->select('arbol.idFhater', 'arbol.idSon', 'webSites.webSite', 'affiliates.Name', 'ranks.RankName', DB::raw('sum(products.puntos) as puntosOficina'))
-		->get();
+			$promoters = collect();
 
-		return $query->first() == null? 0 : $query->first()->puntosOficina;
-
-	}
-
-	public function getActivePromoters($id){
-		$current_month = date("Y-m");
-		$query = DB::table('affiliates')
-		->join('ranks', 'affiliates.idRank', '=', 'ranks.idRank')
-		->join('arbol', 'affiliates.idAffiliated', '=', 'arbol.idSon')
-		->join('sales', 'sales.idAffiliated', '=', 'affiliates.idAffiliated')
-		->join('detailsale', 'detailsale.id_sale', '=', 'sales.idSale')
-		->join('products', 'products.idProd', '=', 'detailsale.id_product')
-		->join('users', 'users.idAffiliated', '=', 'arbol.idSon')
-		->where('ranks.RankName', '=', 'SOCIO PROMOTOR')
-		->where('sales.webshop', '=', 'website')
-		->where('users.active', '=', 1)
-		->where('arbol.idFhater', '=', 1)
-		->where(DB::raw('DATE_FORMAT(sales.datetimeb, "%Y-%m")', '=', $current_month))
-		->groupBy('sales.webShop', 'affiliates.Name', 'affiliates.Email', 'affiliates.Phone', 'users.active')
-		->select('sales.webShop', 'affiliates.Name', 'affiliates.Email', 'affiliates.Phone', 'users.active', DB::raw('SUM(detailsale.cantidad * products.puntosWebsite) as volumen'))
-		->get();
-
-		return $query;
-	}
-
-	/** bloque de puntos por clientes */
-	public function getClientPointsByAffiliated($id){
-		$current_month = date("Y-m");
-        $query = DB::table('sales')
-        ->join('detailsale', 'sales.idSale', '=', 'detailsale.id_sale')
-        ->join('affiliates', 'sales.idAffiliated', '=', 'affiliates.idAffiliated')
-        ->join('websites', 'affiliates.idAffiliated', '=', 'websites.idAffiliated')
-        ->join('products', 'sales.idProd', '=', 'products.idProd')
-        ->where('sales.webShop', '=', 'website')
-        ->where('websites.webSite', '<>', 'oficina')
-        ->where('affiliates.idAffiliated', '=', $id)
-		->where(DB::raw('DATE_FORMAT(sales.datetimeb, "%Y-%m")', '=', $current_month))
-        ->groupBy('affiliates.idAffiliated', 'affiliates.Name', 'websites.webSite', 'sales.WebNameClient', 'sales.WebEmailClient')
-        ->select('affiliates.idAffiliated', 'affiliates.Name', 'websites.webSite', DB::raw('SUM(detailsale.cantidad * products.puntosWebsite) AS puntosWeb'), 'sales.WebNameClient', 'sales.WebEmailClient')
-        ->get();
-    
-        return $query;
-    }
-
-
-
-	public function nivelThree($id){
-
-		// busco mis hijos directos
-		$hijosDirectos = DB::table('arbol')
-		->select('idFhater', 'idSon')
-		->where('idFhater', $id)
-		->get();
-
-		// Crea una variable para almacenar los puntos de los clientes de los nietos
-		$puntosHijos = collect();
-
-		//Itero y busco los puntos de cada uno de mis nietos
-		foreach ($hijosDirectos as $hijo) {
-			$current_month = date("Y-m");
-			$puntosHijos = $puntosHijos->merge( DB::table('sales')
-			->join('detailsale', 'sales.idSale', '=', 'detailsale.id_sale')
-			->join('affiliates', 'sales.idAffiliated', '=', 'affiliates.idAffiliated')
-			->join('websites', 'affiliates.idAffiliated', '=', 'websites.idAffiliated')
-			->join('products', 'sales.idProd', '=', 'products.idProd')
-			->where('sales.webShop', '=', 'website')
-			->where('affiliates.idAffiliated', '=', $hijo->idSon)
-			->where(DB::raw('DATE_FORMAT(sales.datetimeb, "%Y-%m")', '=', $current_month))
-			->select(DB::raw('SUM(detailsale.cantidad * products.puntosWebsite) AS puntosWeb'))
-			->get() );
+			foreach($level1Points as $promoter){
+				foreach($promoter->detailSales as $dt){
+					$promoters->put($promoter->affiliate->Name, $dt->cantidad * $dt->product->puntosWebsite);
+				}
+			}
+			$total_points = $total_points->merge($promoters->sum());
+			return $total_points->sum();
+			
 		}
+	}
 
-		// Crea una variable para almacenar los nietos
-		$nietos = collect();
+								/** REVISAR CADA UNO  A PARTIR DE AQUI */
 
-		// Itera sobre los hijos directos
-		foreach ($hijosDirectos as $hijoDirecto) {
-			// Busca los nietos del hijo directo
-			$nietos = $nietos->merge(DB::table('arbol')
-			->select('idFhater', 'idSon')
-			->where('idFhater', $hijoDirecto->idSon)
+	//Listo
+	/** bloque de puntos obtenidos en la compra en la oficina y en el website de usuarios que son socios activos, 
+	* solo usando el nombre de referencia. */
+	public function getTotalPointsByActivePartners($id) {
+
+
+		$level1 = Affiliate::find($id)->children()->pluck('idSon');
+		$levels = collect();
+		$levels->push($level1);
+		for ($i = 1; $i <= 10; $i++) {
+			$levels[$i] = collect();
+			foreach ($levels[$i - 1] as $n) {
+				$levels[$i] = $levels[$i]->merge(Sale::join('DetailSale', 'Sales.idSale', '=', 'DetailSale.id_sale')
+					->join('affiliates', 'Sales.idAffiliated', '=', 'affiliates.idAffiliated')
+					->join('ranks', 'affiliates.idRank', '=', 'ranks.idRank')
+					->join('products', 'Sales.idProd', '=', 'products.idProd')
+					->where('Sales.webShop', 'oficina')
+					->where('ranks.RankName', '<>' ,'SOCIO PROMOTOR')
+					->where('affiliates.idAffiliated', $n)
+					->whereMonth('Sales.datetimeb', now()->month)
+					->whereYear('Sales.datetimeb', now()->year)
+					->select(DB::raw('SUM(DetailSale.cantidad * products.puntos) AS puntosOficina'))
+					->get()
+			
+				);
+			}
+		}
+		return 0;
+
+
+
+
+
+
+
+
+
+
+		// $hijosDirectos = Arbol::where('idFhater', $id)
+		// ->select('idFhater', 'idSon')
+		// ->get();
+
+		// // Crea una variable para almacenar los puntos de mis socios activos hijos con compras en la oficina y en el web site
+		// $puntosHijosOficina = collect();
+		// $puntosHijosWeb = collect();
+
+		// //Itero y busco los puntos de cada uno de mis hijos
+		// foreach ($hijosDirectos as $hijo) {
+		// 	$puntosHijosOficina = $puntosHijosOficina->merge(Sale::join('DetailSale', 'Sales.idSale', '=', 'DetailSale.id_sale')
+		// 	->join('affiliates', 'Sales.idAffiliated', '=', 'affiliates.idAffiliated')
+		// 	->join('ranks', 'affiliates.idRank', '=', 'ranks.idRank')
+		// 	->join('products', 'Sales.idProd', '=', 'products.idProd')
+		// 	->where('Sales.webShop', 'oficina')
+		// 	->where('ranks.RankName', '<>' ,'SOCIO PROMOTOR')
+		// 	->where('affiliates.idAffiliated', $hijo->idSon)
+		// 	->whereMonth('Sales.datetimeb', now()->month)
+		// 	->whereYear('Sales.datetimeb', now()->year)
+		// 	->select(DB::raw('SUM(DetailSale.cantidad * products.puntos) AS puntosOficina'))
+		// 	->get());
+
+		// 	$puntosHijosWeb = $puntosHijosWeb->merge(Sale::join('DetailSale', 'Sales.idSale', '=', 'DetailSale.id_sale')
+		// 	->join('affiliates', 'Sales.idAffiliated', '=', 'affiliates.idAffiliated')
+		// 	->join('ranks', 'affiliates.idRank', '=', 'ranks.idRank')
+		// 	->join('products', 'Sales.idProd', '=', 'products.idProd')
+		// 	->where('Sales.webShop', 'website')
+		// 	->where('ranks.RankName', '<>' ,'SOCIO PROMOTOR')
+		// 	->where('affiliates.idAffiliated', $hijo->idSon)
+		// 	->whereMonth('Sales.datetimeb', now()->month)
+		// 	->whereYear('Sales.datetimeb', now()->year)
+		// 	->select(DB::raw('SUM(DetailSale.cantidad * products.puntosWebsite) AS puntosWeb'))
+		// 	->get());
+		// }
+
+		// // Crea una variable para almacenar de mis socios promotores nietos
+		// $nietos = collect();
+
+		// // Itera sobre los hijos directos
+		// foreach ($hijosDirectos as $hijoDirecto) {
+		// 	$nietos = $nietos->merge(Arbol::where('idFhater', $hijoDirecto->idSon)
+		// 	->select('idFhater', 'idSon')
+		// 	->get());
+		// }
+
+		// // Crea una variable para almacenar los puntos de mis socios promotores nietos con compras en la oficina y en el web site
+		// $puntosNietosOficina = collect();
+		// $puntosNietosWeb = collect();
+
+		// //Itero y busco los puntos de cada uno de mis nietos
+		// foreach ($nietos as $nieto) {
+		// 	$puntosNietosOficina = $puntosNietosOficina->merge(Sale::join('DetailSale', 'Sales.idSale', '=', 'DetailSale.id_sale')
+		// 	->join('affiliates', 'Sales.idAffiliated', '=', 'affiliates.idAffiliated')
+		// 	->join('ranks', 'affiliates.idRank', '=', 'ranks.idRank')
+		// 	->join('products', 'Sales.idProd', '=', 'products.idProd')
+		// 	->where('Sales.webShop', 'oficina')
+		// 	->where('ranks.RankName', '<>'  ,'SOCIO PROMOTOR')
+		// 	->where('affiliates.idAffiliated', $nieto->idSon)
+		// 	->whereMonth('Sales.datetimeb', now()->month)
+		// 	->whereYear('Sales.datetimeb', now()->year)
+		// 	->select(DB::raw('SUM(DetailSale.cantidad * products.puntos) AS puntosOficina'))
+		// 	->get());
+
+		// 	$puntosNietosWeb = $puntosNietosWeb->merge(Sale::join('DetailSale', 'Sales.idSale', '=', 'DetailSale.id_sale')
+		// 	->join('affiliates', 'Sales.idAffiliated', '=', 'affiliates.idAffiliated')
+		// 	->join('ranks', 'affiliates.idRank', '=', 'ranks.idRank')
+		// 	->join('products', 'Sales.idProd', '=', 'products.idProd')
+		// 	->where('Sales.webShop', 'website')
+		// 	->where('ranks.RankName', '<>'  ,'SOCIO PROMOTOR')
+		// 	->where('affiliates.idAffiliated', $nieto->idSon)
+		// 	->whereMonth('Sales.datetimeb', now()->month)
+		// 	->whereYear('Sales.datetimeb', now()->year)
+		// 	->select(DB::raw('SUM(DetailSale.cantidad * products.puntosWebsite) AS puntosWeb'))
+		// 	->get());
+		// }
+
+		// $totalPuntosHijos = $puntosHijosOficina->sum('puntosOficina') + $puntosHijosWeb->sum('puntosWeb');
+		// $totalPuntosNietos = $puntosNietosOficina->sum('puntosOficina') + $puntosNietosWeb->sum('puntosWeb');
+		// $totalPuntos = $totalPuntosHijos + $totalPuntosNietos;
+		
+		// // Devuelve los puntos totales
+		// return $totalPuntos;
+
+	}
+
+	//Listo
+	/**Bloque que busca mis Socios Promotores Directos */
+	public function getActivePromotersByAffiliated($id){
+		$level1 = Affiliate::childrenByLevel($id, 0);
+		$level1Points = collect();
+
+		foreach($level1 as $l1){
+			$level1Points = $level1Points->merge(Sale::with('detailSales.product')
+			->with(['affiliate.user' => function($query){
+				$query->where('active', 1);
+			}])
+			->whereHas('affiliate', function ($query) {
+				$query->where('idRank', 1);	
+			})
+			->with('affiliate')
+			->where('webShop', 'website')
+			->where('idAffiliated', $l1)
+			->whereMonth('datetimeb', now()->month)
+			->whereYear('datetimeb', now()->year)
+			->get());
+		}
+		$promoters = collect();
+
+		foreach($level1Points as $promoter){
+			foreach($promoter->detailSales as $dt){
+				$data = [
+					'name' => $promoter->affiliate->Name,
+					'email' => $promoter->affiliate->Email,
+					'phone' => $promoter->affiliate->Phone,
+					'points' => $dt->cantidad * $dt->product->puntosWebsite,
+					'active' => $promoter->affiliate->user->active,
+					];
+				$promoters->put($promoter->affiliate->Name, $data);
+			}
+		}
+		return $promoters;
+			
+	}
+
+
+	//Listo
+	/**Bloque que busca mis Socios Activos Directos */
+	public function getActivePartnersByAffiliated($id){
+		
+		$hijosDirectos = Arbol::where('idFhater', $id)
+		->select('idFhater', 'idSon')
+		->get();
+
+		// Crea una variable para almacenar los puntos de mis socios activos hijos con compras en la oficina y en el web site
+		$puntosHijosOficina = collect();
+		$puntosHijosWeb = collect();
+
+		//Itero y busco los puntos de cada uno de mis hijos
+		foreach ($hijosDirectos as $hijo) {
+			$puntosHijosOficina = $puntosHijosOficina->merge(Sale::join('DetailSale', 'Sales.idSale', '=', 'DetailSale.id_sale')
+			->join('affiliates', 'Sales.idAffiliated', '=', 'affiliates.idAffiliated')
+			->join('ranks', 'affiliates.idRank', '=', 'ranks.idRank')
+			->join('products', 'Sales.idProd', '=', 'products.idProd')
+			->where('Sales.webShop', 'oficina')
+			->where('ranks.RankName', '<>' ,'SOCIO PROMOTOR')
+			->where('affiliates.idAffiliated', $hijo->idSon)
+			->whereMonth('Sales.datetimeb', now()->month)
+			->whereYear('Sales.datetimeb', now()->year)
+			->select('affiliates.idAffiliated', 'affiliates.Name', DB::raw('SUM(DetailSale.cantidad * products.puntos) AS puntosOficina'))
+			->groupBy('affiliates.idAffiliated', 'affiliates.Name')
+			->get());
+
+			$puntosHijosWeb = $puntosHijosWeb->merge(Sale::join('DetailSale', 'Sales.idSale', '=', 'DetailSale.id_sale')
+			->join('affiliates', 'Sales.idAffiliated', '=', 'affiliates.idAffiliated')
+			->join('ranks', 'affiliates.idRank', '=', 'ranks.idRank')
+			->join('products', 'Sales.idProd', '=', 'products.idProd')
+			->where('Sales.webShop', 'website')
+			->where('ranks.RankName', '<>' ,'SOCIO PROMOTOR')
+			->where('affiliates.idAffiliated', $hijo->idSon)
+			->whereMonth('Sales.datetimeb', now()->month)
+			->whereYear('Sales.datetimeb', now()->year)
+			->select('affiliates.idAffiliated', 'affiliates.Name', DB::raw('SUM(DetailSale.cantidad * products.puntosWebsite) AS puntosWeb'))
+			->groupBy('affiliates.idAffiliated', 'affiliates.Name')
 			->get());
 		}
 
-		// Crea una variable para almacenar los puntos de los clientes de los nietos
-		$puntosNietos = collect();
-
-		//Itero y busco los puntos de cada uno de mis nietos
-		foreach ($nietos as $nieto) {
-			$current_month = date("Y-m");
-			$puntosNietos = $puntosNietos->merge( DB::table('sales')
-			->join('detailsale', 'sales.idSale', '=', 'detailsale.id_sale')
-			->join('affiliates', 'sales.idAffiliated', '=', 'affiliates.idAffiliated')
-			->join('websites', 'affiliates.idAffiliated', '=', 'websites.idAffiliated')
-			->join('products', 'sales.idProd', '=', 'products.idProd')
-			->where('sales.webShop', '=', 'website')
-			->where('affiliates.idAffiliated', '=', $nieto->idSon)
-			->where(DB::raw('DATE_FORMAT(sales.datetimeb, "%Y-%m")', '=', $current_month))
-			->select(DB::raw('SUM(detailsale.cantidad * products.puntosWebsite) AS puntosWeb'))
-			->get() );
+		if(count($puntosHijosOficina) < 1){
+			return $puntosHijosWeb;
 		}
 
-		$totalPuntosHijos = $puntosHijos->sum('puntosWeb');
-		$totalPuntosNietos = $puntosNietos->sum('puntosWeb');
-		$totalPuntos = $totalPuntosHijos + $totalPuntosNietos;
-		
-		// Devuelve los puntos totales
-		return $totalPuntos;
+		if(count($puntosHijosWeb) < 1){
+			return $puntosHijosOficina;
+		}
 
-		
+		$result = $puntosHijosOficina->merge($puntosHijosWeb)
+		// ->groupBy('affiliates.idAffiliated', 'affiliates.Name')
+		->map(function ($grupo) {
+			return [
+				'id' => $grupo['affiliates.idAffiliated'],
+				'Name' => $grupo['affiliates.Name'],
+				'puntosOficina' => $grupo['puntosOficina'] ?? 0,
+				'puntosWeb' => $grupo['puntosWeb'] ?? 0,
+			];
+		});
+
+		return $result;
+
 	}
-	
-	/** bloque de hijos promotores activos */
-	// public function getTotalChildPromoters($id) {
-	// 	$query = DB::table('affiliates')
-	// 	->select('affiliates.Name as Name', 'affiliates.idAffiliated as idSon')
-	// 	->join('users', 'users.idAffiliated', '=', 'affiliates.idAffiliated')
-	// 	->join('arbol', 'arbol.idSon', '=', 'affiliates.idAffiliated')
-	// 	->where('arbol.idFhater', $id)
-	// 	->where('users.active', 1)
-	// 	->get();
 
-	// 	$names = array();
-	// 	foreach ($query as $row) {
-	// 			$names[$row->idSon] = $row->Name;
-	// 	}
+	//LISTO
+	/** bloque de puntos por clientes en el web site*/
+	public function getClientByAffiliatedInTheWebsite($id){
 
-	// 	return $names;
-	// }
+		$clientsWeb = Sale::join('DetailSale', 'DetailSale.id_sale', '=', 'Sales.idSale')
+		->join('products', 'DetailSale.id_product', '=', 'products.idProd')
+		->where('Sales.webShop', 'website')
+		->where('Sales.idAffiliated', $id)
+		->whereMonth('Sales.datetimeb',  now()->month)
+		->whereYear('Sales.datetimeb',  now()->year)
+		->groupBy('Sales.idAffiliated', 'Sales.WebNameClient', 'Sales.WebEmailClient', 'Sales.datetimeb')
+		->select('Sales.idAffiliated', 'Sales.WebNameClient', 'Sales.WebEmailClient', DB::raw('SUM(DetailSale.cantidad * products.puntosWebsite) AS puntosWeb'), 'Sales.datetimeb')
+		->get();
 
-	/** bloque de hijos de hijos promotores activos */
-	// public function getAllGrandChildPromoters($id) {
-	// 	$query = DB::table('affiliates')
-	// 		->select('affiliates.Name as Name', 'affiliates.idAffiliated as id')
-	// 		->join('users', 'users.idAffiliated', '=', 'affiliates.idAffiliated')
-	// 		->join('arbol', 'arbol.idSon', '=', 'affiliates.idAffiliated')
-	// 		->where('arbol.idFhater', $id)
-	// 		->where('users.active', 1)
-	// 		->get();
-	
-	// 	$names = array();
-	// 	foreach ($query as $row) {
-	// 		$names[$row->id] = $row->Name;
-	// 	}
-	
-	// 	$results = array();
-	// 	foreach ($names as $key => $name) {
-	// 		$query2 = DB::table('affiliates')
-	// 			->select('affiliates.Name as Name', 'affiliates.idAffiliated as id')
-	// 			->join('users', 'users.idAffiliated', '=', 'affiliates.idAffiliated')
-	// 			->join('arbol', 'arbol.idSon', '=', 'affiliates.idAffiliated')
-	// 			->where('arbol.idFhater', $key)
-	// 			->where('users.active', 1)
-	// 			->get();
-	
-	// 		foreach ($query2 as $row) {
-	// 			$results[$key][$row->id] = $row->Name;
-	// 		}
-	// 	}
-	
-	// 	return $results;
-	// }
+        return $clientsWeb;
+    }
 
-	/** bloque de hijos de hijos promotores no activos */
-	// public function getAllGrandChildNotPromoters($id) {
-	// 	$query = DB::table('affiliates')
-	// 		->select('affiliates.Name as Name', 'affiliates.idAffiliated as id')
-	// 		->join('users', 'users.idAffiliated', '=', 'affiliates.idAffiliated')
-	// 		->join('arbol', 'arbol.idSon', '=', 'affiliates.idAffiliated')
-	// 		->where('arbol.idFhater', $id)
-	// 		->where('users.active', 1)
-	// 		->get();
-	
-	// 	$names = array();
-	// 	foreach ($query as $row) {
-	// 		$names[$row->id] = $row->Name;
-	// 	}
-	
-	// 	$results = array();
-	// 	foreach ($names as $key => $name) {
-	// 		$query2 = DB::table('affiliates')
-	// 			->select('affiliates.Name as Name', 'affiliates.idAffiliated as id')
-	// 			->join('users', 'users.idAffiliated', '=', 'affiliates.idAffiliated')
-	// 			->join('arbol', 'arbol.idSon', '=', 'affiliates.idAffiliated')
-	// 			->where('arbol.idFhater', $key)
-	// 			->where('users.active', 0)
-	// 			->get();
-	
-	// 		foreach ($query2 as $row) {
-	// 			$results[$key][$row->id] = $row->Name;
-	// 		}
-	// 	}
-	
-	// 	return $results;
-	// }
+	//LISTO
+	/** bloque de puntos por compras en la oficina*/
+	public function getBuyAffiliatedInTheOffice($id){
+		$buyOffice = Sale::join('DetailSale', 'DetailSale.id_sale', '=', 'Sales.idSale')
+		->join('products', 'DetailSale.id_product', '=', 'products.idProd')
+		->where('Sales.webShop', 'oficina')
+		->where('Sales.idAffiliated', $id)
+		->whereMonth('Sales.datetimeb',  now()->month)
+		->whereYear('Sales.datetimeb',  now()->year)
+		->groupBy('Sales.datetimeb')
+		->select(DB::raw('SUM(DetailSale.cantidad * products.puntos) AS puntosOficina'), 'Sales.datetimeb')
+		->get();
+
+        return $buyOffice;
+    }
 
 }
