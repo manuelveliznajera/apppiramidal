@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class Sale extends Model
 {
     use HasFactory;
-    protected $table ='sales';
+    protected $table ='Sales';
     protected $primaryKey = 'idSale';
     public $timestamps = false;
     
